@@ -318,6 +318,7 @@ if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
         <p className="sectionLede">
           Full chart control without a mouse — a pillar, not an afterthought. <Badge tone="bull">a11y</Badge>
         </p>
+        <div className="tl-scrollx">
         <table className="tl-kbdtable">
           <tbody>
             {KEYMAP.map(([keys, action]) => (
@@ -336,6 +337,7 @@ if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
             ))}
           </tbody>
         </table>
+        </div>
       </section>
 
       <section data-num="06">
