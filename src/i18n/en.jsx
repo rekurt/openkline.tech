@@ -1,0 +1,294 @@
+/* English — the canonical copy. All dictionaries share this exact shape. */
+export default {
+  nav: {
+    product: 'Product',
+    dev: 'Developers',
+    docs: 'Docs',
+    support: 'Support',
+    contacts: 'Contacts',
+    github: 'GitHub ↗',
+    light: 'light',
+    dark: 'dark',
+    themeTitle: 'Toggle theme',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu',
+    menuTag: 'menu — pick a direction',
+  },
+  footer: {
+    github: 'GitHub',
+    playground: 'Playground',
+    api: 'API reference',
+    right: 'MIT · @rekurt/openkline 0.1.0 · one maintainer, 440+ tests · not your keys? not our problem',
+  },
+  product: {
+    badges: { agnostic: 'framework-agnostic', realtime: 'realtime' },
+    h1: <>Not <em>your</em> engine, not <em>your</em> charts.</>,
+    lede: (
+      <>
+        So own it: <code>@rekurt/openkline</code> — a TradingView-grade OHLCV charting engine. Open source, MIT, no vendor lock-in.
+        Candles, 30+ indicators, anchored drawing tools and realtime transports out of the box.
+        One TypeScript core; <code>react</code> and <code>vue</code> wrappers with full API parity.
+      </>
+    ),
+    ctaPlayground: 'Open playground',
+    ctaDocs: 'Read the docs',
+    stats: [
+      { v: <>440<em>+</em></>, k: 'unit tests' },
+      { v: <>0</>, k: 'lint warnings in CI' },
+      { v: <>~27 <em>KB</em></>, k: 'core, gzipped' },
+      { v: <>30<em>+</em></>, k: 'indicators built in' },
+      { v: <>$0</>, k: 'license fees, forever' },
+    ],
+    s01: {
+      label: '01 — the engine',
+      h2: 'Batteries included',
+      lede: 'Teams building trading UIs pick between fast-but-bare and complete-but-licensed. openkline closes all four gaps in one package.',
+    },
+    features: [
+      {
+        h: 'One core, any framework',
+        p: (
+          <>
+            Pure TypeScript core with no React or Vue inside. Thin <code>@rekurt/openkline-react</code> and{' '}
+            <code>@rekurt/openkline-vue</code> wrappers with full API parity. Vanilla, React 18/19 or Vue 3 —
+            same engine, no lock-in.
+          </>
+        ),
+      },
+      {
+        h: 'Built for realtime',
+        p: (
+          <>
+            Canvas rendering on <code>Float64Array</code> buffers, O(1) <code>append</code>/<code>updateLast</code>,
+            three-layer canvas for cheap crosshair redraws, RAF-coalesced ticks, jittered-backoff reconnect,
+            stale-response protection. Not a report chart — an engine for a live order book.
+          </>
+        ),
+      },
+      {
+        h: '30+ indicators, 9 drawing tools',
+        p: (
+          <>
+            Overlays from SMA to Ichimoku, Supertrend and anchored VWAP; sub-pane RSI, MACD, Stochastic and more.
+            Trend lines, Fibonacci, channels — anchored to candles, they never drift on zoom. Heikin-Ashi is
+            a first-class chart type.
+          </>
+        ),
+      },
+      {
+        h: 'UX the competitors skip',
+        p: (
+          <>
+            Keyboard-first navigation, <code>prefers-reduced-motion</code> respected, an explicit auto-follow
+            state machine, and the whole layout serializes into a query param.
+          </>
+        ),
+      },
+    ],
+    kbd: { pan: 'pan', zoom: 'zoom', jump: 'jump', fit: 'fit' },
+    s02: {
+      label: '02 — for developers',
+      h2: 'Five lines to first candle',
+      lede: 'Indicators are config objects, not class instances — the core reconciles them. The full technical tour with examples lives on the Developers page.',
+      btn: 'Developers page →',
+    },
+    s03: {
+      label: '03 — the four-way gap',
+      h2: 'Pick all four',
+      lede: 'Realtime performance + full indicator set + drawing tools + framework freedom. Every alternative makes you drop at least one.',
+    },
+    table: {
+      cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
+      rows: [
+        { label: 'Indicators built in', cells: [{ cls: 'yes', text: '30+' }, { cls: 'no', text: 'write your own' }, { cls: 'yes', text: 'yes' }, { cls: 'part', text: 'generic' }] },
+        { label: 'Drawing tools', cells: [{ cls: 'yes', text: '9, anchored' }, { cls: 'no', text: 'none' }, { cls: 'yes', text: 'yes' }, { cls: 'no', text: 'none' }] },
+        { label: 'Realtime transports', cells: [{ cls: 'yes', text: 'built in' }, { cls: 'no', text: 'bring your own' }, { cls: 'part', text: 'partial' }, { cls: 'no', text: 'bring your own' }] },
+        { label: 'Keyboard + a11y', cells: [{ cls: 'yes', text: 'first-class' }, { cls: 'no', text: 'none' }, { cls: 'part', text: 'partial' }, { cls: 'part', text: 'partial' }] },
+        { label: 'License', cells: [{ cls: 'yes', text: 'MIT' }, { cls: 'yes', text: 'Apache-2.0' }, { cls: 'no', text: 'commercial' }, { cls: 'yes', text: 'MIT' }] },
+        { label: 'Framework lock-in', cells: [{ cls: 'yes', text: 'none' }, { cls: 'yes', text: 'none' }, { cls: 'part', text: 'vendor APIs' }, { cls: 'yes', text: 'none' }] },
+      ],
+    },
+  },
+  dev: {
+    s01: {
+      label: '01 — quick start',
+      h2: 'Same engine, three ways in',
+      lede: 'The core is pure TypeScript — the wrappers add nothing but idiomatic bindings. Switch frameworks without touching chart logic.',
+      parity: 'full API parity',
+    },
+    s02: {
+      label: '02 — why devs pick openkline',
+      h2: 'Every claim, backed by a mechanism',
+      lede: 'Not adjectives — data structures, complexity bounds and state machines you can read in the source.',
+    },
+    adv: [
+      {
+        k: 'realtime path',
+        h: 'O(1) per tick, no GC churn',
+        p: (
+          <>
+            Candles live in a <code>Float64Array</code>-backed ring buffer. <code>append</code> and{' '}
+            <code>updateLast</code> are O(1); history pages in via amortized-O(1) <code>prepend</code>.
+            Ticks are RAF-coalesced by <code>CandleMerger</code>, and a three-layer canvas means a crosshair
+            move never repaints the candles.
+          </>
+        ),
+        metrics: [<><b>O(1)</b> append / updateLast</>, <><b>3</b> canvas layers</>, <><b>~0 cost</b> static frame</>],
+      },
+      {
+        k: 'declarative api',
+        h: 'Indicators are config, not classes',
+        p: (
+          <>
+            App code never calls <code>new SMA(20)</code>. Pass a config array; the core diffs it
+            (<code>diffIndicatorConfigs</code>) and reconciles — reference-stable arrays skip recomputation
+            entirely. The same objects round-trip through <code>saveLayoutState</code>.
+          </>
+        ),
+        metrics: [<><b>30+</b> indicator types</>, <><b>0</b> manual instances</>, <><b>diffed</b> on every render</>],
+      },
+      {
+        k: 'transports',
+        h: 'Any data source in four methods',
+        p: (
+          <>
+            Implement <code>DataTransport</code> and you're live. <code>DataFeed</code> guards against
+            stale responses with a version counter — a mid-fetch symbol switch can't render the wrong data.
+            Reconnects use jittered exponential backoff. Errors flow through <code>onError</code>, never
+            a silent catch.
+          </>
+        ),
+        metrics: [<><b>4</b> methods to implement</>, <><b>jittered</b> backoff built in</>, <><b>0</b> silent catches</>],
+      },
+      {
+        k: 'state',
+        h: 'The whole chart fits in a URL',
+        p: (
+          <>
+            <code>saveLayoutState()</code> serializes symbol, resolution, chart type, theme, indicators and
+            drawings into a compact object. <code>loadState</code> validates untrusted input and runs schema
+            migrations, so old links keep working after upgrades. Drawings are anchored in buffer space —
+            they stick to their candles through pan and zoom.
+          </>
+        ),
+        metrics: [<><b>1</b> query param</>, <><b>migrated</b> schemas</>, <><b>validated</b> untrusted input</>],
+      },
+    ],
+    s03: { label: '03 — architecture', h2: 'Three subsystems, no magic' },
+    arch: [
+      {
+        h: 'Rendering',
+        items: [
+          <>Hi-DPI canvas, three-layer split: chart / UI / interaction</>,
+          <>Dirty-flag RAF — static chart costs ~0 between frames</>,
+          <>Sub-pixel <code>fitAll</code> with per-column conflation</>,
+          <>Multi-pane: sub-pane indicators get auto-sized bands + own Y-axes</>,
+          <>Candles, line, area, OHLC bars, first-class Heikin-Ashi</>,
+        ],
+      },
+      {
+        h: 'Data layer',
+        items: [
+          <><code>CandleBuffer</code> — <code>Float64Array</code>, O(1) append, amortized-O(1) prepend</>,
+          <><code>CandleMerger</code> — RAF-coalesced tick merging</>,
+          <><code>DataFeed</code> — stale-response version counter</>,
+          <><code>ExponentialBackoff</code> — jittered reconnects</>,
+          <><code>validateCandles</code> — runtime invariant checks</>,
+        ],
+      },
+      {
+        h: 'Interaction',
+        items: [
+          <><code>KeyboardController</code> — full keyboard navigation</>,
+          <><code>autoFollow</code> state machine — live edge tracking</>,
+          <>Momentum pan that respects <code>prefers-reduced-motion</code></>,
+          <>Trackpad-aware wheel: horizontal pans, vertical zooms</>,
+          <>Touch: one-finger pan, two-finger pinch</>,
+        ],
+      },
+    ],
+    s04: {
+      label: "04 — what's in the box",
+      h2: 'Indicators & drawing tools',
+      overlay: 'overlay — main pane',
+      subpane: 'sub-pane — independent y-axis',
+      drawings: 'drawings — anchored in buffer space, survive zoom',
+      custom: <>+ subclass <code>Drawing</code> for your own</>,
+    },
+    s05: {
+      label: '05 — keyboard-first',
+      h2: 'Hands stay on the keys',
+      lede: 'Full chart control without a mouse — a pillar, not an afterthought.',
+    },
+    keymap: [
+      'Pan left / right',
+      'Zoom in / out (also + / -)',
+      'Jump to oldest / newest candle',
+      'Reset zoom',
+      'Fit all visible data',
+      'Arm trend line / horizontal line tool',
+      'Cancel active tool or drawing',
+      'Fit visible range',
+    ],
+    s06: {
+      label: '06 — theming',
+      h2: 'Ten tokens, any brand',
+      p: (
+        <>
+          <code>dark</code>, <code>light</code> or <code>auto</code> built in — or pass a full{' '}
+          <code>ThemeColors</code> object and the chart is yours. Custom <code>priceFormat</code> /{' '}
+          <code>volumeFormat</code> hooks cover locale and asset quirks.
+        </>
+      ),
+    },
+  },
+  community: {
+    docs: {
+      label: "docs — read the source's manual",
+      h2: 'Documentation',
+      lede: 'Guides for the common paths, TypeDoc for everything else. The playground is the fastest way to poke the engine without installing anything.',
+      cards: [
+        { k: 'guide', t: 'Quick start', d: 'Install, first chart, live data in five lines — vanilla, React or Vue.' },
+        { k: 'guide', t: 'SSR integration', d: 'Next.js and Nuxt recipes — client-only mounting, hydration gotchas.' },
+        { k: 'guide', t: 'Performance tuning', d: 'Infinite scroll, maxCandles, gap detection, profiling long frames.' },
+        { k: 'guide', t: 'Theming', d: 'Built-in modes, custom ThemeColors, price and volume formatting.' },
+        { k: 'guide', t: 'Live data & transports', d: 'DataTransport interface, polling and WebSocket bases, backoff.' },
+        { k: 'reference', t: 'API reference', d: 'Full TypeDoc — every class, option and event in the core.' },
+        { k: 'reference', t: 'Indicators', d: 'Config shapes for all 30+ built-ins, plus the custom-indicator path.' },
+        { k: 'reference', t: 'Drawing tools', d: 'Nine anchored tools, hit-testing, save/load round-trips.' },
+        { k: 'meta', t: 'Changelog', d: 'Every release, no surprises — strict semver from 0.1.0.' },
+      ],
+    },
+    support: {
+      label: 'support — keep the candles printing',
+      h2: 'Fund the roadmap',
+      lede: 'openkline is MIT and stays MIT. Alerts, replay mode, compare mode and workspaces ship faster when maintenance is funded.',
+      donate: {
+        k: 'donate',
+        h: 'Back the project',
+        p: 'One-off or recurring — every donation goes to maintenance: triage, reviews, and keeping 440+ tests green.',
+        wallet: 'address on request — see contacts',
+        btn: 'Sponsor on GitHub',
+      },
+      order: {
+        k: 'order a feature',
+        h: 'Need it before the roadmap?',
+        p: 'Exchange adapters, custom indicators, alerts ahead of schedule — send a spec, get an estimate. Paid work lands upstream under MIT, so everyone gets it.',
+        btn: 'Email a spec',
+      },
+      suggest: {
+        k: 'suggest',
+        h: 'Ideas & bug reports',
+        p: 'Open an issue with a repro or a use case. Proposals that survive review get a milestone — check the M1 design doc for the bar.',
+        btn: 'Open an issue ↗',
+      },
+    },
+    contacts: {
+      label: 'contacts — talk to the maintainer',
+      h2: 'Contacts',
+      email: { k: 'email', d: 'Feature orders, commercial questions, security reports' },
+      github: { k: 'github', d: 'Issues, PRs, discussions — the source of truth' },
+      telegram: { k: 'telegram', d: 'Quick questions, integration help' },
+    },
+  },
+};
