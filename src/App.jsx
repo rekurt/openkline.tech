@@ -5,25 +5,13 @@ import { Badge } from './components/Badge.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { DevPage } from './pages/DevPage.jsx';
 import { LandingCommunity } from './pages/LandingCommunity.jsx';
+import { DocsPage } from './pages/DocsPage.jsx';
+import { ReferencePage } from './pages/ReferencePage.jsx';
 import { useI18n, LANGS } from './i18n/index.jsx';
+import { useRoute, navigate, Link } from './router.jsx';
+import { useLiveRates } from './lib/useLiveRates.js';
 
-const TICKER = [
-  ['BTC/USDT', '67,412.50', 2.31],
-  ['ETH/USDT', '3,108.72', -0.84],
-  ['SOL/USDT', '144.20', 5.02],
-  ['TON/USDT', '7.21', 1.12],
-  ['BNB/USDT', '588.40', -0.22],
-  ['XRP/USDT', '0.5214', 0.67],
-];
-
-function readPage(prev = 'product') {
-  if (typeof window === 'undefined') return 'product';
-  const hash = window.location.hash.replace('#', '');
-  if (hash === 'dev' || hash === 'product') return hash;
-  // Section anchors (#docs/#support/#contacts) or no hash: keep the current
-  // tab so the navbar links can scroll to the shared footer sections.
-  return prev;
-}
+const REPO = 'https://github.com/rekurt/openkline';
 
 function initialTheme() {
   if (typeof window === 'undefined') return 'dark';
@@ -49,30 +37,30 @@ function LangSwitch() {
   );
 }
 
+function Ticker() {
+  const { rows, live } = useLiveRates();
+  return (
+    <div className="tl-ticker">
+      <div className="shell tl-ticker-in">
+        <span className="live">{live ? '● LIVE' : '○ LIVE'}</span>
+        {rows.map(([sym, px, d]) => (
+          <span key={sym}>
+            <span className="sym">{sym}</span> {px}{' '}
+            <span className={d >= 0 ? 'up' : 'dn'}>
+              {d >= 0 ? '▲' : '▼'}{Math.abs(d).toFixed(2)}%
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const { t } = useI18n();
-  const [page, setPage] = useState(readPage);
+  const route = useRoute();
   const [theme, setTheme] = useState(initialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Explicit tab navigation always writes the tab hash, replacing any section
-  // anchor so the address bar and the visible tab can never disagree.
-  const goToPage = (p) => {
-    try {
-      window.history.replaceState(null, '', `#${p}`);
-    } catch {
-      /* ignore */
-    }
-    setPage(p);
-  };
-
-  useEffect(() => {
-    // Anchor navigation and back/forward: derive the tab from the hash, keeping
-    // the current tab for #docs/#support/#contacts so their scroll is preserved.
-    const onHash = () => setPage((prev) => readPage(prev));
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -108,11 +96,14 @@ export default function App() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  const navTo = (p) => {
-    goToPage(p);
-    setMenuOpen(false);
-  };
-  const closeMenu = () => setMenuOpen(false);
+  // Scroll to a landing section when arriving with a hash (e.g. /#support).
+  useEffect(() => {
+    if ((route === 'product' || route === 'developers') && window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 40);
+    }
+  }, [route]);
 
   const themeButton = (
     <button
@@ -125,40 +116,40 @@ export default function App() {
     </button>
   );
 
+  // Dedicated full-page routes render their own chrome.
+  if (route === 'docs') return <DocsPage />;
+  if (route === 'reference') return <ReferencePage />;
+
+  const page = route === 'developers' ? 'developers' : 'product';
+  const closeMenu = () => setMenuOpen(false);
+  const goSection = (id) => {
+    closeMenu();
+    if (page !== 'product' && page !== 'developers') navigate('product', id);
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="tl">
-      <div className="tl-ticker">
-        <div className="shell tl-ticker-in">
-          <span className="live">● LIVE</span>
-          {TICKER.map(([sym, px, d]) => (
-            <span key={sym}>
-              <span className="sym">{sym}</span> {px}{' '}
-              <span className={d >= 0 ? 'up' : 'dn'}>
-                {d >= 0 ? '▲' : '▼'}{Math.abs(d).toFixed(2)}%
-              </span>
-            </span>
-          ))}
-        </div>
-      </div>
+      <Ticker />
 
       <div className="shell">
         <nav>
-          <span className="brand">
+          <Link to="product" className="brand">
             <img src="/logo-mark.svg" width="28" height="28" alt="" />
             openkline
             <span className="pkg">@rekurt/openkline</span>
-          </span>
+          </Link>
           <Badge>v0.1.0</Badge>
           {/* page tabs stay visible on every viewport — they never hide in the menu */}
           <div className="tl-pagetabs" role="tablist">
-            <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => navTo('product')}>{t.nav.product}</button>
-            <button type="button" role="tab" aria-selected={page === 'dev'} className={page === 'dev' ? 'on' : ''} onClick={() => navTo('dev')}>{t.nav.dev}</button>
+            <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => navigate('product')}>{t.nav.product}</button>
+            <button type="button" role="tab" aria-selected={page === 'developers'} className={page === 'developers' ? 'on' : ''} onClick={() => navigate('developers')}>{t.nav.dev}</button>
           </div>
           <div className="navlinks">
-            <a href="#docs">{t.nav.docs}</a>
-            <a href="#support">{t.nav.support}</a>
-            <a href="#contacts">{t.nav.contacts}</a>
-            <a href="https://github.com/rekurt/ohlcv-front" target="_blank" rel="noreferrer">{t.nav.github}</a>
+            <Link to="docs">{t.nav.docs}</Link>
+            <Link to="reference">{t.nav.reference}</Link>
+            <a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a>
             <LangSwitch />
             {themeButton}
           </div>
@@ -174,14 +165,14 @@ export default function App() {
           </button>
         </nav>
 
-        {page === 'product' ? <ProductPage onOpenDev={() => goToPage('dev')} /> : <DevPage />}
+        {page === 'product' ? <ProductPage onOpenDev={() => navigate('developers')} /> : <DevPage />}
 
         <LandingCommunity />
 
         <footer>
-          <a href="https://github.com/rekurt/ohlcv-front" target="_blank" rel="noreferrer">{t.footer.github}</a>
-          <a href="https://rekurt.github.io/ohlcv-front/" target="_blank" rel="noreferrer">{t.footer.playground}</a>
-          <a href="https://rekurt.github.io/ohlcv-front/api/" target="_blank" rel="noreferrer">{t.footer.api}</a>
+          <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
+          <Link to="docs">{t.nav.docs}</Link>
+          <Link to="reference">{t.nav.reference}</Link>
           <a href="mailto:nikitageek@gmail.com">nikitageek@gmail.com</a>
           <a href="https://t.me/nikita_rwhe" target="_blank" rel="noreferrer">@nikita_rwhe</a>
           <span className="right">{t.footer.right}</span>
@@ -201,17 +192,20 @@ export default function App() {
         </div>
         <div className="shell tl-menu-list">
           <div className="seclabel">{t.nav.menuTag}</div>
-          <a className="tl-menu-item" href="#docs" onClick={closeMenu}>
+          <Link to="docs" className="tl-menu-item" onNavigate={closeMenu}>
             <span className="num">01</span>{t.nav.docs}<span className="arr">→</span>
-          </a>
-          <a className="tl-menu-item" href="#support" onClick={closeMenu}>
-            <span className="num">02</span>{t.nav.support}<span className="arr">→</span>
-          </a>
-          <a className="tl-menu-item" href="#contacts" onClick={closeMenu}>
-            <span className="num">03</span>{t.nav.contacts}<span className="arr">→</span>
-          </a>
-          <a className="tl-menu-item" href="https://github.com/rekurt/ohlcv-front" target="_blank" rel="noreferrer" onClick={closeMenu}>
-            <span className="num">04</span>GitHub<span className="arr">↗</span>
+          </Link>
+          <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
+            <span className="num">02</span>{t.nav.reference}<span className="arr">→</span>
+          </Link>
+          <button type="button" className="tl-menu-item" onClick={() => goSection('support')}>
+            <span className="num">03</span>{t.nav.support}<span className="arr">→</span>
+          </button>
+          <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
+            <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
+          </button>
+          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
+            <span className="num">05</span>GitHub<span className="arr">↗</span>
           </a>
         </div>
         <div className="shell tl-menu-foot">

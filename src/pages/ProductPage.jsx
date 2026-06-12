@@ -3,10 +3,11 @@ import { Badge } from '../components/Badge.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
 import { Kbd } from '../components/Kbd.jsx';
 import { CandleChart } from '../components/CandleChart.jsx';
+import { DemoChart } from '../components/DemoChart.jsx';
 import { LegendChip } from '../components/LegendChip.jsx';
 import { useI18n } from '../i18n/index.jsx';
+import { navigate } from '../router.jsx';
 
-const PLAYGROUND = 'https://rekurt.github.io/ohlcv-front/';
 const FEATURE_NUMS = ['/01', '/02', '/03', '/04'];
 
 /**
@@ -29,8 +30,8 @@ export function ProductPage({ onOpenDev }) {
           <h1>{p.h1}</h1>
           <p className="lede">{p.lede}</p>
           <div className="cta">
-            <Button variant="ember" size="lg" onClick={() => window.open(PLAYGROUND, '_blank')}>{p.ctaPlayground}</Button>
-            <Button size="lg" onClick={onOpenDev}>{p.ctaDocs}</Button>
+            <Button variant="ember" size="lg" onClick={() => navigate('docs')}>{p.ctaPlayground}</Button>
+            <Button size="lg" onClick={() => navigate('docs')}>{p.ctaDocs}</Button>
           </div>
           <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline-core" style={{ maxWidth: 440 }}>
             npm install @rekurt/openkline-core<span className="tl-cursor"></span>
@@ -64,6 +65,29 @@ export function ProductPage({ onOpenDev }) {
           ))}
         </div>
       </div>
+
+      <section id="playground" data-num="live">
+        <div className="seclabel">{p.live.label}</div>
+        <h2>{p.live.h2}</h2>
+        <p className="sectionLede">{p.live.lede}</p>
+        <DemoChart seed={88} indicators={['sma20', 'ema50', 'bb']} height={360} symbol="BTC/USDT · 1H" />
+        <div className="tl-features" style={{ marginTop: 16 }}>
+          <div className="tl-feature">
+            <h3>{p.live.presetPlain}</h3>
+            <DemoChart seed={5} indicators={[]} height={200} toggles={false} symbol="ETH/USDT · 1H" basePrice={3100} drift={-0.01} />
+          </div>
+          <div className="tl-feature">
+            <h3>{p.live.presetBb}</h3>
+            <DemoChart seed={17} indicators={['bb']} height={200} toggles={false} symbol="SOL/USDT · 1H" basePrice={144} drift={0.05} />
+          </div>
+        </div>
+        <div className="tl-features" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
+          <div className="tl-feature">
+            <h3>{p.live.presetVwap}</h3>
+            <DemoChart seed={31} indicators={['vwap', 'ema50']} height={220} toggles={false} symbol="BTC/USDT · 4H" />
+          </div>
+        </div>
+      </section>
 
       <section id="engine" data-num="01">
         <div className="seclabel">{p.s01.label}</div>

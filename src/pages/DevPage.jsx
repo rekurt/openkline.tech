@@ -2,8 +2,16 @@ import { useState, Fragment } from 'react';
 import { SegmentedControl } from '../components/SegmentedControl.jsx';
 import { Badge } from '../components/Badge.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
+import { DemoChart } from '../components/DemoChart.jsx';
 import { Kbd } from '../components/Kbd.jsx';
 import { useI18n } from '../i18n/index.jsx';
+
+// Each quick-start example renders this real chart so the snippet isn't just text.
+const FW_INDICATORS = {
+  vanilla: ['sma20'],
+  react: ['sma20', 'ema50', 'bb'],
+  vue: ['sma20', 'ema50'],
+};
 
 /* Code snippets are code — they stay identical in every locale. */
 const QUICKSTART = {
@@ -147,21 +155,24 @@ export function DevPage() {
         <div className="seclabel">{d.s01.label}</div>
         <h2>{d.s01.h2}</h2>
         <p className="sectionLede">{d.s01.lede}</p>
-        <div className="tl-qs">
-          <div className="tl-qs-head">
-            <SegmentedControl
-              size="sm"
-              options={[
-                { value: 'vanilla', label: 'Vanilla TS' },
-                { value: 'react', label: 'React 18/19' },
-                { value: 'vue', label: 'Vue 3' },
-              ]}
-              value={fw}
-              onChange={setFw}
-            />
-            <span className="lab">{QUICKSTART[fw].label} · {d.s01.parity}</span>
+        <div className="tl-codegrid">
+          <div className="tl-qs">
+            <div className="tl-qs-head">
+              <SegmentedControl
+                size="sm"
+                options={[
+                  { value: 'vanilla', label: 'Vanilla TS' },
+                  { value: 'react', label: 'React 18/19' },
+                  { value: 'vue', label: 'Vue 3' },
+                ]}
+                value={fw}
+                onChange={setFw}
+              />
+              <span className="lab">{QUICKSTART[fw].label} · {d.s01.parity}</span>
+            </div>
+            <CodeBlock>{QUICKSTART[fw].code}</CodeBlock>
           </div>
-          <CodeBlock>{QUICKSTART[fw].code}</CodeBlock>
+          <DemoChart seed={9} indicators={FW_INDICATORS[fw]} height={300} toggles={false} symbol="BTC/USDT · 1H" />
         </div>
       </section>
 
@@ -286,6 +297,9 @@ chart.setTheme('auto');   // prefers-color-scheme`}</CodeBlock>
   priceLine: '#58a6ff',
 };
 chart.setTheme(myTheme);`}</CodeBlock>
+        </div>
+        <div style={{ marginTop: 16 }}>
+          <DemoChart seed={64} indicators={['ema50', 'vwap']} height={260} symbol="BTC/USDT · 1H — toggle the site theme to repaint" />
         </div>
       </section>
     </div>
