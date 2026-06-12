@@ -31,7 +31,7 @@ export function ProductPage({ onOpenDev }) {
           <p className="lede">{p.lede}</p>
           <div className="cta">
             <Button variant="ember" size="lg" onClick={() => navigate('docs')}>{p.ctaPlayground}</Button>
-            <Button size="lg" onClick={() => navigate('docs')}>{p.ctaDocs}</Button>
+            <Button size="lg" onClick={onOpenDev}>{p.ctaDocs}</Button>
           </div>
           <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline-core" style={{ maxWidth: 440 }}>
             npm install @rekurt/openkline-core<span className="tl-cursor"></span>

@@ -124,9 +124,12 @@ export default function App() {
   const closeMenu = () => setMenuOpen(false);
   const goSection = (id) => {
     closeMenu();
-    if (page !== 'product' && page !== 'developers') navigate('product', id);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    // defer until the menu's scroll-lock (body overflow:hidden) is released,
+    // otherwise scrollIntoView is a no-op
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 60);
   };
 
   return (
