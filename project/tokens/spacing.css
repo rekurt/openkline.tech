@@ -1,0 +1,43 @@
+/* ── openkline spacing, radii, borders, elevation, layout constants ─────
+   Derived from examples/core/index.html and packages/core/src/constants.ts. */
+
+:root {
+  /* Spacing scale (px) */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 12px;
+  --space-6: 16px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* Radii — the product is square-ish; 4px is the workhorse */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  /* Borders — everything is delineated by 1px hairlines, not shadows */
+  --border-w: 1px;
+  --hairline: var(--border-w) solid var(--border);
+
+  /* Elevation — used ONLY for floating layers (menus, dialogs, toasts) */
+  --shadow-menu: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  /* App-shell layout constants (from the vanilla demo + engine) */
+  --toolbar-h: 56px;
+  --statusbar-h: 28px;
+  --toolrail-w: 48px;
+  --price-axis-w: 80px;  /* PRICE_AXIS_WIDTH */
+  --time-axis-h: 30px;   /* TIME_AXIS_HEIGHT */
+
+  /* Control sizing */
+  --control-h-sm: 26px;
+  --control-h-md: 32px;
+  --icon-btn: 36px;
+  --hit-target: 44px;
+}

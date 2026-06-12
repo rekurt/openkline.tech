@@ -1,0 +1,160 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* ── Color tokens ─────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+
+  --bg-canvas: #131722;
+  --surface-panel: #1e222d;
+  --surface-raised: #262b38;
+  --border: #363a45;
+  --grid: #1e222d;
+
+  --text-1: #d1d4dc;
+  --text-muted: #758696;
+  --text-on-accent: #ffffff;
+
+  --bull: #26a69a;
+  --bear: #ef5350;
+  --bull-volume: rgba(38, 166, 154, 0.3);
+  --bear-volume: rgba(239, 83, 80, 0.3);
+
+  --crosshair: #758696;
+  --price-line: #4c525e;
+  --axis: #363a45;
+
+  --accent: #2962ff;
+  --accent-hover: #1e53e5;
+  --accent-dim: rgba(41, 98, 255, 0.16);
+
+  --ember: #ff6b2c;
+  --ember-bright: #ff9558;
+  --ember-deep: #d94f14;
+  --ember-dim: rgba(255, 107, 44, 0.14);
+
+  --ind-1: #f5c344;
+  --ind-2: #58a6ff;
+  --ind-3: #c084fc;
+  --ind-4: #f97583;
+  --ind-5: #56d364;
+
+  --surface-card: var(--surface-panel);
+  --surface-app: var(--bg-canvas);
+  --text-body: var(--text-1);
+  --text-data: var(--text-1);
+  --text-hint: var(--text-muted);
+  --focus-ring: var(--accent);
+  --danger: var(--bear);
+  --success: var(--bull);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg-canvas: #ffffff;
+  --surface-panel: #f0f3fa;
+  --surface-raised: #e4e8f1;
+  --border: #c8ccd8;
+  --grid: #f0f3fa;
+  --text-1: #131722;
+  --text-muted: #9598a1;
+  --crosshair: #9598a1;
+  --price-line: #b2b5be;
+  --axis: #c8ccd8;
+  --accent-dim: rgba(41, 98, 255, 0.1);
+  --ember-dim: rgba(255, 107, 44, 0.1);
+}
+
+/* ── Type tokens ──────────────────────────────────────────────────────── */
+:root {
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: 'Space Grotesk', var(--font-ui);
+
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-md: 13px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 28px;
+  --text-3xl: 40px;
+  --text-4xl: 56px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.15;
+  --leading-normal: 1.4;
+  --leading-relaxed: 1.6;
+}
+
+/* ── Spacing, radii, borders ──────────────────────────────────────────── */
+:root {
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 12px;
+  --space-6: 16px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  --border-w: 1px;
+  --hairline: var(--border-w) solid var(--border);
+
+  --shadow-menu: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  --toolbar-h: 56px;
+  --statusbar-h: 28px;
+  --toolrail-w: 48px;
+  --price-axis-w: 80px;
+  --time-axis-h: 30px;
+
+  --control-h-sm: 26px;
+  --control-h-md: 32px;
+  --icon-btn: 36px;
+  --hit-target: 44px;
+}
+
+/* ── Motion tokens ────────────────────────────────────────────────────── */
+:root {
+  --dur-fast: 120ms;
+  --dur-med: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+  }
+}
+
+/* ── Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-canvas);
+  color: var(--text-1);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+#root {
+  min-height: 100vh;
+}

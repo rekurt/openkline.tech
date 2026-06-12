@@ -1,0 +1,57 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Accents" subtitle="Blue = interaction · Ember = brand, marketing only" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; background: var(--bg-canvas); font-family: var(--font-ui); color: var(--text-1); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; }
+  .group { border: var(--hairline); background: var(--surface-panel); }
+  .head { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: var(--hairline); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+  .head b { font-weight: 500; }
+  .sws { display: flex; }
+  .sw { flex: 1; height: 58px; display: flex; flex-direction: column; justify-content: flex-end; padding: 7px 9px; }
+  .sw span { font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.92); }
+  .sw.dim { border-top: var(--hairline); }
+  .sw.dim span { color: var(--text-muted); }
+  .use { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-top: var(--hairline); }
+  .btn { font-size: 12px; padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid; cursor: default; }
+  .btn.blue { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); }
+  .btn.focus { background: var(--bg-canvas); border-color: var(--border); color: var(--text-1); outline: 2px solid var(--focus-ring); outline-offset: 2px; margin-left: 4px; }
+  .btn.ember { background: var(--ember); border-color: var(--ember); color: #fff; }
+  .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius-sm); color: var(--ember); background: var(--ember-dim); }
+  .note { margin-left: auto; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="group">
+      <div class="head"><b>interaction — accent blue</b><span>#2962ff</span></div>
+      <div class="sws">
+        <div class="sw" style="background: var(--accent);"><span>--accent</span></div>
+        <div class="sw" style="background: var(--accent-hover);"><span>--accent-hover</span></div>
+        <div class="sw dim" style="background: var(--accent-dim);"><span>--accent-dim</span></div>
+      </div>
+      <div class="use">
+        <span class="btn blue">Share</span>
+        <span class="btn focus">Focused</span>
+        <span class="note">active tools · selection · focus</span>
+      </div>
+    </div>
+    <div class="group">
+      <div class="head"><b>brand — ember</b><span>#ff6b2c</span></div>
+      <div class="sws">
+        <div class="sw" style="background: var(--ember-bright);"><span>--ember-bright</span></div>
+        <div class="sw" style="background: var(--ember);"><span>--ember</span></div>
+        <div class="sw" style="background: var(--ember-deep);"><span>--ember-deep</span></div>
+      </div>
+      <div class="use">
+        <span class="btn ember">Get @rekurt/openkline</span>
+        <span class="tag">MIT</span>
+        <span class="note">logo · marketing · never data</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

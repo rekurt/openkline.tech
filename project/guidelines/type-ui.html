@@ -1,0 +1,22 @@
+<!-- @dsCard group="Type" viewport="700x160" name="UI — system stack" subtitle="App chrome is dense: 13px body, 12px controls, 11px hints" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; background: var(--bg-canvas); font-family: var(--font-ui); color: var(--text-1); }
+  .wrap { padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .line { display: flex; align-items: baseline; gap: 14px; }
+  .tok { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 110px; flex: none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="line"><span class="tok">16px · lg</span><span style="font-size: var(--text-lg); font-weight: 600;">Panel heading — rarely needed inside the app</span></div>
+    <div class="line"><span class="tok">13px · md</span><span style="font-size: var(--text-md);">Body and base app size — dropdown items, dialog copy</span></div>
+    <div class="line"><span class="tok">12px · sm</span><span style="font-size: var(--text-sm);">Toolbar controls, legend, buttons, checkbox labels</span></div>
+    <div class="line"><span class="tok">11px · xs</span><span style="font-size: var(--text-xs); color: var(--text-muted);">Axis labels, status bar, hints — usually muted</span></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* ── openkline color tokens ─────────────────────────────────────────────
+   Base values lifted verbatim from rekurt/ohlcv-front:
+   packages/core/src/constants.ts (DARK_THEME / LIGHT_THEME) and
+   examples/core/index.html (:root of the vanilla demo shell).
+   Dark is the default; light is an explicit opt-in scope. */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces (canvas = the chart itself; panel = chrome around it) */
+  --bg-canvas: #131722;
+  --surface-panel: #1e222d;
+  --surface-raised: #262b38;
+  --border: #363a45;
+  --grid: #1e222d;
+
+  /* Text */
+  --text-1: #d1d4dc;
+  --text-muted: #758696;
+  --text-on-accent: #ffffff;
+
+  /* Market semantics — the most sacred pair in the system */
+  --bull: #26a69a;
+  --bear: #ef5350;
+  --bull-volume: rgba(38, 166, 154, 0.3);
+  --bear-volume: rgba(239, 83, 80, 0.3);
+
+  /* Chart furniture */
+  --crosshair: #758696;
+  --price-line: #4c525e;
+  --axis: #363a45;
+
+  /* Interactive accent — selection blue from the product UI */
+  --accent: #2962ff;
+  --accent-hover: #1e53e5;
+  --accent-dim: rgba(41, 98, 255, 0.16);
+
+  /* Brand ember — the burning wick from the logo. Marketing + logo accent only;
+     never used for bull/bear data. */
+  --ember: #ff6b2c;
+  --ember-bright: #ff9558;
+  --ember-deep: #d94f14;
+  --ember-dim: rgba(255, 107, 44, 0.14);
+
+  /* Indicator line palette (overlay order) */
+  --ind-1: #f5c344;
+  --ind-2: #58a6ff;
+  --ind-3: #c084fc;
+  --ind-4: #f97583;
+  --ind-5: #56d364;
+
+  /* Semantic aliases */
+  --surface-card: var(--surface-panel);
+  --surface-app: var(--bg-canvas);
+  --text-body: var(--text-1);
+  --text-data: var(--text-1);
+  --text-hint: var(--text-muted);
+  --focus-ring: var(--accent);
+  --danger: var(--bear);
+  --success: var(--bull);
+}
+
+/* Light theme — LIGHT_THEME from constants.ts */
+[data-theme='light'] {
+  color-scheme: light;
+  --bg-canvas: #ffffff;
+  --surface-panel: #f0f3fa;
+  --surface-raised: #e4e8f1;
+  --border: #c8ccd8;
+  --grid: #f0f3fa;
+  --text-1: #131722;
+  --text-muted: #9598a1;
+  --crosshair: #9598a1;
+  --price-line: #b2b5be;
+  --axis: #c8ccd8;
+  --accent-dim: rgba(41, 98, 255, 0.1);
+  --ember-dim: rgba(255, 107, 44, 0.1);
+}

@@ -1,0 +1,84 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Actions" subtitle="Button variants · IconButton tool rail · openkline icon set" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--bg-canvas); color: var(--text-1); font-family: var(--font-ui); }
+  .wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; padding: 14px; }
+  .panel { border: var(--hairline); background: var(--surface-panel); display: flex; flex-direction: column; }
+  .ph { padding: 8px 14px; border-bottom: var(--hairline); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; }
+  .pb { padding: 14px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .lab { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); width: 56px; flex: none; }
+  .railwrap { display: flex; gap: 14px; align-items: stretch; flex: 1; }
+  .rail { width: 48px; flex: none; background: var(--bg-canvas); border: var(--hairline); display: flex; flex-direction: column; align-items: center; padding: 8px 0; gap: 4px; }
+  .rail .sp { flex: 1; }
+  .meta { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .meta .m { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Button, IconButton, Icon } = window.TorchDesignSystem_f84e77;
+function Demo() {
+  return (
+    <div className="wrap">
+      <div className="panel">
+        <div className="ph"><span>button</span><span>4 variants · 3 sizes</span></div>
+        <div className="pb">
+          <div className="row">
+            <span className="lab">variant</span>
+            <Button>Fit all</Button>
+            <Button variant="primary">Share layout</Button>
+            <Button variant="ember">Get openkline</Button>
+            <Button variant="ghost">Cancel</Button>
+          </div>
+          <div className="row">
+            <span className="lab">state</span>
+            <Button active><Icon name="play" size={13} /> Live</Button>
+            <Button disabled>Disabled</Button>
+            <Button variant="primary" disabled>Disabled</Button>
+          </div>
+          <div className="row">
+            <span className="lab">size</span>
+            <Button size="sm">Compact 26</Button>
+            <Button>Default 32</Button>
+            <Button size="lg" variant="ember">Open playground <Icon name="arrowRight" size={14} /></Button>
+          </div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="ph"><span>iconbutton</span><span>tool rail</span></div>
+        <div className="pb">
+          <div className="railwrap">
+            <div className="rail">
+              <IconButton title="Select (Esc)" active><Icon name="pointer" size={18} /></IconButton>
+              <IconButton title="Trend line (T)"><Icon name="trendline" size={18} /></IconButton>
+              <IconButton title="Horizontal line (H)"><Icon name="hline" size={18} /></IconButton>
+              <IconButton title="Fib retracement"><Icon name="fib" size={18} /></IconButton>
+              <span className="sp"></span>
+              <IconButton title="Clear all drawings"><Icon name="trash" size={18} /></IconButton>
+              <IconButton title="Export PNG"><Icon name="camera" size={18} /></IconButton>
+            </div>
+            <div className="meta">
+              <div className="m"><IconButton title="Rest"><Icon name="moon" size={18} /></IconButton> rest — ghost</div>
+              <div className="m"><IconButton title="Armed" active><Icon name="crosshair" size={18} /></IconButton> armed — accent</div>
+              <div className="m"><IconButton title="Disabled" disabled><Icon name="camera" size={18} /></IconButton> disabled — 45%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

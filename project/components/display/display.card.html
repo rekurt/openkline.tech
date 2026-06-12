@@ -1,0 +1,75 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Display" subtitle="Badge · Kbd · PriceStat · CodeBlock" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--bg-canvas); color: var(--text-1); font-family: var(--font-ui); }
+  .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 14px; padding: 14px; align-items: start; }
+  .col { display: flex; flex-direction: column; gap: 14px; }
+  .panel { border: var(--hairline); background: var(--surface-panel); }
+  .ph { padding: 8px 14px; border-bottom: var(--hairline); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; }
+  .pb { padding: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pb.stats { gap: 28px; }
+  .kbdline { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Badge, Kbd, PriceStat, CodeBlock } = window.TorchDesignSystem_f84e77;
+function Demo() {
+  return (
+    <div className="wrap">
+      <div className="col">
+        <div className="panel">
+          <div className="ph"><span>badge</span><span>5 tones</span></div>
+          <div className="pb">
+            <Badge>v0.1.0</Badge>
+            <Badge tone="ember">MIT</Badge>
+            <Badge tone="accent">TypeScript</Badge>
+            <Badge tone="bull" dot pill>Live</Badge>
+            <Badge tone="bull">+2.31%</Badge>
+            <Badge tone="bear">−4.20%</Badge>
+          </div>
+        </div>
+        <div className="panel">
+          <div className="ph"><span>pricestat</span><span>mono · tabular-nums</span></div>
+          <div className="pb stats">
+            <PriceStat label="BTC/USDT" value="67,412.50" delta={2.31} />
+            <PriceStat label="ETH/USDT" value="3,108.72" delta={-0.84} />
+            <PriceStat label="Unit tests" value="440+" />
+          </div>
+        </div>
+        <div className="panel">
+          <div className="ph"><span>kbd</span><span>keyboard-first</span></div>
+          <div className="pb">
+            <span className="kbdline">
+              <Kbd>←</Kbd><Kbd>→</Kbd> pan · <Kbd>+</Kbd><Kbd>−</Kbd> zoom · <Kbd>F</Kbd> fit · <Kbd>Esc</Kbd> cancel
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="col">
+        <CodeBlock prompt size="sm">npm install @rekurt/openkline</CodeBlock>
+        <CodeBlock title="chart.ts" size="sm">{`const chart = new OHLCVChart({
+  container,
+  symbol: 'BTC/USDT',
+  resolution: '1H',
+  theme: 'auto',
+});
+
+chart.setData(candles);`}</CodeBlock>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>
