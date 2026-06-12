@@ -1,9 +1,0 @@
-/* openkline webfonts.
-   The product itself uses system stacks on canvas (see reference/ohlcv-front/constants.ts):
-     AXIS_FONT  = '11px monospace'
-     PILL_FONT  = '12px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif'
-   For brand surfaces we standardize on two Google-Fonts substitutes:
-     - JetBrains Mono  → nearest match for ui-monospace / SF Mono / Menlo (data, code, axes)
-     - Space Grotesk   → display face for marketing headlines (new brand choice; no
-                         display face exists in the repo). FLAGGED as a substitution. */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
