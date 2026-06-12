@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import { SegmentedControl } from '../components/SegmentedControl.jsx';
 import { Badge } from '../components/Badge.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
 import { Kbd } from '../components/Kbd.jsx';
+import { useI18n } from '../i18n/index.jsx';
 
+/* Code snippets are code — they stay identical in every locale. */
 const QUICKSTART = {
   vanilla: {
     label: 'vanilla.ts',
@@ -68,36 +69,84 @@ const indicators = ref([
   },
 };
 
+const PROOFS = [
+  {
+    title: 'live.ts',
+    code: `// 500ms ticks, 100k-candle buffer — no rebuilds
+setInterval(() => {
+  chart.updateLastCandle(latest);   // O(1)
+}, 500);
+
+// page in older history on left-edge scroll
+new OHLCVChart({
+  onLoadMoreHistory: async (buf) => {
+    const older = await fetchBefore(buf.firstTime());
+    chart.prependHistory(older);    // amortized O(1)
+  },
+  maxCandles: 50_000,               // bounded memory
+});`,
+  },
+  {
+    title: 'indicators.ts',
+    code: `chart.setIndicatorConfigs([
+  { type: 'sma', period: 20 },
+  { type: 'bb', period: 20, stdDev: 2 },
+  { type: 'vwap', anchor: { type: 'anchored', t: anchorTs } },
+  { type: 'rsi', period: 14 },   // gets its own sub-pane
+  { type: 'macd', fast: 12, slow: 26, signal: 9 },
+]);
+
+// custom indicator? subclass Indicator and register.`,
+  },
+  {
+    title: 'transport.ts',
+    code: `class BinanceTransport implements DataTransport {
+  async fetchHistory(req) {
+    const r = await fetch(klinesUrl(req));
+    return r.json();              // ascending by time
+  }
+  subscribe(cfg, onUpdate) {
+    this.ws = new WebSocket(streamUrl(cfg.symbol));
+    this.ws.onmessage = (e) => onUpdate([parse(e.data)]);
+  }
+  unsubscribe() { this.ws?.close(); }
+  destroy()     { this.ws?.close(); }
+}`,
+  },
+  {
+    title: 'share.ts',
+    code: `// share
+const state = chart.saveLayoutState();
+const url = origin + '?state=' +
+  btoa(JSON.stringify(state));
+
+// restore — validated + schema-migrated
+const param = new URLSearchParams(location.search)
+  .get('state');
+if (param) chart.loadState(JSON.parse(atob(param)));`,
+  },
+];
+
 const OVERLAYS = ['SMA', 'EMA', 'WMA', 'HMA', 'BollingerBands', 'Keltner', 'Donchian', 'VWAP', 'PivotPoints', 'Ichimoku', 'Supertrend', 'ParabolicSAR', 'ZigZag'];
 const SUBPANE = ['RSI', 'MACD', 'Stochastic', 'ATR', 'WilliamsR', 'OBV', 'ADX', 'CCI', 'MFI', 'StochRSI', 'ROC'];
 const DRAWINGS = ['TrendLine', 'HorizontalLine', 'VerticalLine', 'Ray', 'Rectangle', 'FibRetracement', 'FibExtension', 'Channel', 'Arrow'];
 
-const KEYMAP = [
-  [['←', '→'], 'Pan left / right'],
-  [['↑', '↓'], 'Zoom in / out (also + / -)'],
-  [['Home', 'End'], 'Jump to oldest / newest candle'],
-  [['0'], 'Reset zoom'],
-  [['F'], 'Fit all visible data'],
-  [['T', 'H'], 'Arm trend line / horizontal line tool'],
-  [['Esc'], 'Cancel active tool or drawing'],
-  [['dbl-click'], 'Fit visible range'],
-];
+const KEYMAP_KEYS = [['←', '→'], ['↑', '↓'], ['Home', 'End'], ['0'], ['F'], ['T', 'H'], ['Esc'], ['dbl-click']];
 
 /**
  * Developers page of the openkline landing — quick start in three frameworks,
  * advantage rows with code proofs, architecture, catalogs, keyboard map, theming.
  */
 export function DevPage() {
+  const { t } = useI18n();
+  const d = t.dev;
   const [fw, setFw] = useState('vanilla');
   return (
     <div>
       <section style={{ borderTop: 0 }} data-num="01">
-        <div className="seclabel">01 — quick start</div>
-        <h2>Same engine, three ways in</h2>
-        <p className="sectionLede">
-          The core is pure TypeScript — the wrappers add nothing but idiomatic bindings.
-          Switch frameworks without touching chart logic.
-        </p>
+        <div className="seclabel">{d.s01.label}</div>
+        <h2>{d.s01.h2}</h2>
+        <p className="sectionLede">{d.s01.lede}</p>
         <div className="tl-qs">
           <div className="tl-qs-head">
             <SegmentedControl
@@ -110,183 +159,59 @@ export function DevPage() {
               value={fw}
               onChange={setFw}
             />
-            <span className="lab">{QUICKSTART[fw].label} · full API parity</span>
+            <span className="lab">{QUICKSTART[fw].label} · {d.s01.parity}</span>
           </div>
           <CodeBlock>{QUICKSTART[fw].code}</CodeBlock>
         </div>
       </section>
 
       <section data-num="02">
-        <div className="seclabel">02 — why devs pick openkline</div>
-        <h2>Every claim, backed by a mechanism</h2>
-        <p className="sectionLede">Not adjectives — data structures, complexity bounds and state machines you can read in the source.</p>
+        <div className="seclabel">{d.s02.label}</div>
+        <h2>{d.s02.h2}</h2>
+        <p className="sectionLede">{d.s02.lede}</p>
         <div className="tl-adv">
-          <div className="tl-advrow">
-            <div className="txt">
-              <span className="k">realtime path</span>
-              <h3>O(1) per tick, no GC churn</h3>
-              <p>
-                Candles live in a <code>Float64Array</code>-backed ring buffer. <code>append</code> and{' '}
-                <code>updateLast</code> are O(1); history pages in via amortized-O(1) <code>prepend</code>.
-                Ticks are RAF-coalesced by <code>CandleMerger</code>, and a three-layer canvas means a crosshair
-                move never repaints the candles.
-              </p>
-              <div className="metrics">
-                <span><b>O(1)</b> append / updateLast</span>
-                <span><b>3</b> canvas layers</span>
-                <span><b>~0 cost</b> static frame</span>
+          {d.adv.map((row, i) => (
+            <div className="tl-advrow" key={i}>
+              <div className="txt">
+                <span className="k">{row.k}</span>
+                <h3>{row.h}</h3>
+                <p>{row.p}</p>
+                <div className="metrics">
+                  {row.metrics.map((m, j) => (
+                    <span key={j}>{m}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="proof">
+                <CodeBlock title={PROOFS[i].title} size="sm">{PROOFS[i].code}</CodeBlock>
               </div>
             </div>
-            <div className="proof">
-              <CodeBlock title="live.ts" size="sm">{`// 500ms ticks, 100k-candle buffer — no rebuilds
-setInterval(() => {
-  chart.updateLastCandle(latest);   // O(1)
-}, 500);
-
-// page in older history on left-edge scroll
-new OHLCVChart({
-  onLoadMoreHistory: async (buf) => {
-    const older = await fetchBefore(buf.firstTime());
-    chart.prependHistory(older);    // amortized O(1)
-  },
-  maxCandles: 50_000,               // bounded memory
-});`}</CodeBlock>
-            </div>
-          </div>
-
-          <div className="tl-advrow">
-            <div className="txt">
-              <span className="k">declarative api</span>
-              <h3>Indicators are config, not classes</h3>
-              <p>
-                App code never calls <code>new SMA(20)</code>. Pass a config array; the core diffs it
-                (<code>diffIndicatorConfigs</code>) and reconciles — reference-stable arrays skip recomputation
-                entirely. The same objects round-trip through <code>saveLayoutState</code>.
-              </p>
-              <div className="metrics">
-                <span><b>30+</b> indicator types</span>
-                <span><b>0</b> manual instances</span>
-                <span><b>diffed</b> on every render</span>
-              </div>
-            </div>
-            <div className="proof">
-              <CodeBlock title="indicators.ts" size="sm">{`chart.setIndicatorConfigs([
-  { type: 'sma', period: 20 },
-  { type: 'bb', period: 20, stdDev: 2 },
-  { type: 'vwap', anchor: { type: 'anchored', t: anchorTs } },
-  { type: 'rsi', period: 14 },   // gets its own sub-pane
-  { type: 'macd', fast: 12, slow: 26, signal: 9 },
-]);
-
-// custom indicator? subclass Indicator and register.`}</CodeBlock>
-            </div>
-          </div>
-
-          <div className="tl-advrow">
-            <div className="txt">
-              <span className="k">transports</span>
-              <h3>Any data source in four methods</h3>
-              <p>
-                Implement <code>DataTransport</code> and you're live. <code>DataFeed</code> guards against
-                stale responses with a version counter — a mid-fetch symbol switch can't render the wrong data.
-                Reconnects use jittered exponential backoff. Errors flow through <code>onError</code>, never
-                a silent catch.
-              </p>
-              <div className="metrics">
-                <span><b>4</b> methods to implement</span>
-                <span><b>jittered</b> backoff built in</span>
-                <span><b>0</b> silent catches</span>
-              </div>
-            </div>
-            <div className="proof">
-              <CodeBlock title="transport.ts" size="sm">{`class BinanceTransport implements DataTransport {
-  async fetchHistory(req) {
-    const r = await fetch(klinesUrl(req));
-    return r.json();              // ascending by time
-  }
-  subscribe(cfg, onUpdate) {
-    this.ws = new WebSocket(streamUrl(cfg.symbol));
-    this.ws.onmessage = (e) => onUpdate([parse(e.data)]);
-  }
-  unsubscribe() { this.ws?.close(); }
-  destroy()     { this.ws?.close(); }
-}`}</CodeBlock>
-            </div>
-          </div>
-
-          <div className="tl-advrow">
-            <div className="txt">
-              <span className="k">state</span>
-              <h3>The whole chart fits in a URL</h3>
-              <p>
-                <code>saveLayoutState()</code> serializes symbol, resolution, chart type, theme, indicators and
-                drawings into a compact object. <code>loadState</code> validates untrusted input and runs schema
-                migrations, so old links keep working after upgrades. Drawings are anchored in buffer space —
-                they stick to their candles through pan and zoom.
-              </p>
-              <div className="metrics">
-                <span><b>1</b> query param</span>
-                <span><b>migrated</b> schemas</span>
-                <span><b>validated</b> untrusted input</span>
-              </div>
-            </div>
-            <div className="proof">
-              <CodeBlock title="share.ts" size="sm">{`// share
-const state = chart.saveLayoutState();
-const url = origin + '?state=' +
-  btoa(JSON.stringify(state));
-
-// restore — validated + schema-migrated
-const param = new URLSearchParams(location.search)
-  .get('state');
-if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
       <section data-num="03">
-        <div className="seclabel">03 — architecture</div>
-        <h2>Three subsystems, no magic</h2>
+        <div className="seclabel">{d.s03.label}</div>
+        <h2>{d.s03.h2}</h2>
         <div className="tl-features cols3">
-          <div className="tl-feature">
-            <h3>Rendering</h3>
-            <ul>
-              <li>Hi-DPI canvas, three-layer split: chart / UI / interaction</li>
-              <li>Dirty-flag RAF — static chart costs ~0 between frames</li>
-              <li>Sub-pixel <code>fitAll</code> with per-column conflation</li>
-              <li>Multi-pane: sub-pane indicators get auto-sized bands + own Y-axes</li>
-              <li>Candles, line, area, OHLC bars, first-class Heikin-Ashi</li>
-            </ul>
-          </div>
-          <div className="tl-feature">
-            <h3>Data layer</h3>
-            <ul>
-              <li><code>CandleBuffer</code> — <code>Float64Array</code>, O(1) append, amortized-O(1) prepend</li>
-              <li><code>CandleMerger</code> — RAF-coalesced tick merging</li>
-              <li><code>DataFeed</code> — stale-response version counter</li>
-              <li><code>ExponentialBackoff</code> — jittered reconnects</li>
-              <li><code>validateCandles</code> — runtime invariant checks</li>
-            </ul>
-          </div>
-          <div className="tl-feature">
-            <h3>Interaction</h3>
-            <ul>
-              <li><code>KeyboardController</code> — full keyboard navigation</li>
-              <li><code>autoFollow</code> state machine — live edge tracking</li>
-              <li>Momentum pan that respects <code>prefers-reduced-motion</code></li>
-              <li>Trackpad-aware wheel: horizontal pans, vertical zooms</li>
-              <li>Touch: one-finger pan, two-finger pinch</li>
-            </ul>
-          </div>
+          {d.arch.map((card, i) => (
+            <div className="tl-feature" key={i}>
+              <h3>{card.h}</h3>
+              <ul>
+                {card.items.map((item, j) => (
+                  <li key={j}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 
       <section data-num="04">
-        <div className="seclabel">04 — what's in the box</div>
-        <h2>Indicators & drawing tools</h2>
+        <div className="seclabel">{d.s04.label}</div>
+        <h2>{d.s04.h2}</h2>
         <div className="tl-chipgroup">
-          <span className="k">overlay — main pane</span>
+          <span className="k">{d.s04.overlay}</span>
           <div className="tl-chips">
             {OVERLAYS.map((n) => (
               <span className="tl-chip" key={n}><span className="dot" style={{ background: 'var(--ind-1)' }}></span>{n}</span>
@@ -294,7 +219,7 @@ if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
           </div>
         </div>
         <div className="tl-chipgroup">
-          <span className="k">sub-pane — independent y-axis</span>
+          <span className="k">{d.s04.subpane}</span>
           <div className="tl-chips">
             {SUBPANE.map((n) => (
               <span className="tl-chip" key={n}><span className="dot" style={{ background: 'var(--ind-2)' }}></span>{n}</span>
@@ -302,32 +227,32 @@ if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
           </div>
         </div>
         <div className="tl-chipgroup" style={{ marginBottom: 0 }}>
-          <span className="k">drawings — anchored in buffer space, survive zoom</span>
+          <span className="k">{d.s04.drawings}</span>
           <div className="tl-chips">
             {DRAWINGS.map((n) => (
               <span className="tl-chip" key={n}><span className="dot" style={{ background: 'var(--ember)' }}></span>{n}</span>
             ))}
-            <span className="tl-chip" style={{ color: 'var(--text-muted)' }}>+ subclass <code>Drawing</code> for your own</span>
+            <span className="tl-chip" style={{ color: 'var(--text-muted)' }}>{d.s04.custom}</span>
           </div>
         </div>
       </section>
 
       <section data-num="05">
-        <div className="seclabel">05 — keyboard-first</div>
-        <h2>Hands stay on the keys</h2>
+        <div className="seclabel">{d.s05.label}</div>
+        <h2>{d.s05.h2}</h2>
         <p className="sectionLede">
-          Full chart control without a mouse — a pillar, not an afterthought. <Badge tone="bull">a11y</Badge>
+          {d.s05.lede} <Badge tone="bull">a11y</Badge>
         </p>
         <div className="tl-scrollx">
         <table className="tl-kbdtable">
           <tbody>
-            {KEYMAP.map(([keys, action]) => (
-              <tr key={action}>
+            {d.keymap.map((action, i) => (
+              <tr key={i}>
                 <td>
                   <span className="keys">
-                    {keys.map((k, i) => (
+                    {KEYMAP_KEYS[i].map((k, j) => (
                       <Fragment key={k}>
-                        {i > 0 ? ' ' : ''}<Kbd>{k}</Kbd>
+                        {j > 0 ? ' ' : ''}<Kbd>{k}</Kbd>
                       </Fragment>
                     ))}
                   </span>
@@ -341,15 +266,11 @@ if (param) chart.loadState(JSON.parse(atob(param)));`}</CodeBlock>
       </section>
 
       <section data-num="06">
-        <div className="seclabel">06 — theming</div>
-        <h2>Ten tokens, any brand</h2>
+        <div className="seclabel">{d.s06.label}</div>
+        <h2>{d.s06.h2}</h2>
         <div className="tl-codegrid">
           <div>
-            <p className="sectionLede" style={{ marginBottom: 16 }}>
-              <code>dark</code>, <code>light</code> or <code>auto</code> built in — or pass a full{' '}
-              <code>ThemeColors</code> object and the chart is yours. Custom <code>priceFormat</code> /{' '}
-              <code>volumeFormat</code> hooks cover locale and asset quirks.
-            </p>
+            <p className="sectionLede" style={{ marginBottom: 16 }}>{d.s06.p}</p>
             <CodeBlock title="modes" size="sm">{`chart.setTheme('dark');   // default
 chart.setTheme('light');
 chart.setTheme('auto');   // prefers-color-scheme`}</CodeBlock>

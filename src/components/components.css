@@ -54,6 +54,8 @@
   background: var(--bg-canvas); border: var(--border-w) solid var(--border);
   border-radius: var(--radius-md); overflow: hidden;
   text-align: left;
+  /* long code lines scroll inside the block — they never widen the layout */
+  min-width: 0; max-width: 100%;
 }
 [data-theme='light'] .ok-code { background: #f6f8fc; }
 .ok-code-head {
