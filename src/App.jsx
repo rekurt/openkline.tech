@@ -15,8 +15,6 @@ const TICKER = [
   ['XRP/USDT', '0.5214', 0.67],
 ];
 
-const SECTION_HASHES = ['docs', 'support', 'contacts'];
-
 function readPage(prev = 'product') {
   if (typeof window === 'undefined') return 'product';
   const hash = window.location.hash.replace('#', '');
@@ -30,24 +28,24 @@ export default function App() {
   const [page, setPage] = useState(readPage);
   const [theme, setTheme] = useState('dark');
 
+  // Explicit tab navigation always writes the tab hash, replacing any section
+  // anchor so the address bar and the visible tab can never disagree.
+  const goToPage = (p) => {
+    try {
+      window.history.replaceState(null, '', `#${p}`);
+    } catch {
+      /* ignore */
+    }
+    setPage(p);
+  };
+
   useEffect(() => {
+    // Anchor navigation and back/forward: derive the tab from the hash, keeping
+    // the current tab for #docs/#support/#contacts so their scroll is preserved.
     const onHash = () => setPage((prev) => readPage(prev));
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
-
-  useEffect(() => {
-    const hash = window.location.hash.replace('#', '');
-    // Never overwrite an in-page section anchor with the tab hash.
-    if (SECTION_HASHES.includes(hash)) return;
-    if (hash !== page) {
-      try {
-        window.history.replaceState(null, '', page === 'dev' ? '#dev' : '#product');
-      } catch {
-        /* ignore */
-      }
-    }
-  }, [page]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -78,8 +76,8 @@ export default function App() {
           </span>
           <Badge>v0.1.0</Badge>
           <div className="tl-pagetabs" role="tablist">
-            <button className={page === 'product' ? 'on' : ''} onClick={() => setPage('product')}>Product</button>
-            <button className={page === 'dev' ? 'on' : ''} onClick={() => setPage('dev')}>Developers</button>
+            <button className={page === 'product' ? 'on' : ''} onClick={() => goToPage('product')}>Product</button>
+            <button className={page === 'dev' ? 'on' : ''} onClick={() => goToPage('dev')}>Developers</button>
           </div>
           <div className="navlinks">
             <a href="#docs">Docs</a>
@@ -106,7 +104,7 @@ export default function App() {
           </div>
         </nav>
 
-        {page === 'product' ? <ProductPage onOpenDev={() => setPage('dev')} /> : <DevPage />}
+        {page === 'product' ? <ProductPage onOpenDev={() => goToPage('dev')} /> : <DevPage />}
 
         <LandingCommunity />
 
