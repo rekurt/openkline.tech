@@ -8,7 +8,7 @@ import { Kbd } from '../components/Kbd.jsx';
 const QUICKSTART = {
   vanilla: {
     label: 'vanilla.ts',
-    code: `import { OHLCVChart } from '@rekurt/openkline';
+    code: `import { OHLCVChart } from '@rekurt/openkline-core';
 
 const chart = new OHLCVChart({
   container: document.getElementById('chart'),
