@@ -32,7 +32,7 @@ npm run preview  # serve the production build
 
 ## Deploy
 
-Pushing to `main` builds and publishes to **GitHub Pages** via `.github/workflows/deploy.yml`. The
+Pushing to `master` builds and publishes to **GitHub Pages** via `.github/workflows/deploy.yml`. The
 custom domain `openkline.tech` is set in `public/CNAME`. Enable Pages → "GitHub Actions" in the repo
 settings for the workflow to publish.
 
