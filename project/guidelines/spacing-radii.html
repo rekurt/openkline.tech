@@ -1,0 +1,23 @@
+<!-- @dsCard group="Spacing" viewport="700x170" name="Radii, borders, elevation" subtitle="Hairlines structure everything; shadows only on floating layers" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; background: var(--bg-canvas); font-family: var(--font-ui); color: var(--text-1); }
+  .row { display: flex; gap: 14px; padding: 18px; align-items: stretch; }
+  .box { flex: 1; border: var(--hairline); background: var(--surface-panel); padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; height: 96px; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+  .name { font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="box" style="border-radius: var(--radius-sm);"><span class="name">controls, menus</span><span class="lab">--radius-sm 4px</span></div>
+    <div class="box" style="border-radius: var(--radius-md);"><span class="name">cards, code</span><span class="lab">--radius-md 6px</span></div>
+    <div class="box" style="border-radius: var(--radius-pill); align-items: center; justify-content: center;"><span class="name">pills, badges</span><span class="lab">--radius-pill</span></div>
+    <div class="box" style="border-radius: var(--radius-sm); box-shadow: var(--shadow-menu); background: var(--surface-raised);"><span class="name">floating menu</span><span class="lab">--shadow-menu</span></div>
+  </div>
+</body>
+</html>

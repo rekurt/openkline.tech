@@ -1,0 +1,27 @@
+<!-- @template name="Landing page" description="openkline marketing page — hero with live chart, features, code, comparison table, proof stats" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>openkline — open-source OHLCV charting</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="./ds-base.js"></script>
+<style>
+  html, body, #root { margin: 0; padding: 0; background: #131722; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  (function mount() {
+    const ns = window.TorchDesignSystem_f84e77;
+    if (!ns || !ns.LandingPage || !window.ReactDOM) { setTimeout(mount, 30); return; }
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      React.createElement(ns.LandingPage, { logoSrc: '../../assets/logo-mark.svg' })
+    );
+  })();
+</script>
+</body>
+</html>

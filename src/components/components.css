@@ -1,0 +1,114 @@
+/* ── Button ───────────────────────────────────────────────────────────── */
+.ok-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3);
+  font-family: var(--font-ui); font-size: var(--text-sm); font-weight: var(--weight-regular);
+  color: var(--text-1); background: var(--bg-canvas);
+  border: var(--border-w) solid var(--border); border-radius: var(--radius-sm);
+  height: var(--control-h-md); padding: 0 var(--space-5);
+  cursor: pointer; white-space: nowrap; user-select: none;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.ok-btn:hover { background: var(--border); }
+.ok-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.ok-btn--sm { height: var(--control-h-sm); padding: 0 var(--space-4); font-size: var(--text-sm); }
+.ok-btn--lg { height: 40px; padding: 0 var(--space-6); font-size: var(--text-md); font-weight: var(--weight-medium); }
+.ok-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); }
+.ok-btn--primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.ok-btn--ember { background: var(--ember); border-color: var(--ember); color: #fff; }
+.ok-btn--ember:hover { background: var(--ember-deep); border-color: var(--ember-deep); }
+.ok-btn--ghost { background: transparent; border-color: transparent; }
+.ok-btn--ghost:hover { background: var(--surface-raised); }
+.ok-btn--active { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); }
+.ok-btn--active:hover { background: var(--accent-hover); }
+.ok-btn[disabled] { opacity: 0.45; pointer-events: none; }
+
+/* ── Badge ────────────────────────────────────────────────────────────── */
+.ok-badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: var(--weight-medium);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: var(--radius-sm);
+  border: var(--border-w) solid var(--border);
+  color: var(--text-muted); background: var(--surface-raised);
+  white-space: nowrap;
+}
+.ok-badge--pill { border-radius: var(--radius-pill); }
+.ok-badge--bull { color: var(--bull); background: var(--bull-volume); border-color: transparent; }
+.ok-badge--bear { color: var(--bear); background: var(--bear-volume); border-color: transparent; }
+.ok-badge--accent { color: var(--accent); background: var(--accent-dim); border-color: transparent; }
+.ok-badge--ember { color: var(--ember); background: var(--ember-dim); border-color: transparent; }
+.ok-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ── Kbd ──────────────────────────────────────────────────────────────── */
+.ok-kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-1);
+  min-width: 20px; height: 20px; padding: 0 5px;
+  background: var(--surface-raised);
+  border: var(--border-w) solid var(--border); border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── CodeBlock ────────────────────────────────────────────────────────── */
+.ok-code {
+  background: var(--bg-canvas); border: var(--border-w) solid var(--border);
+  border-radius: var(--radius-md); overflow: hidden;
+  text-align: left;
+}
+[data-theme='light'] .ok-code { background: #f6f8fc; }
+.ok-code-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: var(--border-w) solid var(--border);
+  font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.ok-code pre {
+  margin: 0; padding: var(--space-6);
+  font-family: var(--font-mono); font-size: var(--text-md); line-height: var(--leading-relaxed);
+  color: var(--text-1); overflow-x: auto;
+}
+.ok-code--sm pre { font-size: var(--text-sm); padding: var(--space-5); }
+.ok-code .ok-code-prompt { color: var(--ember); user-select: none; }
+.ok-code-copy {
+  background: none; border: none; cursor: pointer; padding: 0;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); transition: color var(--dur-fast) var(--ease-out);
+}
+.ok-code-copy:hover { color: var(--text-1); }
+.ok-code-copy.is-copied { color: var(--ember); }
+
+/* ── SegmentedControl ─────────────────────────────────────────────────── */
+.ok-seg {
+  display: inline-flex; align-items: stretch;
+  background: var(--bg-canvas); border: var(--border-w) solid var(--border);
+  border-radius: var(--radius-sm); overflow: hidden;
+}
+.ok-seg button {
+  font-family: var(--font-ui); font-size: var(--text-sm); color: var(--text-muted);
+  background: transparent; border: none; cursor: pointer;
+  height: calc(var(--control-h-md) - 2px); padding: 0 var(--space-5);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.ok-seg button + button { border-left: var(--border-w) solid var(--border); }
+.ok-seg button:hover { background: var(--surface-raised); color: var(--text-1); }
+.ok-seg button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.ok-seg button.ok-seg--on { background: var(--accent); color: var(--text-on-accent); }
+.ok-seg--sm button { height: calc(var(--control-h-sm) - 2px); padding: 0 var(--space-4); }
+
+/* ── LegendChip ───────────────────────────────────────────────────────── */
+.ok-legend {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums; color: var(--text-1);
+  padding: 2px var(--space-3); border-radius: var(--radius-sm);
+}
+.ok-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.ok-legend-value { color: var(--text-muted); }
+.ok-legend-x {
+  background: none; border: none; padding: 0 2px; cursor: pointer;
+  color: var(--text-muted); font-size: var(--text-xs); line-height: 1;
+  border-radius: 2px; opacity: 0; transition: opacity var(--dur-fast) var(--ease-out);
+}
+.ok-legend:hover .ok-legend-x { opacity: 1; }
+.ok-legend-x:hover { color: var(--text-1); }
