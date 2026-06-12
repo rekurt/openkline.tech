@@ -31,7 +31,10 @@ function setMeta(html, route, cfg) {
     .replace(/(<meta name="description" content=")[^"]*(")/, `$1${cfg.desc}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${cfg.ogTitle}$2`);
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${cfg.ogTitle}$2`)
+    .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${cfg.desc}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${cfg.ogTitle}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${cfg.desc}$2`);
 }
 
 // GitHub Pages serves 404.html for unknown paths (SPA fallback) and a folder's
