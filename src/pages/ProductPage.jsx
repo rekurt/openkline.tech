@@ -6,9 +6,21 @@ import { CandleChart } from '../components/CandleChart.jsx';
 import { DemoChart } from '../components/DemoChart.jsx';
 import { LegendChip } from '../components/LegendChip.jsx';
 import { useI18n } from '../i18n/index.jsx';
+import { useMetrics } from '../lib/useMetrics.jsx';
 import { navigate } from '../router.jsx';
 
 const FEATURE_NUMS = ['/01', '/02', '/03', '/04'];
+
+// Live values for the stats strip (labels come from i18n, numbers from GitHub).
+function statValues(m) {
+  return [
+    <>{m.tests}<em>+</em></>,
+    <>{m.lintWarnings}</>,
+    <>~{m.coreSizeGzipKb} <em>KB</em></>,
+    <>{m.indicators}<em>+</em></>,
+    <>$0</>,
+  ];
+}
 
 /**
  * Product page of the openkline landing — hero, proof strip, the four pillars,
@@ -16,7 +28,9 @@ const FEATURE_NUMS = ['/01', '/02', '/03', '/04'];
  */
 export function ProductPage({ onOpenDev }) {
   const { t } = useI18n();
+  const { metrics } = useMetrics();
   const p = t.product;
+  const values = statValues(metrics);
   return (
     <div>
       <header className="tl-hero">
@@ -59,7 +73,7 @@ export function ProductPage({ onOpenDev }) {
         <div className="tl-stats">
           {p.stats.map((s, i) => (
             <div className="tl-stat" key={i}>
-              <div className="v">{s.v}</div>
+              <div className="v">{values[i]}</div>
               <div className="k">{s.k}</div>
             </div>
           ))}

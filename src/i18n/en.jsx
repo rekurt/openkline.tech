@@ -19,7 +19,7 @@ export default {
     github: 'GitHub',
     playground: 'Playground',
     api: 'API reference',
-    right: 'MIT · @rekurt/openkline 0.1.0 · one maintainer, 440+ tests · not your keys? not our problem',
+    right: 'not your keys? not our problem',
   },
   product: {
     badges: { agnostic: 'framework-agnostic', realtime: 'realtime' },
@@ -34,11 +34,11 @@ export default {
     ctaPlayground: 'Open playground',
     ctaDocs: 'Read the docs',
     stats: [
-      { v: <>440<em>+</em></>, k: 'unit tests' },
-      { v: <>0</>, k: 'lint warnings in CI' },
-      { v: <>~27 <em>KB</em></>, k: 'core, gzipped' },
-      { v: <>30<em>+</em></>, k: 'indicators built in' },
-      { v: <>$0</>, k: 'license fees, forever' },
+      { k: 'unit tests' },
+      { k: 'lint warnings in CI' },
+      { k: 'core, gzipped' },
+      { k: 'indicators built in' },
+      { k: 'license fees, forever' },
     ],
     live: {
       label: 'live — poke the engine',
@@ -275,7 +275,7 @@ export default {
       donate: {
         k: 'donate',
         h: 'Back the project',
-        p: 'One-off or recurring — every donation goes to maintenance: triage, reviews, and keeping 440+ tests green.',
+        p: 'One-off or recurring — every donation goes to maintenance: triage, reviews, and keeping the test suite green.',
         wallet: 'address on request — see contacts',
         btn: 'Sponsor on GitHub',
       },

@@ -80,6 +80,39 @@
 .ok-code-copy:hover { color: var(--text-1); }
 .ok-code-copy.is-copied { color: var(--ember); }
 
+/* ── Prism syntax theme — mapped onto openkline tokens (adapts to dark/light) ── */
+.ok-code .token.comment,
+.ok-code .token.prolog,
+.ok-code .token.doctype,
+.ok-code .token.cdata { color: var(--text-muted); font-style: italic; }
+.ok-code .token.punctuation { color: var(--text-muted); }
+.ok-code .token.keyword,
+.ok-code .token.atrule,
+.ok-code .token.important,
+.ok-code .token.rule { color: var(--ember); }
+.ok-code .token.string,
+.ok-code .token.char,
+.ok-code .token.attr-value,
+.ok-code .token.inserted,
+.ok-code .token.regex { color: var(--ind-5); }
+.ok-code .token.number,
+.ok-code .token.boolean,
+.ok-code .token.constant,
+.ok-code .token.symbol { color: var(--ind-1); }
+.ok-code .token.function { color: var(--ind-2); }
+.ok-code .token.class-name,
+.ok-code .token.builtin,
+.ok-code .token.maybe-class-name { color: var(--ind-3); }
+.ok-code .token.property,
+.ok-code .token.tag,
+.ok-code .token.attr-name,
+.ok-code .token.parameter { color: var(--ind-2); }
+.ok-code .token.deleted { color: var(--bear); }
+.ok-code .token.operator,
+.ok-code .token.entity,
+.ok-code .token.url,
+.ok-code .token.variable { color: var(--text-1); }
+
 /* ── SegmentedControl ─────────────────────────────────────────────────── */
 .ok-seg {
   display: inline-flex; align-items: stretch;

@@ -1,8 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { highlight, inferLang } from '../lib/highlight.js';
 
-export function CodeBlock({ title, prompt = false, size = 'md', copy = false, copyText, style, children }) {
+export function CodeBlock({ title, prompt = false, size = 'md', copy = false, copyText, lang, style, children }) {
   const [copied, setCopied] = useState(false);
+  const [html, setHtml] = useState(null);
   const text = copyText || (typeof children === 'string' ? children : '');
+  const isString = typeof children === 'string';
+  const language = lang || inferLang(title, prompt);
+
+  // Highlight string code blocks once Prism has loaded (dynamic import).
+  useEffect(() => {
+    if (!isString) {
+      setHtml(null);
+      return undefined;
+    }
+    let cancelled = false;
+    highlight(children, language).then((out) => {
+      if (!cancelled && out != null) setHtml(out);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [children, isString, language]);
+
   function doCopy() {
     if (!text || !navigator.clipboard) return;
     navigator.clipboard.writeText(text).then(
@@ -13,6 +33,7 @@ export function CodeBlock({ title, prompt = false, size = 'md', copy = false, co
       () => {},
     );
   }
+
   const showHead = title || (copy && text);
   return (
     <div className={`ok-code${size === 'sm' ? ' ok-code--sm' : ''}`} style={style}>
@@ -26,10 +47,10 @@ export function CodeBlock({ title, prompt = false, size = 'md', copy = false, co
           ) : null}
         </div>
       ) : null}
-      <pre>
-        <code>
+      <pre className={`language-${language}`}>
+        <code className={`language-${language}`}>
           {prompt ? <span className="ok-code-prompt">$ </span> : null}
-          {children}
+          {isString && html != null ? <span dangerouslySetInnerHTML={{ __html: html }} /> : children}
         </code>
       </pre>
     </div>

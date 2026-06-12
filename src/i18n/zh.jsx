@@ -19,7 +19,7 @@ export default {
     github: 'GitHub',
     playground: 'Playground',
     api: 'API 参考',
-    right: 'MIT · @rekurt/openkline 0.1.0 · 一位维护者 · 440+ 测试 · 不是你的密钥？与我们无关',
+    right: '不是你的密钥？与我们无关',
   },
   product: {
     badges: { agnostic: '框架无关', realtime: '实时' },
@@ -34,11 +34,11 @@ export default {
     ctaPlayground: '打开 Playground',
     ctaDocs: '阅读文档',
     stats: [
-      { v: <>440<em>+</em></>, k: '单元测试' },
-      { v: <>0</>, k: 'CI 中 lint 警告' },
-      { v: <>~27 <em>KB</em></>, k: '核心体积（gzip）' },
-      { v: <>30<em>+</em></>, k: '内置指标' },
-      { v: <>$0</>, k: '许可费用，永久' },
+      { k: '单元测试' },
+      { k: 'CI 中 lint 警告' },
+      { k: '核心体积（gzip）' },
+      { k: '内置指标' },
+      { k: '许可费用，永久' },
     ],
     live: {
       label: '实时 — 上手引擎',
@@ -271,7 +271,7 @@ export default {
       donate: {
         k: '捐助',
         h: '支持项目',
-        p: '一次性或定期 —— 每笔捐助都用于维护：分诊、评审、让 440+ 测试保持绿色。',
+        p: '一次性或定期 —— 每笔捐助都用于维护：分诊、评审、让测试保持绿色。',
         wallet: '地址私聊 —— 见联系方式',
         btn: '在 GitHub 上赞助',
       },

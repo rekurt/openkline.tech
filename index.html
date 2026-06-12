@@ -2,21 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo-mark.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#131722" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="robots" content="index, follow" />
+
+    <title>openkline — open-source OHLCV charting engine</title>
     <meta name="description" content="openkline — TradingView-grade open-source OHLCV charting engine. MIT, framework-agnostic, candles, 30+ indicators, drawing tools and realtime out of the box." />
     <link rel="canonical" href="https://openkline.tech/" />
+
+    <!-- icons / manifest -->
+    <link rel="icon" type="image/svg+xml" href="/logo-mark.svg" />
+    <link rel="apple-touch-icon" href="/logo-mark.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="openkline" />
     <meta property="og:title" content="openkline — Not your engine, not your charts." />
     <meta property="og:description" content="Open-source MIT charting engine. Candles, 30+ indicators, anchored drawing tools, realtime transports. One TypeScript core; React and Vue wrappers." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://openkline.tech/" />
     <meta property="og:image" content="https://openkline.tech/logo-mark.svg" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ru_RU" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="openkline — Not your engine, not your charts." />
     <meta name="twitter:description" content="Open-source MIT charting engine. Candles, 30+ indicators, anchored drawing tools, realtime transports." />
     <meta name="twitter:image" content="https://openkline.tech/logo-mark.svg" />
-    <title>openkline — open-source OHLCV charting</title>
+
+    <!-- perf: warm up the font + data origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.github.com" />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://api.coingecko.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
+
+    <!-- structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://openkline.tech/#website",
+            "url": "https://openkline.tech/",
+            "name": "openkline",
+            "description": "Open-source MIT OHLCV charting engine.",
+            "inLanguage": ["en", "ru", "zh"]
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://openkline.tech/#org",
+            "name": "openkline",
+            "url": "https://openkline.tech/",
+            "logo": "https://openkline.tech/logo-mark.svg",
+            "sameAs": ["https://github.com/rekurt/openkline"]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "openkline",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Web, Node.js",
+            "description": "TradingView-grade OHLCV charting engine: candles, 30+ indicators, anchored drawing tools and realtime transports. One TypeScript core; React and Vue wrappers.",
+            "url": "https://openkline.tech/",
+            "license": "https://opensource.org/licenses/MIT",
+            "isAccessibleForFree": true,
+            "softwareHelp": "https://openkline.tech/docs",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
