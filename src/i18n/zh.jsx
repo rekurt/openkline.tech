@@ -4,6 +4,7 @@ export default {
     product: '产品',
     dev: '开发者',
     docs: '文档',
+    reference: '参考',
     support: '支持',
     contacts: '联系',
     github: 'GitHub ↗',
@@ -39,6 +40,14 @@ export default {
       { v: <>30<em>+</em></>, k: '内置指标' },
       { v: <>$0</>, k: '许可费用，永久' },
     ],
+    live: {
+      label: '实时 — 上手引擎',
+      h2: '就在这里试试',
+      lede: '本站每张图都是真正运行的 openkline canvas 引擎。切换指标、拖动十字光标 —— 无需安装，无需 iframe，不是截图。',
+      presetPlain: 'K线 + 成交量',
+      presetBb: '布林带',
+      presetVwap: '锚定 VWAP',
+    },
     s01: {
       label: '01 — 引擎',
       h2: '电池全配',

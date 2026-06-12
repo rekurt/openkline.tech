@@ -1,17 +1,19 @@
 import { Button } from '../components/Button.jsx';
 import { useI18n } from '../i18n/index.jsx';
+import { Link } from '../router.jsx';
 
-/* Card order matches t.community.docs.cards in every dictionary. */
-const DOC_HREFS = [
-  'https://github.com/rekurt/ohlcv-front#install',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#ssr-integration',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#performance-tuning',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#theming--customization',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#live-data--transports',
-  'https://rekurt.github.io/ohlcv-front/api/',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#indicators',
-  'https://github.com/rekurt/ohlcv-front/blob/master/docs/GUIDES.md#drawing-tools',
-  'https://github.com/rekurt/ohlcv-front/blob/master/CHANGELOG.md',
+/* Card order matches t.community.docs.cards in every dictionary. Each one now
+   lands on a real destination — the in-app docs/reference or the repo. */
+const DOC_TARGETS = [
+  { to: 'docs', hash: 'quickstart' },
+  { to: 'docs', hash: 'ssr' },
+  { to: 'docs', hash: 'performance' },
+  { to: 'docs', hash: 'theming' },
+  { to: 'docs', hash: 'live-data' },
+  { to: 'reference' },
+  { to: 'docs', hash: 'indicators' },
+  { to: 'docs', hash: 'drawings' },
+  { href: 'https://github.com/rekurt/openkline/releases' },
 ];
 
 /**
@@ -28,13 +30,21 @@ export function LandingCommunity() {
         <h2>{c.docs.h2}</h2>
         <p className="sectionLede">{c.docs.lede}</p>
         <div className="tl-docs">
-          {c.docs.cards.map((card, i) => (
-            <a className="tl-doc" key={i} href={DOC_HREFS[i]} target="_blank" rel="noreferrer">
-              <span className="k">{card.k}</span>
-              <span className="t">{card.t} <span className="arr">→</span></span>
-              <p className="d">{card.d}</p>
-            </a>
-          ))}
+          {c.docs.cards.map((card, i) => {
+            const tgt = DOC_TARGETS[i];
+            const inner = (
+              <>
+                <span className="k">{card.k}</span>
+                <span className="t">{card.t} <span className="arr">→</span></span>
+                <p className="d">{card.d}</p>
+              </>
+            );
+            return tgt.href ? (
+              <a className="tl-doc" key={i} href={tgt.href} target="_blank" rel="noreferrer">{inner}</a>
+            ) : (
+              <Link className="tl-doc" key={i} to={tgt.to} hash={tgt.hash}>{inner}</Link>
+            );
+          })}
         </div>
       </section>
 
@@ -70,7 +80,7 @@ export function LandingCommunity() {
             <h3>{c.support.suggest.h}</h3>
             <p>{c.support.suggest.p}</p>
             <div className="act">
-              <Button onClick={() => { window.open('https://github.com/rekurt/ohlcv-front/issues', '_blank'); }}>
+              <Button onClick={() => { window.open('https://github.com/rekurt/openkline/issues', '_blank'); }}>
                 {c.support.suggest.btn}
               </Button>
             </div>

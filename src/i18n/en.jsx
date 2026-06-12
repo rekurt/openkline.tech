@@ -4,6 +4,7 @@ export default {
     product: 'Product',
     dev: 'Developers',
     docs: 'Docs',
+    reference: 'Reference',
     support: 'Support',
     contacts: 'Contacts',
     github: 'GitHub ↗',
@@ -39,6 +40,14 @@ export default {
       { v: <>30<em>+</em></>, k: 'indicators built in' },
       { v: <>$0</>, k: 'license fees, forever' },
     ],
+    live: {
+      label: 'live — poke the engine',
+      h2: 'Try it right here',
+      lede: 'Every chart on this site is the openkline canvas engine running for real. Toggle indicators, scrub the crosshair — no install, no iframe, no screenshots.',
+      presetPlain: 'Candles + volume',
+      presetBb: 'Bollinger Bands',
+      presetVwap: 'Anchored VWAP',
+    },
     s01: {
       label: '01 — the engine',
       h2: 'Batteries included',
