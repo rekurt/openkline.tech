@@ -5,6 +5,7 @@ import { Kbd } from '../components/Kbd.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
 import { DemoChart } from '../components/DemoChart.jsx';
 import { Link, navigate } from '../router.jsx';
+import { useMetrics } from '../lib/useMetrics.jsx';
 import { DOCS_NAV, S, API, KIND_COLOR, OVERLAYS, SUBPANES, TOOLS, KEYS } from '../docs/content.js';
 
 const FLAT = DOCS_NAV.flatMap((g) => g.items);
@@ -22,6 +23,7 @@ function jumpTo(id) {
 }
 
 function TopBar({ onSearch }) {
+  const { metrics } = useMetrics();
   return (
     <header className="dx-topbar">
       <div className="shell dx-topbar-in">
@@ -31,7 +33,7 @@ function TopBar({ onSearch }) {
           <span className="path">/ docs</span>
         </Link>
         <div className="dx-badges">
-          <Badge>v0.1.0</Badge>
+          <Badge>v{metrics.version}</Badge>
           <Badge tone="ember">MIT</Badge>
         </div>
         <button type="button" className="dx-searchbtn" onClick={onSearch}>
@@ -149,6 +151,7 @@ function Sec({ id, num, title, children }) {
 }
 
 export function DocsPage() {
+  const { metrics } = useMetrics();
   const [active, setActive] = useState(FLAT[0].id);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -325,7 +328,7 @@ export function DocsPage() {
           </Sec>
 
           <footer className="dx-foot">
-            MIT · openkline 0.1.0 · one maintainer, 440+ tests · every demo here runs on the engine's own primitives
+            MIT · openkline {metrics.version} · every demo here runs on the engine's own primitives
           </footer>
         </main>
       </div>

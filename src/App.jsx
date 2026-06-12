@@ -1,17 +1,45 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import './components/components.css';
 import './pages/landing.css';
 import { Badge } from './components/Badge.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { DevPage } from './pages/DevPage.jsx';
 import { LandingCommunity } from './pages/LandingCommunity.jsx';
-import { DocsPage } from './pages/DocsPage.jsx';
-import { ReferencePage } from './pages/ReferencePage.jsx';
 import { useI18n, LANGS } from './i18n/index.jsx';
+import { useMetrics } from './lib/useMetrics.jsx';
 import { useRoute, navigate, Link } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
 
+// Docs / reference are heavy (Prism, long content) — keep them off the landing
+// bundle and load on demand.
+const DocsPage = lazy(() => import('./pages/DocsPage.jsx').then((m) => ({ default: m.DocsPage })));
+const ReferencePage = lazy(() => import('./pages/ReferencePage.jsx').then((m) => ({ default: m.ReferencePage })));
+
 const REPO = 'https://github.com/rekurt/openkline';
+
+// Per-route <title> + meta description (the social/SEO source is the static
+// per-route HTML shells from vite.config; this keeps the live SPA correct too).
+const META = {
+  product: { title: 'openkline — open-source OHLCV charting engine', desc: 'TradingView-grade OHLCV charting engine. MIT, framework-agnostic — candles, 30+ indicators, drawing tools and realtime out of the box.' },
+  developers: { title: 'Developers — openkline', desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.' },
+  docs: { title: 'Documentation — openkline', desc: 'openkline documentation: guides, live examples and an API quick reference for the OHLCV charting engine.' },
+  reference: { title: 'API reference — openkline', desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.' },
+};
+
+function applyMeta(route) {
+  const m = META[route] || META.product;
+  document.title = m.title;
+  let desc = document.querySelector('meta[name="description"]');
+  if (!desc) {
+    desc = document.createElement('meta');
+    desc.setAttribute('name', 'description');
+    document.head.appendChild(desc);
+  }
+  desc.setAttribute('content', m.desc);
+  const path = route === 'product' ? '/' : `/${route}`;
+  let canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.setAttribute('href', `https://openkline.tech${path}`);
+}
 
 function initialTheme() {
   if (typeof window === 'undefined') return 'dark';
@@ -59,8 +87,15 @@ function Ticker() {
 export default function App() {
   const { t } = useI18n();
   const route = useRoute();
+  const { metrics } = useMetrics();
+  const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Keep the document title / description / canonical correct as routes change.
+  useEffect(() => {
+    applyMeta(route);
+  }, [route]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -117,8 +152,8 @@ export default function App() {
   );
 
   // Dedicated full-page routes render their own chrome.
-  if (route === 'docs') return <DocsPage />;
-  if (route === 'reference') return <ReferencePage />;
+  if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
+  if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
 
   const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
@@ -143,7 +178,7 @@ export default function App() {
             openkline
             <span className="pkg">@rekurt/openkline</span>
           </Link>
-          <Badge>v0.1.0</Badge>
+          <Badge>v{version}</Badge>
           {/* page tabs stay visible on every viewport — they never hide in the menu */}
           <div className="tl-pagetabs" role="tablist">
             <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => navigate('product')}>{t.nav.product}</button>
@@ -178,7 +213,7 @@ export default function App() {
           <Link to="reference">{t.nav.reference}</Link>
           <a href="mailto:nikitageek@gmail.com">nikitageek@gmail.com</a>
           <a href="https://t.me/nikita_rwhe" target="_blank" rel="noreferrer">@nikita_rwhe</a>
-          <span className="right">{t.footer.right}</span>
+          <span className="right">MIT · @rekurt/openkline {version} · {t.footer.right}</span>
         </footer>
       </div>
 
@@ -214,7 +249,7 @@ export default function App() {
         <div className="shell tl-menu-foot">
           <LangSwitch />
           {themeButton}
-          <span className="meta">MIT · v0.1.0</span>
+          <span className="meta">MIT · v{version}</span>
         </div>
       </div>
     </div>

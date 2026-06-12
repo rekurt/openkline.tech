@@ -1,6 +1,7 @@
 import './docs.css';
 import { Badge } from '../components/Badge.jsx';
 import { Link } from '../router.jsx';
+import { useMetrics } from '../lib/useMetrics.jsx';
 import { API, KIND_COLOR, OVERLAYS, SUBPANES, TOOLS } from '../docs/content.js';
 
 const GROUPS = [
@@ -12,6 +13,7 @@ const GROUPS = [
 ];
 
 export function ReferencePage() {
+  const { metrics } = useMetrics();
   return (
     <div className="dx">
       <header className="dx-topbar">
@@ -22,7 +24,7 @@ export function ReferencePage() {
             <span className="path">/ reference</span>
           </Link>
           <div className="dx-badges">
-            <Badge>v0.1.0</Badge>
+            <Badge>v{metrics.version}</Badge>
             <Badge tone="ember">MIT</Badge>
           </div>
           <nav className="dx-toplinks">
@@ -81,7 +83,7 @@ export function ReferencePage() {
         </section>
 
         <footer className="dx-foot">
-          MIT · openkline 0.1.0 · <Link to="docs" className="dx-inline">back to docs</Link> · <Link to="product" className="dx-inline">back to site</Link>
+          MIT · openkline {metrics.version} · <Link to="docs" className="dx-inline">back to docs</Link> · <Link to="product" className="dx-inline">back to site</Link>
         </footer>
       </div>
     </div>
