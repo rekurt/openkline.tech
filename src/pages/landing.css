@@ -164,4 +164,8 @@
   .tl-advrow .proof { border-left: 0; border-top: var(--hairline); }
   .tl .shell { padding: 0 20px; }
   .tl-hero h1 { font-size: var(--text-3xl); }
+  /* the nav can't fit on one fixed-height row on small screens — let it wrap */
+  .tl nav { height: auto; flex-wrap: wrap; gap: 10px 14px; padding: 10px 0; }
+  .tl .brand .pkg { display: none; }
+  .tl .navlinks { gap: 14px; flex-wrap: wrap; }
 }

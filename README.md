@@ -60,9 +60,10 @@ public/
 
 ## Design system
 
-The full design system this site is built from — tokens, component specs, voice and visual
-guidelines, UI kits — lives under `project/`. It was exported from Claude Design and derived from the
-real product code:
+This site was built from the **openkline Design System** (exported from Claude Design and derived
+from the real product code). That handoff bundle — tokens, component specs, voice and visual
+guidelines, UI kits — is kept out of this repo; the tokens it defines live inline in
+`src/index.css`. Upstream sources:
 
 - **github.com/rekurt/ohlcv-front** — the core monorepo (`@rekurt/ohlcv-core`): engine source, canvas
   constants, the canonical dark/light themes, the vanilla demo shell, the playground.

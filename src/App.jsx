@@ -24,9 +24,20 @@ function readPage(prev = 'product') {
   return prev;
 }
 
+function initialTheme() {
+  if (typeof window === 'undefined') return 'dark';
+  try {
+    const saved = window.localStorage.getItem('ok-theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch {
+    /* ignore */
+  }
+  return 'dark';
+}
+
 export default function App() {
   const [page, setPage] = useState(readPage);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(initialTheme);
 
   // Explicit tab navigation always writes the tab hash, replacing any section
   // anchor so the address bar and the visible tab can never disagree.
@@ -49,6 +60,11 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    try {
+      window.localStorage.setItem('ok-theme', theme);
+    } catch {
+      /* ignore */
+    }
   }, [theme]);
 
   return (
@@ -76,8 +92,8 @@ export default function App() {
           </span>
           <Badge>v0.1.0</Badge>
           <div className="tl-pagetabs" role="tablist">
-            <button className={page === 'product' ? 'on' : ''} onClick={() => goToPage('product')}>Product</button>
-            <button className={page === 'dev' ? 'on' : ''} onClick={() => goToPage('dev')}>Developers</button>
+            <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => goToPage('product')}>Product</button>
+            <button type="button" role="tab" aria-selected={page === 'dev'} className={page === 'dev' ? 'on' : ''} onClick={() => goToPage('dev')}>Developers</button>
           </div>
           <div className="navlinks">
             <a href="#docs">Docs</a>
