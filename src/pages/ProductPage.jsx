@@ -148,6 +148,7 @@ chart.setData(candles);`}</CodeBlock>
           Realtime performance + full indicator set + drawing tools + framework freedom.
           Every alternative makes you drop at least one.
         </p>
+        <div className="tl-scrollx">
         <table className="tl-table">
           <thead>
             <tr>
@@ -167,6 +168,7 @@ chart.setData(candles);`}</CodeBlock>
             <tr><td>Framework lock-in</td><td className="openklinecol yes">none</td><td className="yes">none</td><td className="part">vendor APIs</td><td className="yes">none</td></tr>
           </tbody>
         </table>
+        </div>
       </section>
     </div>
   );

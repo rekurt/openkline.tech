@@ -38,6 +38,7 @@ function initialTheme() {
 export default function App() {
   const [page, setPage] = useState(readPage);
   const [theme, setTheme] = useState(initialTheme);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Explicit tab navigation always writes the tab hash, replacing any section
   // anchor so the address bar and the visible tab can never disagree.
@@ -67,6 +68,21 @@ export default function App() {
     }
   }, [theme]);
 
+  // Close the mobile menu on Escape.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const navTo = (p) => {
+    goToPage(p);
+    setMenuOpen(false);
+  };
+
   return (
     <div className="tl">
       <div className="tl-ticker">
@@ -91,32 +107,35 @@ export default function App() {
             <span className="pkg">@rekurt/openkline</span>
           </span>
           <Badge>v0.1.0</Badge>
-          <div className="tl-pagetabs" role="tablist">
-            <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => goToPage('product')}>Product</button>
-            <button type="button" role="tab" aria-selected={page === 'dev'} className={page === 'dev' ? 'on' : ''} onClick={() => goToPage('dev')}>Developers</button>
-          </div>
-          <div className="navlinks">
-            <a href="#docs">Docs</a>
-            <a href="#support">Support</a>
-            <a href="#contacts">Contacts</a>
-            <a href="https://github.com/rekurt/ohlcv-front" target="_blank" rel="noreferrer">GitHub ↗</a>
-            <button
-              type="button"
-              onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
-              title="Toggle theme"
-              style={{
-                background: 'transparent',
-                border: 'var(--hairline)',
-                color: 'var(--text-muted)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: 11,
-                padding: '4px 8px',
-                cursor: 'pointer',
-                borderRadius: 'var(--radius-sm)',
-              }}
-            >
-              {theme === 'dark' ? 'light' : 'dark'}
-            </button>
+          <button
+            type="button"
+            className="tl-burger"
+            aria-label="Toggle navigation menu"
+            aria-expanded={menuOpen}
+            aria-controls="tl-navgroup"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span></span><span></span><span></span>
+          </button>
+          <div id="tl-navgroup" className={`tl-navgroup${menuOpen ? ' open' : ''}`}>
+            <div className="tl-pagetabs" role="tablist">
+              <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => navTo('product')}>Product</button>
+              <button type="button" role="tab" aria-selected={page === 'dev'} className={page === 'dev' ? 'on' : ''} onClick={() => navTo('dev')}>Developers</button>
+            </div>
+            <div className="navlinks">
+              <a href="#docs" onClick={() => setMenuOpen(false)}>Docs</a>
+              <a href="#support" onClick={() => setMenuOpen(false)}>Support</a>
+              <a href="#contacts" onClick={() => setMenuOpen(false)}>Contacts</a>
+              <a href="https://github.com/rekurt/ohlcv-front" target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>GitHub ↗</a>
+              <button
+                type="button"
+                className="tl-themebtn"
+                onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+                title="Toggle theme"
+              >
+                {theme === 'dark' ? 'light' : 'dark'}
+              </button>
+            </div>
           </div>
         </nav>
 
