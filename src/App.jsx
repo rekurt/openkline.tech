@@ -15,9 +15,15 @@ const TICKER = [
   ['XRP/USDT', '0.5214', 0.67],
 ];
 
-function readPage() {
+const SECTION_HASHES = ['docs', 'support', 'contacts'];
+
+function readPage(prev = 'product') {
   if (typeof window === 'undefined') return 'product';
-  return window.location.hash.indexOf('dev') !== -1 ? 'dev' : 'product';
+  const hash = window.location.hash.replace('#', '');
+  if (hash === 'dev' || hash === 'product') return hash;
+  // Section anchors (#docs/#support/#contacts) or no hash: keep the current
+  // tab so the navbar links can scroll to the shared footer sections.
+  return prev;
 }
 
 export default function App() {
@@ -25,13 +31,16 @@ export default function App() {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
-    const onHash = () => setPage(readPage());
+    const onHash = () => setPage((prev) => readPage(prev));
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
   useEffect(() => {
-    if (window.location.hash.replace('#', '') !== page) {
+    const hash = window.location.hash.replace('#', '');
+    // Never overwrite an in-page section anchor with the tab hash.
+    if (SECTION_HASHES.includes(hash)) return;
+    if (hash !== page) {
       try {
         window.history.replaceState(null, '', page === 'dev' ? '#dev' : '#product');
       } catch {
