@@ -8,7 +8,8 @@ import { Kbd } from '../components/Kbd.jsx';
 const QUICKSTART = {
   vanilla: {
     label: 'vanilla.ts',
-    code: `import { OHLCVChart } from '@rekurt/openkline';
+    code: `// npm install @rekurt/openkline-core
+import { OHLCVChart } from '@rekurt/openkline-core';
 
 const chart = new OHLCVChart({
   container: document.getElementById('chart'),
@@ -25,7 +26,8 @@ ws.onmessage = (e) => chart.updateLastCandle(parse(e.data));`,
   },
   react: {
     label: 'App.tsx',
-    code: `import { OHLCVChart } from '@rekurt/openkline-react';
+    code: `// npm install @rekurt/openkline-react
+import { OHLCVChart } from '@rekurt/openkline-react';
 
 export function App({ candles }) {
   const indicators = useMemo(() => [
@@ -47,6 +49,7 @@ export function App({ candles }) {
   vue: {
     label: 'App.vue',
     code: `<script setup lang="ts">
+// npm install @rekurt/openkline-vue
 import { OHLCVChart } from '@rekurt/openkline-vue';
 
 const indicators = ref([

@@ -32,8 +32,8 @@ export function ProductPage({ onOpenDev }) {
             <Button variant="ember" size="lg" onClick={() => window.open(PLAYGROUND, '_blank')}>Open playground</Button>
             <Button size="lg" onClick={onOpenDev}>Read the docs</Button>
           </div>
-          <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline" style={{ maxWidth: 440 }}>
-            npm install @rekurt/openkline<span className="tl-cursor"></span>
+          <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline-core" style={{ maxWidth: 440 }}>
+            npm install @rekurt/openkline-core<span className="tl-cursor"></span>
           </CodeBlock>
         </div>
         <div className="tl-frame">
@@ -121,7 +121,7 @@ export function ProductPage({ onOpenDev }) {
           The full technical tour with examples lives on the Developers page.
         </p>
         <div className="tl-codegrid">
-          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '@rekurt/openkline';
+          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '@rekurt/openkline-core';
 
 const chart = new OHLCVChart({
   container, symbol: 'BTC/USDT',
