@@ -5,9 +5,9 @@ import { Badge } from './components/Badge.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { DevPage } from './pages/DevPage.jsx';
 import { LandingCommunity } from './pages/LandingCommunity.jsx';
-import { useI18n, LANGS } from './i18n/index.jsx';
+import { useI18n, LANGS, LOCALE_PREFIXES, localePath } from './i18n/index.jsx';
 import { useMetrics } from './lib/useMetrics.jsx';
-import { useRoute, navigate, Link } from './router.jsx';
+import { useRoute, navigate, Link, currentLocale, navigateToLocale } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
 import { PROJECT } from './content/project.js';
 import { INDICATOR_COUNT } from './content/features.js';
@@ -36,7 +36,9 @@ const META = {
   roadmap: { title: 'Roadmap — openkline', desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.' },
 };
 
-function applyMeta(route) {
+const ORIGIN = 'https://openkline.tech';
+
+function applyMeta(route, locale) {
   const m = META[route] || META.product;
   document.title = m.title;
   let desc = document.querySelector('meta[name="description"]');
@@ -46,9 +48,34 @@ function applyMeta(route) {
     document.head.appendChild(desc);
   }
   desc.setAttribute('content', m.desc);
-  const path = route === 'product' ? '/' : `/${route}`;
+
+  const routePath = route === 'product' ? '/' : `/${route}`;
+  const canonUrl = `${ORIGIN}${localePath(locale, routePath)}`;
   let canon = document.querySelector('link[rel="canonical"]');
-  if (canon) canon.setAttribute('href', `https://openkline.tech${path}`);
+  if (canon) canon.setAttribute('href', canonUrl);
+
+  // Update og:url
+  let ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', canonUrl);
+
+  // Manage hreflang links
+  document.querySelectorAll('link[data-hreflang]').forEach((el) => el.remove());
+  const allLocales = ['en', ...LOCALE_PREFIXES];
+  for (const loc of allLocales) {
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('hreflang', loc);
+    link.setAttribute('href', `${ORIGIN}${localePath(loc, routePath)}`);
+    link.setAttribute('data-hreflang', 'true');
+    document.head.appendChild(link);
+  }
+  // x-default points to the en (unprefixed) version
+  const xdef = document.createElement('link');
+  xdef.setAttribute('rel', 'alternate');
+  xdef.setAttribute('hreflang', 'x-default');
+  xdef.setAttribute('href', `${ORIGIN}${routePath}`);
+  xdef.setAttribute('data-hreflang', 'true');
+  document.head.appendChild(xdef);
 }
 
 function initialTheme() {
@@ -64,10 +91,14 @@ function initialTheme() {
 
 function LangSwitch() {
   const { lang, setLang } = useI18n();
+  const switchLang = (code) => {
+    setLang(code);
+    navigateToLocale(code);
+  };
   return (
     <div className="tl-langs" role="group" aria-label="Language">
       {LANGS.map((l) => (
-        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => setLang(l.code)}>
+        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => switchLang(l.code)}>
           {l.label}
         </button>
       ))}
@@ -95,17 +126,17 @@ function Ticker() {
 }
 
 export default function App() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const route = useRoute();
   const { metrics } = useMetrics();
   const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Keep the document title / description / canonical correct as routes change.
+  // Keep the document title / description / canonical / hreflang correct as routes or locale change.
   useEffect(() => {
-    applyMeta(route);
-  }, [route]);
+    applyMeta(route, lang);
+  }, [route, lang]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);

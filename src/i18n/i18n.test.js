@@ -2,8 +2,10 @@ import { describe, it, expect } from 'vitest';
 import en from './en.jsx';
 import ru from './ru.jsx';
 import zh from './zh.jsx';
+import sn from './sn.jsx';
+import { parseLocale, localePath, LOCALE_PREFIXES, LANGS } from './index.jsx';
 
-const locales = { en, ru, zh };
+const locales = { en, ru, zh, sn };
 
 // ---------------------------------------------------------------------------
 // Structural parity — every locale has the same top-level keys
@@ -199,28 +201,35 @@ describe('array length consistency across locales', () => {
   it('problem cards count matches', () => {
     expect(ru.product.problem.cards.length).toBe(en.product.problem.cards.length);
     expect(zh.product.problem.cards.length).toBe(en.product.problem.cards.length);
+    expect(sn.product.problem.cards.length).toBe(en.product.problem.cards.length);
   });
   it('builtFor segments count matches', () => {
     expect(ru.product.builtFor.segments.length).toBe(en.product.builtFor.segments.length);
     expect(zh.product.builtFor.segments.length).toBe(en.product.builtFor.segments.length);
+    expect(sn.product.builtFor.segments.length).toBe(en.product.builtFor.segments.length);
   });
   it('pillars items count matches', () => {
     expect(ru.product.pillars.items.length).toBe(en.product.pillars.items.length);
     expect(zh.product.pillars.items.length).toBe(en.product.pillars.items.length);
+    expect(sn.product.pillars.items.length).toBe(en.product.pillars.items.length);
   });
   it('faq items count matches', () => {
     expect(ru.product.faq.items.length).toBe(en.product.faq.items.length);
     expect(zh.product.faq.items.length).toBe(en.product.faq.items.length);
+    expect(sn.product.faq.items.length).toBe(en.product.faq.items.length);
   });
   it('examples items count matches', () => {
     expect(ru.examples.items.length).toBe(en.examples.items.length);
     expect(zh.examples.items.length).toBe(en.examples.items.length);
+    expect(sn.examples.items.length).toBe(en.examples.items.length);
   });
   it('useWhen items count matches', () => {
     expect(ru.product.useWhen.use.items.length).toBe(en.product.useWhen.use.items.length);
     expect(zh.product.useWhen.use.items.length).toBe(en.product.useWhen.use.items.length);
+    expect(sn.product.useWhen.use.items.length).toBe(en.product.useWhen.use.items.length);
     expect(ru.product.useWhen.other.items.length).toBe(en.product.useWhen.other.items.length);
     expect(zh.product.useWhen.other.items.length).toBe(en.product.useWhen.other.items.length);
+    expect(sn.product.useWhen.other.items.length).toBe(en.product.useWhen.other.items.length);
   });
 });
 
@@ -295,4 +304,98 @@ describe('benchmarks section', () => {
       }
     });
   }
+});
+
+// ---------------------------------------------------------------------------
+// Locale routing utilities (parseLocale, localePath)
+// ---------------------------------------------------------------------------
+describe('parseLocale', () => {
+  it('returns en for unprefixed paths', () => {
+    expect(parseLocale('/')).toEqual({ locale: 'en', rest: '/' });
+    expect(parseLocale('/docs')).toEqual({ locale: 'en', rest: '/docs' });
+    expect(parseLocale('/examples/realtime')).toEqual({ locale: 'en', rest: '/examples/realtime' });
+  });
+
+  it('extracts ru locale', () => {
+    expect(parseLocale('/ru')).toEqual({ locale: 'ru', rest: '/' });
+    expect(parseLocale('/ru/docs')).toEqual({ locale: 'ru', rest: '/docs' });
+    expect(parseLocale('/ru/examples/realtime')).toEqual({ locale: 'ru', rest: '/examples/realtime' });
+  });
+
+  it('extracts sn locale', () => {
+    expect(parseLocale('/sn')).toEqual({ locale: 'sn', rest: '/' });
+    expect(parseLocale('/sn/playground')).toEqual({ locale: 'sn', rest: '/playground' });
+  });
+
+  it('extracts zh locale', () => {
+    expect(parseLocale('/zh')).toEqual({ locale: 'zh', rest: '/' });
+    expect(parseLocale('/zh/benchmarks')).toEqual({ locale: 'zh', rest: '/benchmarks' });
+  });
+
+  it('handles trailing slashes', () => {
+    expect(parseLocale('/ru/')).toEqual({ locale: 'ru', rest: '/' });
+    expect(parseLocale('/docs/')).toEqual({ locale: 'en', rest: '/docs' });
+  });
+
+  it('handles non-string input', () => {
+    expect(parseLocale(null)).toEqual({ locale: 'en', rest: '/' });
+    expect(parseLocale(undefined)).toEqual({ locale: 'en', rest: '/' });
+  });
+});
+
+describe('localePath', () => {
+  it('returns unmodified path for en', () => {
+    expect(localePath('en', '/')).toBe('/');
+    expect(localePath('en', '/docs')).toBe('/docs');
+    expect(localePath('en', '/examples')).toBe('/examples');
+  });
+
+  it('prefixes path for ru', () => {
+    expect(localePath('ru', '/')).toBe('/ru');
+    expect(localePath('ru', '/docs')).toBe('/ru/docs');
+    expect(localePath('ru', '/examples')).toBe('/ru/examples');
+  });
+
+  it('prefixes path for sn', () => {
+    expect(localePath('sn', '/')).toBe('/sn');
+    expect(localePath('sn', '/playground')).toBe('/sn/playground');
+  });
+
+  it('prefixes path for zh', () => {
+    expect(localePath('zh', '/')).toBe('/zh');
+    expect(localePath('zh', '/benchmarks')).toBe('/zh/benchmarks');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// LOCALE_PREFIXES and LANGS consistency
+// ---------------------------------------------------------------------------
+describe('locale config consistency', () => {
+  it('LOCALE_PREFIXES has ru, sn, zh', () => {
+    expect(LOCALE_PREFIXES).toContain('ru');
+    expect(LOCALE_PREFIXES).toContain('sn');
+    expect(LOCALE_PREFIXES).toContain('zh');
+    expect(LOCALE_PREFIXES).not.toContain('en');
+  });
+
+  it('LANGS has entries for all locales including en', () => {
+    const codes = LANGS.map((l) => l.code);
+    expect(codes).toContain('en');
+    expect(codes).toContain('ru');
+    expect(codes).toContain('sn');
+    expect(codes).toContain('zh');
+  });
+
+  it('every LOCALE_PREFIX has a matching LANGS entry', () => {
+    const codes = LANGS.map((l) => l.code);
+    for (const prefix of LOCALE_PREFIXES) {
+      expect(codes).toContain(prefix);
+    }
+  });
+
+  it('every LOCALE_PREFIX has a matching dictionary', () => {
+    for (const prefix of LOCALE_PREFIXES) {
+      expect(locales[prefix]).toBeTruthy();
+    }
+  });
 });

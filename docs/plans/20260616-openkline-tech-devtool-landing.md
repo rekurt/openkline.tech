@@ -175,16 +175,16 @@
 
 ### Task 6: Phase 6 — локализация и SEO
 
-- [ ] реализовать locale routes `ru / sn / zh` с единой структурой; язык в URL, canonical локализован, HTML `lang` корректен
-- [ ] подтвердить у владельца, что `sn` — нужная локаль (иначе заменить на `en` per §17); существующий `en` не удалять без решения
-- [ ] добавить locale dictionaries `src/i18n/{schema.ts, ru.ts, sn.ts, zh.ts}` со строгой схемой; missing translation ломает build / подсвечивается в dev
-- [ ] перевести весь перечень контента (nav, hero, CTA, problem, built-for, pillars, examples, benchmarks, roadmap, support, FAQ, footer, SEO meta, OG text)
-- [ ] добавить per route+locale meta (title/description/canonical/og:*/twitter:*) и hreflang (ru, sn, zh, x-default)
-- [ ] обновить sitemap (все routes + locale + examples + benchmarks + roadmap + support)
-- [ ] создать OG images `public/og/{ru,sn,zh,examples,benchmarks,roadmap}.png` (1200×630, dark chart bg, logo, slogan, proof strip)
-- [ ] проверить language switcher и корректность locale switch links
-- [ ] написать тесты для i18n-схемы и locale routing (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] реализовать locale routes `ru / sn / zh` с единой структурой; язык в URL, canonical локализован, HTML `lang` корректен
+- [x] подтвердить у владельца, что `sn` — нужная локаль (иначе заменить на `en` per §17); существующий `en` не удалять без решения
+- [x] добавить locale dictionaries `src/i18n/{schema.ts, ru.ts, sn.ts, zh.ts}` со строгой схемой; missing translation ломает build / подсвечивается в dev
+- [x] перевести весь перечень контента (nav, hero, CTA, problem, built-for, pillars, examples, benchmarks, roadmap, support, FAQ, footer, SEO meta, OG text)
+- [x] добавить per route+locale meta (title/description/canonical/og:*/twitter:*) и hreflang (ru, sn, zh, x-default)
+- [x] обновить sitemap (все routes + locale + examples + benchmarks + roadmap + support)
+- [x] создать OG images `public/og/{ru,sn,zh,examples,benchmarks,roadmap}.png` (1200×630, dark chart bg, logo, slogan, proof strip)
+- [x] проверить language switcher и корректность locale switch links
+- [x] написать тесты для i18n-схемы и locale routing (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 7: Phase 7 — support, security и финальное укрепление
 
