@@ -4,6 +4,7 @@ import { METRIC_FIELDS, FALLBACK_METRICS } from './metrics.js';
 import {
   OVERLAYS, SUBPANE_INDICATORS, DRAWING_TOOLS,
   INDICATOR_COUNT, DRAWING_TOOL_COUNT, FEATURES,
+  featuresByStatus, STATUS_ORDER,
 } from './features.js';
 import { ROUTE_DEFS, PATH_TO_ROUTE, ROUTE_TO_PATH } from './routes.js';
 import { EXAMPLES, EXAMPLE_IDS, EXAMPLE_BY_ID } from './examples.js';
@@ -115,6 +116,35 @@ describe('FEATURES source of truth', () => {
       expect(ids).toContain(r);
     }
   });
+
+  it('STATUS_ORDER contains all four statuses', () => {
+    expect(STATUS_ORDER).toEqual(['available', 'experimental', 'planned', 'sponsored']);
+  });
+
+  it('featuresByStatus returns only features with that status', () => {
+    const available = featuresByStatus('available');
+    expect(available.length).toBeGreaterThan(0);
+    for (const f of available) {
+      expect(f.status).toBe('available');
+    }
+    const planned = featuresByStatus('planned');
+    for (const f of planned) {
+      expect(f.status).toBe('planned');
+    }
+  });
+
+  it('featuresByStatus covers all features across all statuses', () => {
+    const all = STATUS_ORDER.flatMap((s) => featuresByStatus(s));
+    expect(all.length).toBe(FEATURES.length);
+  });
+
+  it('planned features have no docs or example links', () => {
+    const planned = featuresByStatus('planned');
+    for (const f of planned) {
+      expect(f.docs).toBeFalsy();
+      expect(f.example).toBeFalsy();
+    }
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -142,6 +172,13 @@ describe('ROUTES source of truth', () => {
     const ids = ROUTE_DEFS.map((r) => r.id);
     expect(ids).toContain('examples');
     expect(ids).toContain('playground');
+  });
+
+  it('has roadmap route', () => {
+    const ids = ROUTE_DEFS.map((r) => r.id);
+    expect(ids).toContain('roadmap');
+    expect(PATH_TO_ROUTE['/roadmap']).toBe('roadmap');
+    expect(ROUTE_TO_PATH['roadmap']).toBe('/roadmap');
   });
 });
 

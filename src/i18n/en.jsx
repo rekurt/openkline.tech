@@ -467,6 +467,49 @@ export default {
     chartTypes: { candle: 'Candles', line: 'Line', area: 'Area' },
     themes: { dark: 'Dark', light: 'Light' },
   },
+  roadmap: {
+    label: 'roadmap',
+    h1: 'Roadmap',
+    lede: 'Feature status of the openkline charting engine. Available features are shipped and documented. Planned features are on the radar but not yet implemented.',
+    disclaimer: 'No timelines or resource estimates. Planned features ship when they are ready.',
+    statusLabels: {
+      available: 'Available',
+      experimental: 'Experimental',
+      planned: 'Planned',
+      sponsored: 'Sponsored',
+    },
+    sections: {
+      available: {
+        h2: 'Available now',
+        lede: 'Shipped, documented and tested. Use these today.',
+      },
+      experimental: {
+        h2: 'Experimental',
+        lede: 'Usable but the API may change between minor versions. Feedback welcome.',
+      },
+      planned: {
+        h2: 'Planned',
+        lede: 'On the roadmap. Not yet implemented — no live CTA, no timelines.',
+      },
+      sponsored: {
+        h2: 'Sponsored',
+        lede: 'Available for sponsorship. Fund a feature and it ships upstream under MIT — everyone gets it.',
+      },
+    },
+    docsLink: 'Docs',
+    exampleLink: 'Example',
+    sponsorCta: 'Sponsor this feature',
+    designDocs: {
+      h2: 'Design docs',
+      lede: 'Every planned feature that changes the public API requires a design doc before implementation begins.',
+      required: ['alerts', 'replay-mode', 'compare-mode', 'workspaces', 'exchange-adapters', 'custom-indicators', 'export'],
+      note: 'Design docs live in docs/design/<feature-id>.md and follow a standard template.',
+    },
+    ctaH2: 'Try what is available today',
+    ctaLede: 'The playground runs the real engine — poke the features that are already shipped.',
+    ctaPlayground: 'Open playground',
+    ctaDocs: 'Documentation',
+  },
   benchmarks: {
     label: 'benchmarks',
     h1: 'Benchmarks',

@@ -463,6 +463,49 @@ export default {
     chartTypes: { candle: 'K线', line: '折线', area: '面积' },
     themes: { dark: '深色', light: '浅色' },
   },
+  roadmap: {
+    label: '路线图',
+    h1: '路线图',
+    lede: 'openkline 图表引擎的功能状态。已有功能已发布并记录文档。计划功能在规划中但尚未实现。',
+    disclaimer: '无时间表或资源估算。计划功能在准备就绪后发布。',
+    statusLabels: {
+      available: '可用',
+      experimental: '实验性',
+      planned: '计划中',
+      sponsored: '赞助',
+    },
+    sections: {
+      available: {
+        h2: '现已可用',
+        lede: '已发布、已记录、已测试。立即使用。',
+      },
+      experimental: {
+        h2: '实验性',
+        lede: '可以使用，但 API 可能在次版本间变更。欢迎反馈。',
+      },
+      planned: {
+        h2: '计划中',
+        lede: '在路线图中。尚未实现——无在线 CTA，无时间表。',
+      },
+      sponsored: {
+        h2: '赞助',
+        lede: '可供赞助。资助某个功能，它将以 MIT 许可进入上游——所有人受益。',
+      },
+    },
+    docsLink: '文档',
+    exampleLink: '示例',
+    sponsorCta: '赞助此功能',
+    designDocs: {
+      h2: '设计文档',
+      lede: '每个更改公共 API 的计划功能在实现前都需要设计文档。',
+      required: ['alerts', 'replay-mode', 'compare-mode', 'workspaces', 'exchange-adapters', 'custom-indicators', 'export'],
+      note: '设计文档位于 docs/design/<feature-id>.md，遵循标准模板。',
+    },
+    ctaH2: '试用现有功能',
+    ctaLede: 'Playground 运行的是真正的引擎——体验已发布的功能。',
+    ctaPlayground: '打开 Playground',
+    ctaDocs: '文档',
+  },
   benchmarks: {
     label: '基准测试',
     h1: '基准测试',

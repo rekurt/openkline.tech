@@ -37,6 +37,14 @@ export const DRAWING_TOOLS = [
 export const INDICATOR_COUNT = OVERLAYS.length + SUBPANE_INDICATORS.length;
 export const DRAWING_TOOL_COUNT = DRAWING_TOOLS.length;
 
+/** Group features by status for roadmap rendering. */
+export function featuresByStatus(status) {
+  return FEATURES.filter((f) => f.status === status);
+}
+
+/** All unique statuses present in the catalog, in display order. */
+export const STATUS_ORDER = ['available', 'experimental', 'planned', 'sponsored'];
+
 /** Full feature list with status and proof. */
 export const FEATURES = [
   {

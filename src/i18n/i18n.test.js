@@ -225,6 +225,52 @@ describe('array length consistency across locales', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Roadmap section
+// ---------------------------------------------------------------------------
+describe('roadmap section', () => {
+  const requiredKeys = [
+    'label', 'h1', 'lede', 'disclaimer',
+    'statusLabels', 'sections',
+    'docsLink', 'exampleLink', 'sponsorCta',
+    'designDocs',
+    'ctaH2', 'ctaLede', 'ctaPlayground', 'ctaDocs',
+  ];
+
+  for (const [name, dict] of Object.entries(locales)) {
+    it(`${name} has roadmap key with all required fields`, () => {
+      expect(dict.roadmap).toBeTruthy();
+      for (const key of requiredKeys) {
+        expect(dict.roadmap).toHaveProperty(key);
+      }
+    });
+
+    it(`${name} has all four status labels`, () => {
+      const labels = dict.roadmap.statusLabels;
+      expect(labels).toHaveProperty('available');
+      expect(labels).toHaveProperty('experimental');
+      expect(labels).toHaveProperty('planned');
+      expect(labels).toHaveProperty('sponsored');
+    });
+
+    it(`${name} has all four status sections with h2 and lede`, () => {
+      const sections = dict.roadmap.sections;
+      for (const status of ['available', 'experimental', 'planned', 'sponsored']) {
+        expect(sections[status]).toHaveProperty('h2');
+        expect(sections[status]).toHaveProperty('lede');
+      }
+    });
+
+    it(`${name} has designDocs with required list`, () => {
+      const dd = dict.roadmap.designDocs;
+      expect(dd).toHaveProperty('h2');
+      expect(dd).toHaveProperty('lede');
+      expect(dd).toHaveProperty('note');
+      expect(dd.required).toHaveLength(7);
+    });
+  }
+});
+
+// ---------------------------------------------------------------------------
 // Benchmarks section
 // ---------------------------------------------------------------------------
 describe('benchmarks section', () => {

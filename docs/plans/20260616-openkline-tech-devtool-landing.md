@@ -165,13 +165,13 @@
 
 ### Task 5: Phase 5 — roadmap и статусы фич
 
-- [ ] создать route `/roadmap` с секциями Available now / Experimental / Planned / Sponsored
-- [ ] подключить `features.ts`: статус каждой фичи, docs/example links для готовых, caveats для experimental
-- [ ] для planned не показывать live CTA; для sponsored добавить CTA «Sponsor this feature»; без сроков и ресурсов
-- [ ] убрать planned-фичи из основных claims и hero
-- [ ] добавить design doc template `docs/design/<feature-id>.md` и зафиксировать список обязательных design docs
-- [ ] написать тесты для маппинга статусов фич (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать route `/roadmap` с секциями Available now / Experimental / Planned / Sponsored
+- [x] подключить `features.ts`: статус каждой фичи, docs/example links для готовых, caveats для experimental
+- [x] для planned не показывать live CTA; для sponsored добавить CTA «Sponsor this feature»; без сроков и ресурсов
+- [x] убрать planned-фичи из основных claims и hero
+- [x] добавить design doc template `docs/design/<feature-id>.md` и зафиксировать список обязательных design docs
+- [x] написать тесты для маппинга статусов фич (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 6: Phase 6 — локализация и SEO
 
