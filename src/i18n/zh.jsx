@@ -27,12 +27,12 @@ export default {
     lede: (
       <>
         那就拥有它：<code>@rekurt/openkline</code> —— TradingView 级的 OHLCV 图表引擎。开源、MIT、无厂商锁定。
-        K线、30+ 指标、锚定绘图工具与实时传输开箱即用。一个 TypeScript 核心；<code>react</code> 与{' '}
+        K线、24 指标、锚定绘图工具与实时传输开箱即用。一个 TypeScript 核心；<code>react</code> 与{' '}
         <code>vue</code> 封装，API 完全对等。
       </>
     ),
-    ctaPlayground: '打开 Playground',
-    ctaDocs: '阅读文档',
+    ctaPlayground: '试用 live demo',
+    ctaDocs: '文档',
     stats: [
       { k: '单元测试' },
       { k: 'CI 中 lint 警告' },
@@ -75,7 +75,7 @@ export default {
         ),
       },
       {
-        h: '30+ 指标，9 种绘图工具',
+        h: '24 指标，9 种绘图工具',
         p: (
           <>
             主图叠加覆盖从 SMA 到一目均衡表、Supertrend 与锚定 VWAP；副图有 RSI、MACD、随机指标等。
@@ -108,7 +108,7 @@ export default {
     table: {
       cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
       rows: [
-        { label: '内置指标', cells: [{ cls: 'yes', text: '30+' }, { cls: 'no', text: '自己实现' }, { cls: 'yes', text: '有' }, { cls: 'part', text: '通用' }] },
+        { label: '内置指标', cells: [{ cls: 'yes', text: '24' }, { cls: 'no', text: '自己实现' }, { cls: 'yes', text: '有' }, { cls: 'part', text: '通用' }] },
         { label: '绘图工具', cells: [{ cls: 'yes', text: '9 种，锚定' }, { cls: 'no', text: '无' }, { cls: 'yes', text: '有' }, { cls: 'no', text: '无' }] },
         { label: '实时传输', cells: [{ cls: 'yes', text: '内置' }, { cls: 'no', text: '自行接入' }, { cls: 'part', text: '部分' }, { cls: 'no', text: '自行接入' }] },
         { label: '键盘 + 无障碍', cells: [{ cls: 'yes', text: '一等支持' }, { cls: 'no', text: '无' }, { cls: 'part', text: '部分' }, { cls: 'part', text: '部分' }] },
@@ -152,7 +152,7 @@ export default {
             同一批对象可经 <code>saveLayoutState</code> 往返。
           </>
         ),
-        metrics: [<><b>30+</b> 指标类型</>, <><b>0</b> 手动实例</>, <><b>每次渲染</b> diff</>],
+        metrics: [<><b>24</b> 指标类型</>, <><b>0</b> 手动实例</>, <><b>每次渲染</b> diff</>],
       },
       {
         k: '传输层',
@@ -259,7 +259,7 @@ export default {
         { k: '指南', t: '主题', d: '内置模式、自定义 ThemeColors、价格与成交量格式化。' },
         { k: '指南', t: '实时数据与传输', d: 'DataTransport 接口、轮询与 WebSocket 基类、退避。' },
         { k: '参考', t: 'API 参考', d: '完整 TypeDoc —— 核心的每个类、选项与事件。' },
-        { k: '参考', t: '指标', d: '全部 30+ 内置指标的配置形态，以及自定义指标之路。' },
+        { k: '参考', t: '指标', d: '全部 24 内置指标的配置形态，以及自定义指标之路。' },
         { k: '参考', t: '绘图工具', d: '九种锚定工具、命中测试、保存/加载往返。' },
         { k: '杂项', t: '更新日志', d: '每个版本零惊喜 —— 自 0.1.0 起严格 semver。' },
       ],

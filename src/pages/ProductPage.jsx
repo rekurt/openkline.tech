@@ -8,6 +8,8 @@ import { LegendChip } from '../components/LegendChip.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useMetrics } from '../lib/useMetrics.jsx';
 import { navigate } from '../router.jsx';
+import { PROJECT } from '../content/project.js';
+import { INDICATOR_COUNT, DRAWING_TOOL_COUNT } from '../content/features.js';
 
 const FEATURE_NUMS = ['/01', '/02', '/03', '/04'];
 
@@ -44,11 +46,15 @@ export function ProductPage({ onOpenDev }) {
           <h1>{p.h1}</h1>
           <p className="lede">{p.lede}</p>
           <div className="cta">
-            <Button variant="ember" size="lg" onClick={() => navigate('docs')}>{p.ctaPlayground}</Button>
-            <Button size="lg" onClick={onOpenDev}>{p.ctaDocs}</Button>
+            <Button variant="ember" size="lg" onClick={() => {
+              const el = document.getElementById('playground');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}>{p.ctaPlayground}</Button>
+            <Button size="lg" onClick={() => navigate('docs')}>{p.ctaDocs}</Button>
+            <Button size="lg" onClick={() => window.open(PROJECT.urls.github, '_blank')}>GitHub</Button>
           </div>
-          <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline-core" style={{ maxWidth: 440 }}>
-            npm install @rekurt/openkline-core<span className="tl-cursor"></span>
+          <CodeBlock prompt size="sm" copy copyText={PROJECT.install.core} style={{ maxWidth: 440 }}>
+            {PROJECT.install.core}<span className="tl-cursor"></span>
           </CodeBlock>
         </div>
         <div className="tl-frame">
@@ -128,7 +134,7 @@ export function ProductPage({ onOpenDev }) {
         <h2>{p.s02.h2}</h2>
         <p className="sectionLede">{p.s02.lede}</p>
         <div className="tl-codegrid">
-          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '@rekurt/openkline-core';
+          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '${PROJECT.packages.core}';
 
 const chart = new OHLCVChart({
   container, symbol: 'BTC/USDT',

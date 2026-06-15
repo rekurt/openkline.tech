@@ -2,21 +2,10 @@
 // not hash anchors. A SPA 404.html fallback (see vite.config.js) lets GitHub
 // Pages deep-link straight into any of these paths.
 import { useEffect, useState } from 'react';
+import { PATH_TO_ROUTE, ROUTE_TO_PATH } from './content/routes.js';
 
-const ROUTES = {
-  '/': 'product',
-  '/product': 'product',
-  '/developers': 'developers',
-  '/docs': 'docs',
-  '/reference': 'reference',
-};
-
-export const PATH_OF = {
-  product: '/',
-  developers: '/developers',
-  docs: '/docs',
-  reference: '/reference',
-};
+const ROUTES = PATH_TO_ROUTE;
+export const PATH_OF = ROUTE_TO_PATH;
 
 export function routeFromPath(pathname) {
   if (typeof pathname !== 'string') return 'product';

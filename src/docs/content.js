@@ -1,6 +1,7 @@
 // openkline docs/reference content — snippets, navigation, API catalog and
 // catalogs. Derived from the real engine API (github.com/rekurt/openkline).
 // Code is universal; prose lives in the page components.
+import { PROJECT } from '../content/project.js';
 
 export const DOCS_NAV = [
   {
@@ -32,9 +33,9 @@ export const DOCS_NAV = [
 ];
 
 export const S = {
-  install: 'npm install @rekurt/openkline-core',
+  install: PROJECT.install.core,
 
-  vanilla: `import { OHLCVChart } from '@rekurt/openkline-core';
+  vanilla: `import { OHLCVChart } from '${PROJECT.packages.core}';
 
 const chart = new OHLCVChart({
   container: document.querySelector('#chart'),
@@ -45,7 +46,7 @@ const chart = new OHLCVChart({
 chart.setData(candles);       // ascending by time
 chart.updateLastCandle(tick); // O(1) per tick`,
 
-  react: `import { OHLCVChart } from '@rekurt/openkline-react';
+  react: `import { OHLCVChart } from '${PROJECT.packages.react}';
 
 export function Chart({ candles }) {
   return (
@@ -61,7 +62,7 @@ export function Chart({ candles }) {
 
   vue: `<script setup>
 import { ref } from 'vue';
-import { OHLCVChart } from '@rekurt/openkline-vue';
+import { OHLCVChart } from '${PROJECT.packages.vue}';
 
 const indicators = ref([
   { type: 'sma', period: 20 },
@@ -79,7 +80,7 @@ const indicators = ref([
 
   next: `'use client';
 
-import { OHLCVChart } from '@rekurt/openkline-react';
+import { OHLCVChart } from '${PROJECT.packages.react}';
 
 export function Chart({ candles }) {
   return (
@@ -102,7 +103,7 @@ export function Chart({ candles }) {
 <!-- or name the file Chart.client.vue -->`,
 
   transport: `import type { DataTransport, Candle, HistoryRequest,
-              DataFeedConfig } from '@rekurt/openkline-core';
+              DataFeedConfig } from '${PROJECT.packages.core}';
 
 class MyTransport implements DataTransport {
   async fetchHistory(req: HistoryRequest): Promise<Candle[]> {
@@ -156,7 +157,7 @@ if (param) chart.loadState(JSON.parse(atob(param)));`,
   },
 });`,
 
-  gaps: `import { findGaps, resolutionToSeconds } from '@rekurt/openkline-core';
+  gaps: `import { findGaps, resolutionToSeconds } from '${PROJECT.packages.core}';
 
 const interval = resolutionToSeconds('1H'); // 3600, null for '1M'
 if (interval) {
@@ -170,7 +171,7 @@ if (interval) {
 chart.setTheme('light');
 chart.setTheme('auto');  // follows prefers-color-scheme`,
 
-  themeCustom: `import type { ThemeColors } from '@rekurt/openkline-core';
+  themeCustom: `import type { ThemeColors } from '${PROJECT.packages.core}';
 
 const dim: ThemeColors = {
   background: '#0d1117',

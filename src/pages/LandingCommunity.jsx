@@ -1,6 +1,7 @@
 import { Button } from '../components/Button.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { Link } from '../router.jsx';
+import { PROJECT } from '../content/project.js';
 
 /* Card order matches t.community.docs.cards in every dictionary. Each one now
    lands on a real destination — the in-app docs/reference or the repo. */
@@ -13,7 +14,7 @@ const DOC_TARGETS = [
   { to: 'reference' },
   { to: 'docs', hash: 'indicators' },
   { to: 'docs', hash: 'drawings' },
-  { href: 'https://github.com/rekurt/openkline/releases' },
+  { href: PROJECT.urls.releases },
 ];
 
 /**
@@ -62,7 +63,7 @@ export function LandingCommunity() {
               <span>{c.support.donate.wallet}</span>
             </div>
             <div className="act">
-              <Button variant="ember" onClick={() => window.open('https://github.com/sponsors/rekurt', '_blank')}>{c.support.donate.btn}</Button>
+              <Button variant="ember" onClick={() => window.open(PROJECT.urls.sponsors, '_blank')}>{c.support.donate.btn}</Button>
             </div>
           </div>
           <div className="tl-sup">
@@ -70,7 +71,7 @@ export function LandingCommunity() {
             <h3>{c.support.order.h}</h3>
             <p>{c.support.order.p}</p>
             <div className="act">
-              <Button variant="primary" onClick={() => { window.location.href = 'mailto:nikitageek@gmail.com?subject=openkline%20feature%20order'; }}>
+              <Button variant="primary" onClick={() => { window.location.href = `mailto:${PROJECT.contacts.email}?subject=openkline%20feature%20order`; }}>
                 {c.support.order.btn}
               </Button>
             </div>
@@ -80,7 +81,7 @@ export function LandingCommunity() {
             <h3>{c.support.suggest.h}</h3>
             <p>{c.support.suggest.p}</p>
             <div className="act">
-              <Button onClick={() => { window.open('https://github.com/rekurt/openkline/issues', '_blank'); }}>
+              <Button onClick={() => { window.open(PROJECT.urls.issues, '_blank'); }}>
                 {c.support.suggest.btn}
               </Button>
             </div>
@@ -92,19 +93,19 @@ export function LandingCommunity() {
         <div className="seclabel">{c.contacts.label}</div>
         <h2>{c.contacts.h2}</h2>
         <div className="tl-contacts">
-          <a className="tl-contact" href="mailto:nikitageek@gmail.com">
+          <a className="tl-contact" href={`mailto:${PROJECT.contacts.email}`}>
             <span className="k">{c.contacts.email.k}</span>
-            <span className="v">nikitageek<span className="at">@</span>gmail.com</span>
+            <span className="v">{PROJECT.contacts.email}</span>
             <span className="d">{c.contacts.email.d}</span>
           </a>
-          <a className="tl-contact" href="https://github.com/rekurt" target="_blank" rel="noreferrer">
+          <a className="tl-contact" href={PROJECT.contacts.githubProfile} target="_blank" rel="noreferrer">
             <span className="k">{c.contacts.github.k}</span>
-            <span className="v"><span className="at">github.com/</span>rekurt</span>
+            <span className="v"><span className="at">github.com/</span>{PROJECT.repoOrg}</span>
             <span className="d">{c.contacts.github.d}</span>
           </a>
-          <a className="tl-contact" href="https://t.me/nikita_rwhe" target="_blank" rel="noreferrer">
+          <a className="tl-contact" href={PROJECT.contacts.telegramUrl} target="_blank" rel="noreferrer">
             <span className="k">{c.contacts.telegram.k}</span>
-            <span className="v"><span className="at">@</span>nikita_rwhe</span>
+            <span className="v">{PROJECT.contacts.telegram}</span>
             <span className="d">{c.contacts.telegram.d}</span>
           </a>
         </div>

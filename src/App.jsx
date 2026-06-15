@@ -9,13 +9,14 @@ import { useI18n, LANGS } from './i18n/index.jsx';
 import { useMetrics } from './lib/useMetrics.jsx';
 import { useRoute, navigate, Link } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
+import { PROJECT } from './content/project.js';
 
 // Docs / reference are heavy (Prism, long content) — keep them off the landing
 // bundle and load on demand.
 const DocsPage = lazy(() => import('./pages/DocsPage.jsx').then((m) => ({ default: m.DocsPage })));
 const ReferencePage = lazy(() => import('./pages/ReferencePage.jsx').then((m) => ({ default: m.ReferencePage })));
 
-const REPO = 'https://github.com/rekurt/openkline';
+const REPO = PROJECT.urls.github;
 
 // Per-route <title> + meta description (the social/SEO source is the static
 // per-route HTML shells from vite.config; this keeps the live SPA correct too).
@@ -176,7 +177,7 @@ export default function App() {
           <Link to="product" className="brand">
             <img src="/logo-mark.svg" width="28" height="28" alt="" />
             openkline
-            <span className="pkg">@rekurt/openkline</span>
+            <span className="pkg">{PROJECT.packages.core}</span>
           </Link>
           <Badge>v{version}</Badge>
           {/* page tabs stay visible on every viewport — they never hide in the menu */}
@@ -211,9 +212,9 @@ export default function App() {
           <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
           <Link to="docs">{t.nav.docs}</Link>
           <Link to="reference">{t.nav.reference}</Link>
-          <a href="mailto:nikitageek@gmail.com">nikitageek@gmail.com</a>
-          <a href="https://t.me/nikita_rwhe" target="_blank" rel="noreferrer">@nikita_rwhe</a>
-          <span className="right">MIT · @rekurt/openkline {version} · {t.footer.right}</span>
+          <a href={`mailto:${PROJECT.contacts.email}`}>{PROJECT.contacts.email}</a>
+          <a href={PROJECT.contacts.telegramUrl} target="_blank" rel="noreferrer">{PROJECT.contacts.telegram}</a>
+          <span className="right">{PROJECT.license} · {PROJECT.packages.core} {version} · {t.footer.right}</span>
         </footer>
       </div>
 
