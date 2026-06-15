@@ -8,8 +8,8 @@ export const ROUTE_DEFS = [
   { id: 'reference', path: '/reference' },
   { id: 'examples', path: '/examples' },
   { id: 'playground', path: '/playground' },
+  { id: 'benchmarks', path: '/benchmarks' },
   // Future routes (uncomment when pages are created):
-  // { id: 'benchmarks', path: '/benchmarks' },
   // { id: 'roadmap', path: '/roadmap' },
   // { id: 'support', path: '/support' },
 ];

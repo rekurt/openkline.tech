@@ -154,14 +154,14 @@
 
 ### Task 4: Phase 4 — benchmarks
 
-- [ ] создать benchmark data contract: `src/content/benchmarks/{latest.json, history.json, methodology.md}`
-- [ ] создать route `/benchmarks` с секциями 01–06 (What is measured … History)
-- [ ] добавить честный empty state без фейковых чисел («Benchmark suite is being wired to CI…»)
-- [ ] добавить methodology и raw JSON link; показывать дату прогона и предупреждение об устаревании
-- [ ] требовать environment metadata + commit SHA на каждый результат
-- [ ] подготовить benchmark harness, если доступен engine repo; CI hook, если доступен CI
-- [ ] написать тесты для benchmark data contract / рендера (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать benchmark data contract: `src/content/benchmarks/{latest.json, history.json, methodology.md}`
+- [x] создать route `/benchmarks` с секциями 01–06 (What is measured … History)
+- [x] добавить честный empty state без фейковых чисел («Benchmark suite is being wired to CI…»)
+- [x] добавить methodology и raw JSON link; показывать дату прогона и предупреждение об устаревании
+- [x] требовать environment metadata + commit SHA на каждый результат
+- [x] подготовить benchmark harness, если доступен engine repo; CI hook, если доступен CI
+- [x] написать тесты для benchmark data contract / рендера (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 5: Phase 5 — roadmap и статусы фич
 

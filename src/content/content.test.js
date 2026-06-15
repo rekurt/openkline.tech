@@ -7,6 +7,11 @@ import {
 } from './features.js';
 import { ROUTE_DEFS, PATH_TO_ROUTE, ROUTE_TO_PATH } from './routes.js';
 import { EXAMPLES, EXAMPLE_IDS, EXAMPLE_BY_ID } from './examples.js';
+import {
+  BENCHMARK_LATEST, BENCHMARK_HISTORY, BENCHMARK_OPERATIONS,
+  BENCHMARK_DATASETS, RESULT_FIELDS, ENV_FIELDS, STALENESS_DAYS,
+  hasResults, isStale, validateResult, validateEnvironment,
+} from './benchmarks.js';
 
 // ---------------------------------------------------------------------------
 // project.js
@@ -176,5 +181,107 @@ describe('EXAMPLES catalog', () => {
     for (const r of required) {
       expect(ids).toContain(r);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// benchmarks.js
+// ---------------------------------------------------------------------------
+describe('BENCHMARKS data contract', () => {
+  it('BENCHMARK_LATEST has required shape', () => {
+    expect(BENCHMARK_LATEST).toHaveProperty('results');
+    expect(BENCHMARK_LATEST).toHaveProperty('status');
+    expect(BENCHMARK_LATEST).toHaveProperty('statusMessage');
+    expect(Array.isArray(BENCHMARK_LATEST.results)).toBe(true);
+  });
+
+  it('BENCHMARK_HISTORY has runs array', () => {
+    expect(BENCHMARK_HISTORY).toHaveProperty('runs');
+    expect(Array.isArray(BENCHMARK_HISTORY.runs)).toBe(true);
+  });
+
+  it('BENCHMARK_OPERATIONS has 12 operations', () => {
+    expect(BENCHMARK_OPERATIONS).toHaveLength(12);
+  });
+
+  it('every operation has id and label', () => {
+    for (const op of BENCHMARK_OPERATIONS) {
+      expect(op.id).toBeTruthy();
+      expect(op.label).toBeTruthy();
+    }
+  });
+
+  it('no duplicate operation ids', () => {
+    const ids = BENCHMARK_OPERATIONS.map((o) => o.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('BENCHMARK_DATASETS has 3 sizes', () => {
+    expect(BENCHMARK_DATASETS).toHaveLength(3);
+    for (const ds of BENCHMARK_DATASETS) {
+      expect(ds.count).toBeGreaterThan(0);
+      expect(ds.label).toBeTruthy();
+      expect(ds.description).toBeTruthy();
+    }
+  });
+
+  it('RESULT_FIELDS contains required percentiles', () => {
+    expect(RESULT_FIELDS).toContain('p50');
+    expect(RESULT_FIELDS).toContain('p95');
+    expect(RESULT_FIELDS).toContain('p99');
+    expect(RESULT_FIELDS).toContain('mean');
+  });
+
+  it('ENV_FIELDS contains browser, os, device', () => {
+    expect(ENV_FIELDS).toContain('browser');
+    expect(ENV_FIELDS).toContain('os');
+    expect(ENV_FIELDS).toContain('device');
+  });
+
+  it('STALENESS_DAYS is 90', () => {
+    expect(STALENESS_DAYS).toBe(90);
+  });
+
+  it('hasResults returns false for pending status', () => {
+    expect(hasResults()).toBe(false);
+  });
+
+  it('isStale returns false for null date', () => {
+    expect(isStale(null)).toBe(false);
+  });
+
+  it('isStale returns true for old dates', () => {
+    expect(isStale('2020-01-01T00:00:00Z')).toBe(true);
+  });
+
+  it('isStale returns false for recent dates', () => {
+    const recent = new Date();
+    recent.setDate(recent.getDate() - 10);
+    expect(isStale(recent.toISOString())).toBe(false);
+  });
+
+  it('validateResult accepts valid result', () => {
+    expect(validateResult({ p50: 1, p95: 2, p99: 3, mean: 1.5, min: 0.5, max: 4 })).toBe(true);
+  });
+
+  it('validateResult rejects incomplete result', () => {
+    expect(validateResult({ p50: 1 })).toBe(false);
+    expect(validateResult(null)).toBe(false);
+  });
+
+  it('validateEnvironment accepts valid env', () => {
+    expect(validateEnvironment({ browser: 'Chromium 128', os: 'macOS 14.5', device: 'M2' })).toBe(true);
+  });
+
+  it('validateEnvironment rejects incomplete env', () => {
+    expect(validateEnvironment({ browser: 'Chromium' })).toBe(false);
+    expect(validateEnvironment(null)).toBe(false);
+  });
+
+  it('routes include benchmarks', () => {
+    const ids = ROUTE_DEFS.map((r) => r.id);
+    expect(ids).toContain('benchmarks');
+    expect(PATH_TO_ROUTE['/benchmarks']).toBe('benchmarks');
+    expect(ROUTE_TO_PATH['benchmarks']).toBe('/benchmarks');
   });
 });

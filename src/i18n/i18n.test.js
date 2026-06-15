@@ -223,3 +223,30 @@ describe('array length consistency across locales', () => {
     expect(zh.product.useWhen.other.items.length).toBe(en.product.useWhen.other.items.length);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Benchmarks section
+// ---------------------------------------------------------------------------
+describe('benchmarks section', () => {
+  const requiredKeys = [
+    'label', 'h1', 'lede', 'emptyState', 'emptySub', 'staleWarning',
+    's01Label', 's01H2', 's01Lede', 's02Label', 's02H2',
+    's03Label', 's03H2', 's04Label', 's04H2', 's04Lede',
+    'methWarmup', 'methIsolation', 'methPercentiles', 'methEnv', 'methReproducible',
+    's05Label', 's05H2', 's05Lede', 'rawToggle',
+    's06Label', 's06H2', 's06HasData', 's06Empty',
+    'envBrowser', 'envOs', 'envDevice', 'envVersion', 'envCommit', 'envDate',
+    'colOperation', 'colMemory',
+    'ctaH2', 'ctaLede', 'ctaPlayground', 'ctaDocs',
+  ];
+
+  for (const [name, dict] of Object.entries(locales)) {
+    it(`${name} has benchmarks key with all required fields`, () => {
+      expect(dict.benchmarks).toBeTruthy();
+      for (const key of requiredKeys) {
+        expect(dict.benchmarks).toHaveProperty(key);
+        expect(dict.benchmarks[key]).toBeTruthy();
+      }
+    });
+  }
+});
