@@ -82,7 +82,8 @@
    code blocks inside them would otherwise push the whole page wider than the
    viewport. Let every layout cell shrink. */
 .tl-hero > *, .tl-features > *, .tl-advrow > *, .tl-codegrid > *,
-.tl-docs > *, .tl-support > *, .tl-contacts > *, .tl-adv > *, .tl-qs { min-width: 0; }
+.tl-docs > *, .tl-support > *, .tl-contacts > *, .tl-adv > *, .tl-qs,
+.tl-pillars > *, .tl-usewhen > * { min-width: 0; }
 
 /* ── section scaffolding ── */
 .tl section { padding: 60px 0; border-top: var(--hairline); position: relative; scroll-margin-top: 76px; }
@@ -211,6 +212,44 @@
 .tl-contact .v .at { color: var(--ember); }
 .tl-contact .d { font-size: var(--text-sm); color: var(--text-muted); }
 
+/* ── pillars (claim → proof → docs) ── */
+.tl-pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.tl-pillar { border: var(--hairline); background: var(--surface-panel); padding: 26px; display: flex; flex-direction: column; gap: 10px; transition: border-color var(--dur-fast) var(--ease-out); }
+.tl-pillar:hover { border-color: var(--ember-deep); }
+.tl-pillar h3 { margin: 0; font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; }
+.tl-pillar .proof { margin: 0; font-size: var(--text-md); line-height: var(--leading-relaxed); color: var(--text-muted); flex: 1; }
+.pillar-links { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.pillar-link { font-family: var(--font-mono); font-size: 12px; color: var(--ember); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
+.pillar-link:hover { color: var(--text-1); }
+
+/* ── use-when (use openkline when / use something else when) ── */
+.tl-usewhen { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.tl-usewhen-col { border: var(--hairline); background: var(--surface-panel); padding: 26px; }
+.tl-usewhen-col.use { border-left: 3px solid var(--bull); }
+.tl-usewhen-col.other { border-left: 3px solid var(--text-muted); }
+.tl-usewhen-col h3 { margin: 0 0 16px; font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; }
+.tl-usewhen-col.use h3 { color: var(--bull); }
+.tl-usewhen-col ul { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: var(--text-md); line-height: 1.85; }
+.tl-footnote { margin-top: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+/* ── commercial support list ── */
+.tl-suplist { margin: 0 0 8px; padding-left: 18px; color: var(--text-muted); font-size: var(--text-md); line-height: 1.85; }
+
+/* ── FAQ accordion ── */
+.tl-faq { display: flex; flex-direction: column; }
+.tl-faq-item { border-bottom: var(--hairline); }
+.tl-faq-item:first-child { border-top: var(--hairline); }
+.tl-faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 4px; cursor: pointer; font-family: var(--font-display); font-size: var(--text-md); font-weight: 600; list-style: none; transition: color var(--dur-fast) var(--ease-out); }
+.tl-faq-item summary::-webkit-details-marker { display: none; }
+.tl-faq-item summary::after { content: '+'; font-family: var(--font-mono); font-size: 18px; color: var(--ember); flex: none; transition: transform var(--dur-fast) var(--ease-out); }
+.tl-faq-item[open] summary::after { content: '−'; }
+.tl-faq-item summary:hover { color: var(--ember); }
+.tl-faq-item p { margin: 0 0 18px 4px; font-size: var(--text-md); line-height: var(--leading-relaxed); color: var(--text-muted); max-width: 72ch; }
+
+/* ── final CTA ── */
+.tl-finalcta { text-align: center; padding: 80px 0 !important; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 48px 48px; }
+.tl-finalcta h2 { text-align: center; }
+
 /* ── footer ── */
 .tl footer { border-top: var(--hairline); padding: 28px 0 44px; display: flex; align-items: center; gap: 24px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); flex-wrap: wrap; }
 .tl footer a { text-decoration: none; }
@@ -222,7 +261,7 @@
   .tl .shell { padding: 0 20px; }
 
   /* layout: collapse every multi-column grid to a single column */
-  .tl-hero, .tl-features, .tl-features.cols3, .tl-support, .tl-docs, .tl-contacts, .tl-codegrid, .tl-advrow { grid-template-columns: 1fr; }
+  .tl-hero, .tl-features, .tl-features.cols3, .tl-support, .tl-docs, .tl-contacts, .tl-codegrid, .tl-advrow, .tl-pillars, .tl-usewhen { grid-template-columns: 1fr; }
   .tl-stats { grid-template-columns: 1fr 1fr; }
   .tl-advrow .proof { border-left: 0; border-top: var(--hairline); }
 

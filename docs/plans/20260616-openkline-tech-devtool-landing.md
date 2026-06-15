@@ -129,16 +129,16 @@
 
 ### Task 2: Phase 2 — конверсия лендинга
 
-- [ ] добавить problem section (4 trade-off карточки, CTA «Сравнить варианты», без прямых атак на конкурентов, короткие формулировки)
-- [ ] добавить built-for section (карточки сегментов: боль + релевантные фичи + CTA на пример/docs; без «для всех»)
-- [ ] пересобрать feature pillars по модели Claim → Proof → Demo/Docs (Realtime, Indicators, Drawings, Data transports, Framework wrappers, State/theming/a11y)
-- [ ] переделать comparison: проще, блоки «Use openkline when» / «Use something else when», footnotes, mobile horizontal scroll, проверить claims по конкурентам
-- [ ] добавить commercial-support блок (CTA «Запросить integration review»), community-support оставить ниже
-- [ ] добавить FAQ (вопросы §13, короткие ответы без воды, planned-фичи помечать как planned)
-- [ ] добавить final CTA блок перед footer
-- [ ] провести responsive QA лендинга
-- [ ] написать/обновить тесты для новой/изменённой функциональности
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] добавить problem section (4 trade-off карточки, CTA «Сравнить варианты», без прямых атак на конкурентов, короткие формулировки)
+- [x] добавить built-for section (карточки сегментов: боль + релевантные фичи + CTA на пример/docs; без «для всех»)
+- [x] пересобрать feature pillars по модели Claim → Proof → Demo/Docs (Realtime, Indicators, Drawings, Data transports, Framework wrappers, State/theming/a11y)
+- [x] переделать comparison: проще, блоки «Use openkline when» / «Use something else when», footnotes, mobile horizontal scroll, проверить claims по конкурентам
+- [x] добавить commercial-support блок (CTA «Запросить integration review»), community-support оставить ниже
+- [x] добавить FAQ (вопросы §13, короткие ответы без воды, planned-фичи помечать как planned)
+- [x] добавить final CTA блок перед footer
+- [x] провести responsive QA лендинга
+- [x] написать/обновить тесты для новой/изменённой функциональности
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 3: Phase 3 — examples и playground
 
