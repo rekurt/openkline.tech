@@ -10,6 +10,7 @@ import { useMetrics } from './lib/useMetrics.jsx';
 import { useRoute, navigate, Link } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
 import { PROJECT } from './content/project.js';
+import { INDICATOR_COUNT } from './content/features.js';
 
 // Docs / reference are heavy (Prism, long content) — keep them off the landing
 // bundle and load on demand.
@@ -21,7 +22,7 @@ const REPO = PROJECT.urls.github;
 // Per-route <title> + meta description (the social/SEO source is the static
 // per-route HTML shells from vite.config; this keeps the live SPA correct too).
 const META = {
-  product: { title: 'openkline — open-source OHLCV charting engine', desc: 'TradingView-grade OHLCV charting engine. MIT, framework-agnostic — candles, 30+ indicators, drawing tools and realtime out of the box.' },
+  product: { title: 'openkline — open-source OHLCV charting engine', desc: `OHLCV charting engine. MIT, framework-agnostic — candles, ${INDICATOR_COUNT} indicators, drawing tools and realtime out of the box.` },
   developers: { title: 'Developers — openkline', desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.' },
   docs: { title: 'Documentation — openkline', desc: 'openkline documentation: guides, live examples and an API quick reference for the OHLCV charting engine.' },
   reference: { title: 'API reference — openkline', desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.' },

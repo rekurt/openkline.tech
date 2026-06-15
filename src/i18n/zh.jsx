@@ -1,3 +1,5 @@
+import { INDICATOR_COUNT, DRAWING_TOOL_COUNT } from '../content/features.js';
+
 /* 简体中文。结构与 en.jsx 完全一致。 */
 export default {
   nav: {
@@ -19,7 +21,7 @@ export default {
     github: 'GitHub',
     playground: 'Playground',
     api: 'API 参考',
-    right: '不是你的密钥？与我们无关',
+    right: '源码即契约',
   },
   product: {
     badges: { agnostic: '框架无关', realtime: '实时' },
@@ -27,7 +29,7 @@ export default {
     lede: (
       <>
         那就拥有它：<code>@rekurt/openkline</code> —— TradingView 级的 OHLCV 图表引擎。开源、MIT、无厂商锁定。
-        K线、24 指标、锚定绘图工具与实时传输开箱即用。一个 TypeScript 核心；<code>react</code> 与{' '}
+        K线、{INDICATOR_COUNT} 指标、锚定绘图工具与实时传输开箱即用。一个 TypeScript 核心；<code>react</code> 与{' '}
         <code>vue</code> 封装，API 完全对等。
       </>
     ),
@@ -75,7 +77,7 @@ export default {
         ),
       },
       {
-        h: '24 指标，9 种绘图工具',
+        h: `${INDICATOR_COUNT} 指标，${DRAWING_TOOL_COUNT} 种绘图工具`,
         p: (
           <>
             主图叠加覆盖从 SMA 到一目均衡表、Supertrend 与锚定 VWAP；副图有 RSI、MACD、随机指标等。
@@ -108,8 +110,8 @@ export default {
     table: {
       cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
       rows: [
-        { label: '内置指标', cells: [{ cls: 'yes', text: '24' }, { cls: 'no', text: '自己实现' }, { cls: 'yes', text: '有' }, { cls: 'part', text: '通用' }] },
-        { label: '绘图工具', cells: [{ cls: 'yes', text: '9 种，锚定' }, { cls: 'no', text: '无' }, { cls: 'yes', text: '有' }, { cls: 'no', text: '无' }] },
+        { label: '内置指标', cells: [{ cls: 'yes', text: String(INDICATOR_COUNT) }, { cls: 'no', text: '自己实现' }, { cls: 'yes', text: '有' }, { cls: 'part', text: '通用' }] },
+        { label: '绘图工具', cells: [{ cls: 'yes', text: `${DRAWING_TOOL_COUNT} 种，锚定` }, { cls: 'no', text: '无' }, { cls: 'yes', text: '有' }, { cls: 'no', text: '无' }] },
         { label: '实时传输', cells: [{ cls: 'yes', text: '内置' }, { cls: 'no', text: '自行接入' }, { cls: 'part', text: '部分' }, { cls: 'no', text: '自行接入' }] },
         { label: '键盘 + 无障碍', cells: [{ cls: 'yes', text: '一等支持' }, { cls: 'no', text: '无' }, { cls: 'part', text: '部分' }, { cls: 'part', text: '部分' }] },
         { label: '许可证', cells: [{ cls: 'yes', text: 'MIT' }, { cls: 'yes', text: 'Apache-2.0' }, { cls: 'no', text: '商业' }, { cls: 'yes', text: 'MIT' }] },
@@ -152,7 +154,7 @@ export default {
             同一批对象可经 <code>saveLayoutState</code> 往返。
           </>
         ),
-        metrics: [<><b>24</b> 指标类型</>, <><b>0</b> 手动实例</>, <><b>每次渲染</b> diff</>],
+        metrics: [<><b>{INDICATOR_COUNT}</b> 指标类型</>, <><b>0</b> 手动实例</>, <><b>每次渲染</b> diff</>],
       },
       {
         k: '传输层',
@@ -259,33 +261,33 @@ export default {
         { k: '指南', t: '主题', d: '内置模式、自定义 ThemeColors、价格与成交量格式化。' },
         { k: '指南', t: '实时数据与传输', d: 'DataTransport 接口、轮询与 WebSocket 基类、退避。' },
         { k: '参考', t: 'API 参考', d: '完整 TypeDoc —— 核心的每个类、选项与事件。' },
-        { k: '参考', t: '指标', d: '全部 24 内置指标的配置形态，以及自定义指标之路。' },
-        { k: '参考', t: '绘图工具', d: '九种锚定工具、命中测试、保存/加载往返。' },
+        { k: '参考', t: '指标', d: `全部 ${INDICATOR_COUNT} 内置指标的配置形态，以及自定义指标之路。` },
+        { k: '参考', t: '绘图工具', d: `${DRAWING_TOOL_COUNT} 种锚定工具、命中测试、保存/加载往返。` },
         { k: '杂项', t: '更新日志', d: '每个版本零惊喜 —— 自 0.1.0 起严格 semver。' },
       ],
     },
     support: {
       label: 'support — 让K线继续打印',
-      h2: '资助路线图',
-      lede: 'openkline 是 MIT，并将一直是 MIT。告警、回放模式、对比模式与工作区 —— 维护有了资金就来得更快。',
-      donate: {
-        k: '捐助',
-        h: '支持项目',
-        p: '一次性或定期 —— 每笔捐助都用于维护：分诊、评审、让测试保持绿色。',
-        wallet: '地址私聊 —— 见联系方式',
-        btn: '在 GitHub 上赞助',
-      },
+      h2: '商业与社区支持',
+      lede: 'openkline 是 MIT，并将一直是 MIT。需要快速通道？商业支持享有优先。',
       order: {
-        k: '定制功能',
-        h: '等不及路线图？',
+        k: '商业支持',
+        h: '集成评审与优先功能',
         p: '交易所适配器、自定义指标、提前交付的告警 —— 发来规格说明，拿到报价。付费工作以 MIT 进上游，所有人受益。',
-        btn: '发送规格说明',
+        btn: '申请集成评审',
       },
       suggest: {
-        k: '建议',
+        k: '社区',
         h: '想法与缺陷报告',
         p: '带复现或场景开 issue。通过评审的提案会获得里程碑 —— 标准见 M1 设计文档。',
         btn: '打开 issue ↗',
+      },
+      donate: {
+        k: '赞助',
+        h: '支持项目',
+        p: '一次性或定期 —— 每笔贡献都用于维护：分诊、评审、让测试保持绿色。',
+        wallet: '',
+        btn: '在 GitHub 上赞助',
       },
     },
     contacts: {

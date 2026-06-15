@@ -116,16 +116,16 @@
 
 ### Task 1: Phase 1 — стабилизация фактов и сломанная конверсия
 
-- [ ] найти все хардкоды версии, метрик и install-команд в компонентах
-- [ ] создать единый source of truth: `src/content/project.ts`, `metrics.ts`, `features.ts` (+ `routes.ts`)
-- [ ] синхронизировать версии и метрики между сайтом, README и package metadata
-- [ ] привести claims по числу индикаторов и drawing tools к единой правде
-- [ ] исправить hero CTA: `Playground` → playground/live demo, `Docs` → docs
-- [ ] переписать hero (H1, lede, proof strip, copy-install, GitHub CTA, live chart справа, mobile без поломок, убрать неподтверждённые claims)
-- [ ] заменить footer-мем на professional-punk формулировку
-- [ ] убрать donation-first блок и crypto-донаты из основной воронки
-- [ ] написать тесты для source-of-truth модулей (project / metrics / features)
-- [ ] прогнать сборку и тесты проекта (`npm run build` + доступные lint/typecheck/test) — должны проходить перед следующим Task
+- [x] найти все хардкоды версии, метрик и install-команд в компонентах
+- [x] создать единый source of truth: `src/content/project.ts`, `metrics.ts`, `features.ts` (+ `routes.ts`)
+- [x] синхронизировать версии и метрики между сайтом, README и package metadata
+- [x] привести claims по числу индикаторов и drawing tools к единой правде
+- [x] исправить hero CTA: `Playground` → playground/live demo, `Docs` → docs
+- [x] переписать hero (H1, lede, proof strip, copy-install, GitHub CTA, live chart справа, mobile без поломок, убрать неподтверждённые claims)
+- [x] заменить footer-мем на professional-punk формулировку
+- [x] убрать donation-first блок и crypto-донаты из основной воронки
+- [x] написать тесты для source-of-truth модулей (project / metrics / features)
+- [x] прогнать сборку и тесты проекта (`npm run build` + доступные lint/typecheck/test) — должны проходить перед следующим Task
 
 ### Task 2: Phase 2 — конверсия лендинга
 
