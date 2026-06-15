@@ -16,6 +16,8 @@ import { INDICATOR_COUNT } from './content/features.js';
 // bundle and load on demand.
 const DocsPage = lazy(() => import('./pages/DocsPage.jsx').then((m) => ({ default: m.DocsPage })));
 const ReferencePage = lazy(() => import('./pages/ReferencePage.jsx').then((m) => ({ default: m.ReferencePage })));
+const ExamplesPage = lazy(() => import('./pages/ExamplesPage.jsx').then((m) => ({ default: m.ExamplesPage })));
+const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage.jsx').then((m) => ({ default: m.PlaygroundPage })));
 
 const REPO = PROJECT.urls.github;
 
@@ -26,6 +28,8 @@ const META = {
   developers: { title: 'Developers — openkline', desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.' },
   docs: { title: 'Documentation — openkline', desc: 'openkline documentation: guides, live examples and an API quick reference for the OHLCV charting engine.' },
   reference: { title: 'API reference — openkline', desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.' },
+  examples: { title: 'Examples — openkline', desc: `Live examples for the openkline OHLCV charting engine: realtime data, ${INDICATOR_COUNT} indicators, drawing tools, state serialization, theming, React, Vue and SSR.` },
+  playground: { title: 'Playground — openkline', desc: 'Interactive playground for the openkline charting engine. Pick a symbol, toggle indicators, switch themes and copy the generated config.' },
 };
 
 function applyMeta(route) {
@@ -156,6 +160,8 @@ export default function App() {
   // Dedicated full-page routes render their own chrome.
   if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
   if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
+  if (route === 'examples') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><ExamplesPage /></div></div></Suspense>;
+  if (route === 'playground') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><PlaygroundPage /></div></div></Suspense>;
 
   const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
@@ -187,6 +193,8 @@ export default function App() {
             <button type="button" role="tab" aria-selected={page === 'developers'} className={page === 'developers' ? 'on' : ''} onClick={() => navigate('developers')}>{t.nav.dev}</button>
           </div>
           <div className="navlinks">
+            <Link to="examples">Examples</Link>
+            <Link to="playground">Playground</Link>
             <Link to="docs">{t.nav.docs}</Link>
             <Link to="reference">{t.nav.reference}</Link>
             <a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a>
@@ -211,6 +219,8 @@ export default function App() {
 
         <footer>
           <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
+          <Link to="examples">Examples</Link>
+          <Link to="playground">{t.footer.playground}</Link>
           <Link to="docs">{t.nav.docs}</Link>
           <Link to="reference">{t.nav.reference}</Link>
           <a href={`mailto:${PROJECT.contacts.email}`}>{PROJECT.contacts.email}</a>

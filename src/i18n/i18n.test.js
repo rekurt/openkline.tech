@@ -148,6 +148,51 @@ describe('finalCta section', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Examples section
+// ---------------------------------------------------------------------------
+describe('examples section', () => {
+  for (const [name, dict] of Object.entries(locales)) {
+    it(`${name} has examples key with 8 items`, () => {
+      expect(dict.examples).toBeTruthy();
+      expect(dict.examples.items).toHaveLength(8);
+    });
+    it(`${name} example items have id, title, desc`, () => {
+      for (const item of dict.examples.items) {
+        expect(item).toHaveProperty('id');
+        expect(item).toHaveProperty('title');
+        expect(item).toHaveProperty('desc');
+      }
+    });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Playground section
+// ---------------------------------------------------------------------------
+describe('playground section', () => {
+  for (const [name, dict] of Object.entries(locales)) {
+    it(`${name} has playground key with required fields`, () => {
+      const pg = dict.playground;
+      expect(pg).toBeTruthy();
+      expect(pg.h2).toBeTruthy();
+      expect(pg.lede).toBeTruthy();
+      expect(pg.symbol).toBeTruthy();
+      expect(pg.resolution).toBeTruthy();
+      expect(pg.chartType).toBeTruthy();
+      expect(pg.theme).toBeTruthy();
+      expect(pg.indicators).toBeTruthy();
+      expect(pg.share).toBeTruthy();
+      expect(pg.reset).toBeTruthy();
+      expect(pg.chartTypes).toHaveProperty('candle');
+      expect(pg.chartTypes).toHaveProperty('line');
+      expect(pg.chartTypes).toHaveProperty('area');
+      expect(pg.themes).toHaveProperty('dark');
+      expect(pg.themes).toHaveProperty('light');
+    });
+  }
+});
+
+// ---------------------------------------------------------------------------
 // Array lengths match across locales
 // ---------------------------------------------------------------------------
 describe('array length consistency across locales', () => {
@@ -166,6 +211,10 @@ describe('array length consistency across locales', () => {
   it('faq items count matches', () => {
     expect(ru.product.faq.items.length).toBe(en.product.faq.items.length);
     expect(zh.product.faq.items.length).toBe(en.product.faq.items.length);
+  });
+  it('examples items count matches', () => {
+    expect(ru.examples.items.length).toBe(en.examples.items.length);
+    expect(zh.examples.items.length).toBe(en.examples.items.length);
   });
   it('useWhen items count matches', () => {
     expect(ru.product.useWhen.use.items.length).toBe(en.product.useWhen.use.items.length);

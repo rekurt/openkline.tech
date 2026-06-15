@@ -6,9 +6,9 @@ export const ROUTE_DEFS = [
   { id: 'developers', path: '/developers' },
   { id: 'docs', path: '/docs' },
   { id: 'reference', path: '/reference' },
+  { id: 'examples', path: '/examples' },
+  { id: 'playground', path: '/playground' },
   // Future routes (uncomment when pages are created):
-  // { id: 'examples', path: '/examples' },
-  // { id: 'playground', path: '/playground' },
   // { id: 'benchmarks', path: '/benchmarks' },
   // { id: 'roadmap', path: '/roadmap' },
   // { id: 'support', path: '/support' },

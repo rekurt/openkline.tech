@@ -142,15 +142,15 @@
 
 ### Task 3: Phase 3 — examples и playground
 
-- [ ] создать route `/examples` (gallery) и подключить локали
-- [ ] создать `/examples/realtime`, `/examples/indicators`, `/examples/drawings`, `/examples/state`
-- [ ] создать `/examples/theming`, `/examples/react`, `/examples/vue`, `/examples/ssr`
-- [ ] для каждого примера: live chart, code block, copy button, docs link, GitHub source link, feature tags, mobile, без недоступных фич
-- [ ] создать `/playground` (selectors, indicator toggles, drawing tools, theme, save/load/share state, copy config as code, reset, error boundary)
-- [ ] оставить embedded mini-demo на лендинге; подключить CTA с лендинга в examples/playground
-- [ ] проверить, что copy snippets дают рабочий код; playground без iframe и не ломает сайт при ошибках
-- [ ] написать тесты для логики examples/playground (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать route `/examples` (gallery) и подключить локали
+- [x] создать `/examples/realtime`, `/examples/indicators`, `/examples/drawings`, `/examples/state`
+- [x] создать `/examples/theming`, `/examples/react`, `/examples/vue`, `/examples/ssr`
+- [x] для каждого примера: live chart, code block, copy button, docs link, GitHub source link, feature tags, mobile, без недоступных фич
+- [x] создать `/playground` (selectors, indicator toggles, drawing tools, theme, save/load/share state, copy config as code, reset, error boundary)
+- [x] оставить embedded mini-demo на лендинге; подключить CTA с лендинга в examples/playground
+- [x] проверить, что copy snippets дают рабочий код; playground без iframe и не ломает сайт при ошибках
+- [x] написать тесты для логики examples/playground (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 4: Phase 4 — benchmarks
 

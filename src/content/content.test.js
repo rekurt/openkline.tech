@@ -6,6 +6,7 @@ import {
   INDICATOR_COUNT, DRAWING_TOOL_COUNT, FEATURES,
 } from './features.js';
 import { ROUTE_DEFS, PATH_TO_ROUTE, ROUTE_TO_PATH } from './routes.js';
+import { EXAMPLES, EXAMPLE_IDS, EXAMPLE_BY_ID } from './examples.js';
 
 // ---------------------------------------------------------------------------
 // project.js
@@ -129,6 +130,51 @@ describe('ROUTES source of truth', () => {
     for (const r of ROUTE_DEFS) {
       expect(ROUTE_TO_PATH[r.id]).toBe(r.path);
       expect(PATH_TO_ROUTE[r.path]).toBe(r.id);
+    }
+  });
+
+  it('has examples and playground routes', () => {
+    const ids = ROUTE_DEFS.map((r) => r.id);
+    expect(ids).toContain('examples');
+    expect(ids).toContain('playground');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// examples.js
+// ---------------------------------------------------------------------------
+describe('EXAMPLES catalog', () => {
+  it('has 8 examples', () => {
+    expect(EXAMPLES).toHaveLength(8);
+  });
+
+  it('no duplicate example ids', () => {
+    expect(EXAMPLE_IDS.size).toBe(EXAMPLES.length);
+  });
+
+  it('EXAMPLE_BY_ID maps every example', () => {
+    for (const ex of EXAMPLES) {
+      expect(EXAMPLE_BY_ID[ex.id]).toBe(ex);
+    }
+  });
+
+  it('every example has required fields', () => {
+    for (const ex of EXAMPLES) {
+      expect(ex.id).toBeTruthy();
+      expect(ex.featureTags.length).toBeGreaterThan(0);
+      expect(ex.chart).toBeTruthy();
+      expect(ex.chart.seed).toBeGreaterThan(0);
+      expect(ex.code).toBeTruthy();
+      expect(ex.docs).toBeTruthy();
+      expect(ex.source).toContain('github.com');
+    }
+  });
+
+  it('covers the required example set', () => {
+    const ids = [...EXAMPLE_IDS];
+    const required = ['realtime', 'indicators', 'drawings', 'state', 'theming', 'react', 'vue', 'ssr'];
+    for (const r of required) {
+      expect(ids).toContain(r);
     }
   });
 });

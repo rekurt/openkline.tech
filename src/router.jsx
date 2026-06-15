@@ -10,7 +10,10 @@ export const PATH_OF = ROUTE_TO_PATH;
 export function routeFromPath(pathname) {
   if (typeof pathname !== 'string') return 'product';
   const clean = pathname.replace(/\/+$/, '') || '/';
-  return ROUTES[clean] || 'product';
+  if (ROUTES[clean]) return ROUTES[clean];
+  // /examples/:id sub-routes resolve to the examples route
+  if (/^\/examples\/[a-z-]+$/.test(clean)) return 'examples';
+  return 'product';
 }
 
 export function currentRoute() {
