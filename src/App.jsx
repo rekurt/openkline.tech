@@ -9,6 +9,7 @@ import { useI18n, LANGS } from './i18n/index.jsx';
 import { useMetrics } from './lib/useMetrics.jsx';
 import { useRoute, navigate, Link } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
+import { useAnalytics } from './lib/useAnalytics.jsx';
 
 // Docs / reference are heavy (Prism, long content) — keep them off the landing
 // bundle and load on demand.
@@ -54,10 +55,11 @@ function initialTheme() {
 
 function LangSwitch() {
   const { lang, setLang } = useI18n();
+  const { track } = useAnalytics();
   return (
     <div className="tl-langs" role="group" aria-label="Language">
       {LANGS.map((l) => (
-        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => setLang(l.code)}>
+        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => { setLang(l.code); track('lang-change', { lang: l.code }); }}>
           {l.label}
         </button>
       ))}
@@ -87,6 +89,7 @@ function Ticker() {
 export default function App() {
   const { t } = useI18n();
   const route = useRoute();
+  const { track } = useAnalytics();
   const { metrics } = useMetrics();
   const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
@@ -187,7 +190,7 @@ export default function App() {
           <div className="navlinks">
             <Link to="docs">{t.nav.docs}</Link>
             <Link to="reference">{t.nav.reference}</Link>
-            <a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a>
+            <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'nav' })}>{t.nav.github}</a>
             <LangSwitch />
             {themeButton}
           </div>
@@ -208,7 +211,7 @@ export default function App() {
         <LandingCommunity />
 
         <footer>
-          <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
+          <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'footer' })}>{t.footer.github}</a>
           <Link to="docs">{t.nav.docs}</Link>
           <Link to="reference">{t.nav.reference}</Link>
           <a href="mailto:nikitageek@gmail.com">nikitageek@gmail.com</a>
@@ -242,7 +245,7 @@ export default function App() {
           <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
             <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
           </button>
-          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
+          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={() => { track('github-click', { location: 'menu' }); closeMenu(); }}>
             <span className="num">05</span>GitHub<span className="arr">↗</span>
           </a>
         </div>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { highlight, inferLang } from '../lib/highlight.js';
+import { useAnalytics } from '../lib/useAnalytics.jsx';
 
 export function CodeBlock({ title, prompt = false, size = 'md', copy = false, copyText, lang, style, children }) {
   const [copied, setCopied] = useState(false);
   const [html, setHtml] = useState(null);
+  const { track } = useAnalytics();
   const text = copyText || (typeof children === 'string' ? children : '');
   const isString = typeof children === 'string';
   const language = lang || inferLang(title, prompt);
@@ -27,6 +29,7 @@ export function CodeBlock({ title, prompt = false, size = 'md', copy = false, co
     if (!text || !navigator.clipboard) return;
     navigator.clipboard.writeText(text).then(
       () => {
+        track('copy', { title: title || 'bash', lang: language });
         setCopied(true);
         window.setTimeout(() => setCopied(false), 1600);
       },
