@@ -1,2 +1,14 @@
+# pnpm v11's pre-run deps check crashes (ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING);
+# CI runs an explicit `pnpm install --frozen-lockfile` first, so this check is redundant.
+verifyDepsBeforeRun: false
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@vitest/expect@4.1.9'
+  - '@vitest/mocker@4.1.9'
+  - '@vitest/pretty-format@4.1.9'
+  - '@vitest/runner@4.1.9'
+  - '@vitest/snapshot@4.1.9'
+  - '@vitest/spy@4.1.9'
+  - '@vitest/utils@4.1.9'
+  - vitest@4.1.9
