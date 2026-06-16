@@ -5,6 +5,8 @@ import { CodeBlock } from '../components/CodeBlock.jsx';
 import { DemoChart } from '../components/DemoChart.jsx';
 import { Kbd } from '../components/Kbd.jsx';
 import { useI18n } from '../i18n/index.jsx';
+import { PROJECT } from '../content/project.js';
+import { OVERLAYS, SUBPANE_INDICATORS, DRAWING_TOOLS } from '../content/features.js';
 
 // Each quick-start example renders this real chart so the snippet isn't just text.
 const FW_INDICATORS = {
@@ -17,8 +19,8 @@ const FW_INDICATORS = {
 const QUICKSTART = {
   vanilla: {
     label: 'vanilla.ts',
-    code: `// npm install @rekurt/openkline-core
-import { OHLCVChart } from '@rekurt/openkline-core';
+    code: `// ${PROJECT.install.core}
+import { OHLCVChart } from '${PROJECT.packages.core}';
 
 const chart = new OHLCVChart({
   container: document.getElementById('chart'),
@@ -35,8 +37,8 @@ ws.onmessage = (e) => chart.updateLastCandle(parse(e.data));`,
   },
   react: {
     label: 'App.tsx',
-    code: `// npm install @rekurt/openkline-react
-import { OHLCVChart } from '@rekurt/openkline-react';
+    code: `// ${PROJECT.install.react}
+import { OHLCVChart } from '${PROJECT.packages.react}';
 
 export function App({ candles }) {
   const indicators = useMemo(() => [
@@ -58,8 +60,8 @@ export function App({ candles }) {
   vue: {
     label: 'App.vue',
     code: `<script setup lang="ts">
-// npm install @rekurt/openkline-vue
-import { OHLCVChart } from '@rekurt/openkline-vue';
+// ${PROJECT.install.vue}
+import { OHLCVChart } from '${PROJECT.packages.vue}';
 
 const indicators = ref([
   { type: 'sma', period: 20 },
@@ -135,9 +137,7 @@ if (param) chart.loadState(JSON.parse(atob(param)));`,
   },
 ];
 
-const OVERLAYS = ['SMA', 'EMA', 'WMA', 'HMA', 'BollingerBands', 'Keltner', 'Donchian', 'VWAP', 'PivotPoints', 'Ichimoku', 'Supertrend', 'ParabolicSAR', 'ZigZag'];
-const SUBPANE = ['RSI', 'MACD', 'Stochastic', 'ATR', 'WilliamsR', 'OBV', 'ADX', 'CCI', 'MFI', 'StochRSI', 'ROC'];
-const DRAWINGS = ['TrendLine', 'HorizontalLine', 'VerticalLine', 'Ray', 'Rectangle', 'FibRetracement', 'FibExtension', 'Channel', 'Arrow'];
+// OVERLAYS, SUBPANE_INDICATORS and DRAWING_TOOLS are imported from content/features.js
 
 const KEYMAP_KEYS = [['←', '→'], ['↑', '↓'], ['Home', 'End'], ['0'], ['F'], ['T', 'H'], ['Esc'], ['dbl-click']];
 
@@ -232,7 +232,7 @@ export function DevPage() {
         <div className="tl-chipgroup">
           <span className="k">{d.s04.subpane}</span>
           <div className="tl-chips">
-            {SUBPANE.map((n) => (
+            {SUBPANE_INDICATORS.map((n) => (
               <span className="tl-chip" key={n}><span className="dot" style={{ background: 'var(--ind-2)' }}></span>{n}</span>
             ))}
           </div>
@@ -240,7 +240,7 @@ export function DevPage() {
         <div className="tl-chipgroup" style={{ marginBottom: 0 }}>
           <span className="k">{d.s04.drawings}</span>
           <div className="tl-chips">
-            {DRAWINGS.map((n) => (
+            {DRAWING_TOOLS.map((n) => (
               <span className="tl-chip" key={n}><span className="dot" style={{ background: 'var(--ember)' }}></span>{n}</span>
             ))}
             <span className="tl-chip" style={{ color: 'var(--text-muted)' }}>{d.s04.custom}</span>

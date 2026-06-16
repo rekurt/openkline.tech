@@ -5,29 +5,42 @@ import { Badge } from './components/Badge.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { DevPage } from './pages/DevPage.jsx';
 import { LandingCommunity } from './pages/LandingCommunity.jsx';
-import { useI18n, LANGS } from './i18n/index.jsx';
+import { useI18n, LANGS, LOCALE_PREFIXES, localePath } from './i18n/index.jsx';
 import { useMetrics } from './lib/useMetrics.jsx';
-import { useRoute, navigate, Link } from './router.jsx';
+import { useRoute, navigate, Link, currentLocale, navigateToLocale } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
-import { useAnalytics } from './lib/useAnalytics.jsx';
+import { PROJECT } from './content/project.js';
+import { INDICATOR_COUNT } from './content/features.js';
 
 // Docs / reference are heavy (Prism, long content) — keep them off the landing
 // bundle and load on demand.
 const DocsPage = lazy(() => import('./pages/DocsPage.jsx').then((m) => ({ default: m.DocsPage })));
 const ReferencePage = lazy(() => import('./pages/ReferencePage.jsx').then((m) => ({ default: m.ReferencePage })));
+const ExamplesPage = lazy(() => import('./pages/ExamplesPage.jsx').then((m) => ({ default: m.ExamplesPage })));
+const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage.jsx').then((m) => ({ default: m.PlaygroundPage })));
+const BenchmarksPage = lazy(() => import('./pages/BenchmarksPage.jsx').then((m) => ({ default: m.BenchmarksPage })));
+const RoadmapPage = lazy(() => import('./pages/RoadmapPage.jsx').then((m) => ({ default: m.RoadmapPage })));
+const SupportPage = lazy(() => import('./pages/SupportPage.jsx').then((m) => ({ default: m.SupportPage })));
 
-const REPO = 'https://github.com/rekurt/openkline';
+const REPO = PROJECT.urls.github;
 
 // Per-route <title> + meta description (the social/SEO source is the static
 // per-route HTML shells from vite.config; this keeps the live SPA correct too).
 const META = {
-  product: { title: 'openkline — open-source OHLCV charting engine', desc: 'TradingView-grade OHLCV charting engine. MIT, framework-agnostic — candles, 30+ indicators, drawing tools and realtime out of the box.' },
+  product: { title: 'openkline — open-source OHLCV charting engine', desc: `OHLCV charting engine. MIT, framework-agnostic — candles, ${INDICATOR_COUNT} indicators, drawing tools and realtime out of the box.` },
   developers: { title: 'Developers — openkline', desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.' },
   docs: { title: 'Documentation — openkline', desc: 'openkline documentation: guides, live examples and an API quick reference for the OHLCV charting engine.' },
   reference: { title: 'API reference — openkline', desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.' },
+  examples: { title: 'Examples — openkline', desc: `Live examples for the openkline OHLCV charting engine: realtime data, ${INDICATOR_COUNT} indicators, drawing tools, state serialization, theming, React, Vue and SSR.` },
+  playground: { title: 'Playground — openkline', desc: 'Interactive playground for the openkline charting engine. Pick a symbol, toggle indicators, switch themes and copy the generated config.' },
+  benchmarks: { title: 'Benchmarks — openkline', desc: 'Performance benchmarks for the openkline OHLCV charting engine: setData, append, pan, zoom, indicator recompute and more.' },
+  roadmap: { title: 'Roadmap — openkline', desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.' },
+  support: { title: 'Support — openkline', desc: 'Commercial support, community help, security contact and sponsorship for the openkline OHLCV charting engine.' },
 };
 
-function applyMeta(route) {
+const ORIGIN = 'https://openkline.tech';
+
+function applyMeta(route, locale) {
   const m = META[route] || META.product;
   document.title = m.title;
   let desc = document.querySelector('meta[name="description"]');
@@ -37,9 +50,34 @@ function applyMeta(route) {
     document.head.appendChild(desc);
   }
   desc.setAttribute('content', m.desc);
-  const path = route === 'product' ? '/' : `/${route}`;
+
+  const routePath = route === 'product' ? '/' : `/${route}`;
+  const canonUrl = `${ORIGIN}${localePath(locale, routePath)}`;
   let canon = document.querySelector('link[rel="canonical"]');
-  if (canon) canon.setAttribute('href', `https://openkline.tech${path}`);
+  if (canon) canon.setAttribute('href', canonUrl);
+
+  // Update og:url
+  let ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', canonUrl);
+
+  // Manage hreflang links
+  document.querySelectorAll('link[data-hreflang]').forEach((el) => el.remove());
+  const allLocales = ['en', ...LOCALE_PREFIXES];
+  for (const loc of allLocales) {
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('hreflang', loc);
+    link.setAttribute('href', `${ORIGIN}${localePath(loc, routePath)}`);
+    link.setAttribute('data-hreflang', 'true');
+    document.head.appendChild(link);
+  }
+  // x-default points to the en (unprefixed) version
+  const xdef = document.createElement('link');
+  xdef.setAttribute('rel', 'alternate');
+  xdef.setAttribute('hreflang', 'x-default');
+  xdef.setAttribute('href', `${ORIGIN}${routePath}`);
+  xdef.setAttribute('data-hreflang', 'true');
+  document.head.appendChild(xdef);
 }
 
 function initialTheme() {
@@ -55,11 +93,14 @@ function initialTheme() {
 
 function LangSwitch() {
   const { lang, setLang } = useI18n();
-  const { track } = useAnalytics();
+  const switchLang = (code) => {
+    setLang(code);
+    navigateToLocale(code);
+  };
   return (
     <div className="tl-langs" role="group" aria-label="Language">
       {LANGS.map((l) => (
-        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => { setLang(l.code); track('lang-change', { lang: l.code }); }}>
+        <button key={l.code} type="button" className={lang === l.code ? 'on' : ''} onClick={() => switchLang(l.code)}>
           {l.label}
         </button>
       ))}
@@ -87,18 +128,17 @@ function Ticker() {
 }
 
 export default function App() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const route = useRoute();
-  const { track } = useAnalytics();
   const { metrics } = useMetrics();
   const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Keep the document title / description / canonical correct as routes change.
+  // Keep the document title / description / canonical / hreflang correct as routes or locale change.
   useEffect(() => {
-    applyMeta(route);
-  }, [route]);
+    applyMeta(route, lang);
+  }, [route, lang]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -157,6 +197,11 @@ export default function App() {
   // Dedicated full-page routes render their own chrome.
   if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
   if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
+  if (route === 'examples') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><ExamplesPage /></div></div></Suspense>;
+  if (route === 'playground') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><PlaygroundPage /></div></div></Suspense>;
+  if (route === 'benchmarks') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><BenchmarksPage /></div></div></Suspense>;
+  if (route === 'roadmap') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><RoadmapPage /></div></div></Suspense>;
+  if (route === 'support') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="support">{t.nav.support}</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><SupportPage /></div></div></Suspense>;
 
   const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
@@ -179,7 +224,7 @@ export default function App() {
           <Link to="product" className="brand">
             <img src="/logo-mark.svg" width="28" height="28" alt="" />
             openkline
-            <span className="pkg">@rekurt/openkline</span>
+            <span className="pkg">{PROJECT.packages.core}</span>
           </Link>
           <Badge>v{version}</Badge>
           {/* page tabs stay visible on every viewport — they never hide in the menu */}
@@ -188,9 +233,11 @@ export default function App() {
             <button type="button" role="tab" aria-selected={page === 'developers'} className={page === 'developers' ? 'on' : ''} onClick={() => navigate('developers')}>{t.nav.dev}</button>
           </div>
           <div className="navlinks">
+            <Link to="examples">Examples</Link>
+            <Link to="playground">Playground</Link>
             <Link to="docs">{t.nav.docs}</Link>
             <Link to="reference">{t.nav.reference}</Link>
-            <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'nav' })}>{t.nav.github}</a>
+            <a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a>
             <LangSwitch />
             {themeButton}
           </div>
@@ -211,12 +258,17 @@ export default function App() {
         <LandingCommunity />
 
         <footer>
-          <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'footer' })}>{t.footer.github}</a>
+          <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
+          <Link to="examples">Examples</Link>
+          <Link to="playground">{t.footer.playground}</Link>
+          <Link to="benchmarks">Benchmarks</Link>
+          <Link to="roadmap">Roadmap</Link>
+          <Link to="support">{t.nav.support}</Link>
           <Link to="docs">{t.nav.docs}</Link>
           <Link to="reference">{t.nav.reference}</Link>
-          <a href="mailto:nikitageek@gmail.com">nikitageek@gmail.com</a>
-          <a href="https://t.me/nikita_rwhe" target="_blank" rel="noreferrer">@nikita_rwhe</a>
-          <span className="right">MIT · @rekurt/openkline {version} · {t.footer.right}</span>
+          <a href={`mailto:${PROJECT.contacts.email}`}>{PROJECT.contacts.email}</a>
+          <a href={PROJECT.contacts.telegramUrl} target="_blank" rel="noreferrer">{PROJECT.contacts.telegram}</a>
+          <span className="right">{PROJECT.license} · {PROJECT.packages.core} {version} · {t.footer.right}</span>
         </footer>
       </div>
 
@@ -239,13 +291,13 @@ export default function App() {
           <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
             <span className="num">02</span>{t.nav.reference}<span className="arr">→</span>
           </Link>
-          <button type="button" className="tl-menu-item" onClick={() => goSection('support')}>
+          <Link to="support" className="tl-menu-item" onNavigate={closeMenu}>
             <span className="num">03</span>{t.nav.support}<span className="arr">→</span>
-          </button>
+          </Link>
           <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
             <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
           </button>
-          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={() => { track('github-click', { location: 'menu' }); closeMenu(); }}>
+          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
             <span className="num">05</span>GitHub<span className="arr">↗</span>
           </a>
         </div>

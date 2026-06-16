@@ -1,0 +1,14 @@
+# Security contact for openkline
+# See https://securitytxt.org/ (RFC 9116)
+
+Contact: mailto:nikitageek@gmail.com
+Contact: https://github.com/rekurt/openkline/security/advisories
+Expires: 2027-06-16T00:00:00.000Z
+Preferred-Languages: en, ru
+Canonical: https://openkline.tech/.well-known/security.txt
+Policy: https://github.com/rekurt/openkline/security/policy
+
+# Privacy commitments
+# - Zero telemetry: no analytics, no phone-home, no hosted runtime.
+# - Your market data stays in your app — openkline never sees it.
+# - No third-party scripts loaded by the engine.

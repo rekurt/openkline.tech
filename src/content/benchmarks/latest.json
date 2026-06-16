@@ -1,0 +1,9 @@
+{
+  "results": [],
+  "environment": null,
+  "commitSha": null,
+  "packageVersion": null,
+  "date": null,
+  "status": "pending",
+  "statusMessage": "Benchmark suite is being wired to CI. No published numbers yet."
+}

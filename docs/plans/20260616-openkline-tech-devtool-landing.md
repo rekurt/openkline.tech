@@ -116,94 +116,94 @@
 
 ### Task 1: Phase 1 — стабилизация фактов и сломанная конверсия
 
-- [ ] найти все хардкоды версии, метрик и install-команд в компонентах
-- [ ] создать единый source of truth: `src/content/project.ts`, `metrics.ts`, `features.ts` (+ `routes.ts`)
-- [ ] синхронизировать версии и метрики между сайтом, README и package metadata
-- [ ] привести claims по числу индикаторов и drawing tools к единой правде
-- [ ] исправить hero CTA: `Playground` → playground/live demo, `Docs` → docs
-- [ ] переписать hero (H1, lede, proof strip, copy-install, GitHub CTA, live chart справа, mobile без поломок, убрать неподтверждённые claims)
-- [ ] заменить footer-мем на professional-punk формулировку
-- [ ] убрать donation-first блок и crypto-донаты из основной воронки
-- [ ] написать тесты для source-of-truth модулей (project / metrics / features)
-- [ ] прогнать сборку и тесты проекта (`npm run build` + доступные lint/typecheck/test) — должны проходить перед следующим Task
+- [x] найти все хардкоды версии, метрик и install-команд в компонентах
+- [x] создать единый source of truth: `src/content/project.ts`, `metrics.ts`, `features.ts` (+ `routes.ts`)
+- [x] синхронизировать версии и метрики между сайтом, README и package metadata
+- [x] привести claims по числу индикаторов и drawing tools к единой правде
+- [x] исправить hero CTA: `Playground` → playground/live demo, `Docs` → docs
+- [x] переписать hero (H1, lede, proof strip, copy-install, GitHub CTA, live chart справа, mobile без поломок, убрать неподтверждённые claims)
+- [x] заменить footer-мем на professional-punk формулировку
+- [x] убрать donation-first блок и crypto-донаты из основной воронки
+- [x] написать тесты для source-of-truth модулей (project / metrics / features)
+- [x] прогнать сборку и тесты проекта (`npm run build` + доступные lint/typecheck/test) — должны проходить перед следующим Task
 
 ### Task 2: Phase 2 — конверсия лендинга
 
-- [ ] добавить problem section (4 trade-off карточки, CTA «Сравнить варианты», без прямых атак на конкурентов, короткие формулировки)
-- [ ] добавить built-for section (карточки сегментов: боль + релевантные фичи + CTA на пример/docs; без «для всех»)
-- [ ] пересобрать feature pillars по модели Claim → Proof → Demo/Docs (Realtime, Indicators, Drawings, Data transports, Framework wrappers, State/theming/a11y)
-- [ ] переделать comparison: проще, блоки «Use openkline when» / «Use something else when», footnotes, mobile horizontal scroll, проверить claims по конкурентам
-- [ ] добавить commercial-support блок (CTA «Запросить integration review»), community-support оставить ниже
-- [ ] добавить FAQ (вопросы §13, короткие ответы без воды, planned-фичи помечать как planned)
-- [ ] добавить final CTA блок перед footer
-- [ ] провести responsive QA лендинга
-- [ ] написать/обновить тесты для новой/изменённой функциональности
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] добавить problem section (4 trade-off карточки, CTA «Сравнить варианты», без прямых атак на конкурентов, короткие формулировки)
+- [x] добавить built-for section (карточки сегментов: боль + релевантные фичи + CTA на пример/docs; без «для всех»)
+- [x] пересобрать feature pillars по модели Claim → Proof → Demo/Docs (Realtime, Indicators, Drawings, Data transports, Framework wrappers, State/theming/a11y)
+- [x] переделать comparison: проще, блоки «Use openkline when» / «Use something else when», footnotes, mobile horizontal scroll, проверить claims по конкурентам
+- [x] добавить commercial-support блок (CTA «Запросить integration review»), community-support оставить ниже
+- [x] добавить FAQ (вопросы §13, короткие ответы без воды, planned-фичи помечать как planned)
+- [x] добавить final CTA блок перед footer
+- [x] провести responsive QA лендинга
+- [x] написать/обновить тесты для новой/изменённой функциональности
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 3: Phase 3 — examples и playground
 
-- [ ] создать route `/examples` (gallery) и подключить локали
-- [ ] создать `/examples/realtime`, `/examples/indicators`, `/examples/drawings`, `/examples/state`
-- [ ] создать `/examples/theming`, `/examples/react`, `/examples/vue`, `/examples/ssr`
-- [ ] для каждого примера: live chart, code block, copy button, docs link, GitHub source link, feature tags, mobile, без недоступных фич
-- [ ] создать `/playground` (selectors, indicator toggles, drawing tools, theme, save/load/share state, copy config as code, reset, error boundary)
-- [ ] оставить embedded mini-demo на лендинге; подключить CTA с лендинга в examples/playground
-- [ ] проверить, что copy snippets дают рабочий код; playground без iframe и не ломает сайт при ошибках
-- [ ] написать тесты для логики examples/playground (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать route `/examples` (gallery) и подключить локали
+- [x] создать `/examples/realtime`, `/examples/indicators`, `/examples/drawings`, `/examples/state`
+- [x] создать `/examples/theming`, `/examples/react`, `/examples/vue`, `/examples/ssr`
+- [x] для каждого примера: live chart, code block, copy button, docs link, GitHub source link, feature tags, mobile, без недоступных фич
+- [x] создать `/playground` (selectors, indicator toggles, drawing tools, theme, save/load/share state, copy config as code, reset, error boundary)
+- [x] оставить embedded mini-demo на лендинге; подключить CTA с лендинга в examples/playground
+- [x] проверить, что copy snippets дают рабочий код; playground без iframe и не ломает сайт при ошибках
+- [x] написать тесты для логики examples/playground (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 4: Phase 4 — benchmarks
 
-- [ ] создать benchmark data contract: `src/content/benchmarks/{latest.json, history.json, methodology.md}`
-- [ ] создать route `/benchmarks` с секциями 01–06 (What is measured … History)
-- [ ] добавить честный empty state без фейковых чисел («Benchmark suite is being wired to CI…»)
-- [ ] добавить methodology и raw JSON link; показывать дату прогона и предупреждение об устаревании
-- [ ] требовать environment metadata + commit SHA на каждый результат
-- [ ] подготовить benchmark harness, если доступен engine repo; CI hook, если доступен CI
-- [ ] написать тесты для benchmark data contract / рендера (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать benchmark data contract: `src/content/benchmarks/{latest.json, history.json, methodology.md}`
+- [x] создать route `/benchmarks` с секциями 01–06 (What is measured … History)
+- [x] добавить честный empty state без фейковых чисел («Benchmark suite is being wired to CI…»)
+- [x] добавить methodology и raw JSON link; показывать дату прогона и предупреждение об устаревании
+- [x] требовать environment metadata + commit SHA на каждый результат
+- [x] подготовить benchmark harness, если доступен engine repo; CI hook, если доступен CI
+- [x] написать тесты для benchmark data contract / рендера (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 5: Phase 5 — roadmap и статусы фич
 
-- [ ] создать route `/roadmap` с секциями Available now / Experimental / Planned / Sponsored
-- [ ] подключить `features.ts`: статус каждой фичи, docs/example links для готовых, caveats для experimental
-- [ ] для planned не показывать live CTA; для sponsored добавить CTA «Sponsor this feature»; без сроков и ресурсов
-- [ ] убрать planned-фичи из основных claims и hero
-- [ ] добавить design doc template `docs/design/<feature-id>.md` и зафиксировать список обязательных design docs
-- [ ] написать тесты для маппинга статусов фич (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать route `/roadmap` с секциями Available now / Experimental / Planned / Sponsored
+- [x] подключить `features.ts`: статус каждой фичи, docs/example links для готовых, caveats для experimental
+- [x] для planned не показывать live CTA; для sponsored добавить CTA «Sponsor this feature»; без сроков и ресурсов
+- [x] убрать planned-фичи из основных claims и hero
+- [x] добавить design doc template `docs/design/<feature-id>.md` и зафиксировать список обязательных design docs
+- [x] написать тесты для маппинга статусов фич (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 6: Phase 6 — локализация и SEO
 
-- [ ] реализовать locale routes `ru / sn / zh` с единой структурой; язык в URL, canonical локализован, HTML `lang` корректен
-- [ ] подтвердить у владельца, что `sn` — нужная локаль (иначе заменить на `en` per §17); существующий `en` не удалять без решения
-- [ ] добавить locale dictionaries `src/i18n/{schema.ts, ru.ts, sn.ts, zh.ts}` со строгой схемой; missing translation ломает build / подсвечивается в dev
-- [ ] перевести весь перечень контента (nav, hero, CTA, problem, built-for, pillars, examples, benchmarks, roadmap, support, FAQ, footer, SEO meta, OG text)
-- [ ] добавить per route+locale meta (title/description/canonical/og:*/twitter:*) и hreflang (ru, sn, zh, x-default)
-- [ ] обновить sitemap (все routes + locale + examples + benchmarks + roadmap + support)
-- [ ] создать OG images `public/og/{ru,sn,zh,examples,benchmarks,roadmap}.png` (1200×630, dark chart bg, logo, slogan, proof strip)
-- [ ] проверить language switcher и корректность locale switch links
-- [ ] написать тесты для i18n-схемы и locale routing (где применимо)
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] реализовать locale routes `ru / sn / zh` с единой структурой; язык в URL, canonical локализован, HTML `lang` корректен
+- [x] подтвердить у владельца, что `sn` — нужная локаль (иначе заменить на `en` per §17); существующий `en` не удалять без решения
+- [x] добавить locale dictionaries `src/i18n/{schema.ts, ru.ts, sn.ts, zh.ts}` со строгой схемой; missing translation ломает build / подсвечивается в dev
+- [x] перевести весь перечень контента (nav, hero, CTA, problem, built-for, pillars, examples, benchmarks, roadmap, support, FAQ, footer, SEO meta, OG text)
+- [x] добавить per route+locale meta (title/description/canonical/og:*/twitter:*) и hreflang (ru, sn, zh, x-default)
+- [x] обновить sitemap (все routes + locale + examples + benchmarks + roadmap + support)
+- [x] создать OG images `public/og/{ru,sn,zh,examples,benchmarks,roadmap}.png` (1200×630, dark chart bg, logo, slogan, proof strip)
+- [x] проверить language switcher и корректность locale switch links
+- [x] написать тесты для i18n-схемы и locale routing (где применимо)
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 7: Phase 7 — support, security и финальное укрепление
 
-- [ ] создать/переделать `/support` (Commercial / Community / Security / Contact); donation-options только вторичным блоком
-- [ ] добавить security contact и `.well-known/security.txt` + тексты «no telemetry» / «no hosted runtime» / «your market data stays in your app»
-- [ ] создать `docs/brand-tone.md` (разрешённые/запрещённые формулы, visual direction)
-- [ ] прогнать responsive QA (1440 / 1024 / 768 / 390, dark/light, длинные code blocks, широкие таблицы, меню, switcher, copy buttons, playground)
-- [ ] прогнать a11y QA (keyboard nav, focus states, aria labels, contrast, reduced motion, no keyboard traps, текст вокруг графиков)
-- [ ] прогнать link QA (GitHub, Docs, Reference, Examples, Benchmarks, Roadmap, Support, mailto, Telegram, sitemap, locale switch)
-- [ ] прогнать content QA (версии/метрики/числа синхронизированы, нет roadmap-фич в hero, нет fake benchmarks, нет неподтверждённых сравнений, нет crypto donation в воронке, footer в tone)
-- [ ] подготовить PR summary и manual verification checklist
-- [ ] написать/обновить тесты для изменённой функциональности
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать/переделать `/support` (Commercial / Community / Security / Contact); donation-options только вторичным блоком
+- [x] добавить security contact и `.well-known/security.txt` + тексты «no telemetry» / «no hosted runtime» / «your market data stays in your app»
+- [x] создать `docs/brand-tone.md` (разрешённые/запрещённые формулы, visual direction)
+- [x] прогнать responsive QA (1440 / 1024 / 768 / 390, dark/light, длинные code blocks, широкие таблицы, меню, switcher, copy buttons, playground)
+- [x] прогнать a11y QA (keyboard nav, focus states, aria labels, contrast, reduced motion, no keyboard traps, текст вокруг графиков)
+- [x] прогнать link QA (GitHub, Docs, Reference, Examples, Benchmarks, Roadmap, Support, mailto, Telegram, sitemap, locale switch)
+- [x] прогнать content QA (версии/метрики/числа синхронизированы, нет roadmap-фич в hero, нет fake benchmarks, нет неподтверждённых сравнений, нет crypto donation в воронке, footer в tone)
+- [x] подготовить PR summary и manual verification checklist
+- [x] написать/обновить тесты для изменённой функциональности
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 8: Verify acceptance criteria
 
-- [ ] verify all requirements from Overview are implemented (Definition of Done §16): лендинг продаёт за первые 10 секунд; понятно, для кого продукт и почему не iframe/hosted widget/generic chart; hero CTA корректны; есть working live demo; есть `/examples`, `/playground`, `/benchmarks`, `/roadmap`, `/support`; фичи имеют статусы; метрики имеют source of truth; нет противоречий сайт/docs/README; нет фейковых benchmarks и неподтверждённых claims; есть locale routes `ru / sn / zh`; есть SEO meta, hreflang, sitemap, нормальные OG images; есть professional commercial-support path; crypto donations вне основной воронки; footer в professional-punk tone; mobile работает; визуальный стиль сохранён
-- [ ] run full project test suite (`npm run build` + `npm test` / lint / typecheck где доступны) — всё должно проходить
-- [ ] run project linter — все проблемы должны быть исправлены
+- [x] verify all requirements from Overview are implemented (Definition of Done §16): лендинг продаёт за первые 10 секунд; понятно, для кого продукт и почему не iframe/hosted widget/generic chart; hero CTA корректны; есть working live demo; есть `/examples`, `/playground`, `/benchmarks`, `/roadmap`, `/support`; фичи имеют статусы; метрики имеют source of truth; нет противоречий сайт/docs/README; нет фейковых benchmarks и неподтверждённых claims; есть locale routes `ru / sn / zh`; есть SEO meta, hreflang, sitemap, нормальные OG images; есть professional commercial-support path; crypto donations вне основной воронки; footer в professional-punk tone; mobile работает; визуальный стиль сохранён
+- [x] run full project test suite (`npm run build` + `npm test` / lint / typecheck где доступны) — всё должно проходить
+- [x] run project linter — все проблемы должны быть исправлены
 
 ## Post-Completion
 
