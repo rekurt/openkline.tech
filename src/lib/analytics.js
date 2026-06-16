@@ -6,7 +6,6 @@ const ENV = import.meta.env;
 export const CONFIG = {
   umamiId: ENV.VITE_UMAMI_WEBSITE_ID || '',
   umamiSrc: ENV.VITE_UMAMI_SRC || '',
-  sentryDsn: ENV.VITE_SENTRY_DSN || '',
 };
 
 // Analytics only runs in a production build. Dev / preview-without-keys → no-op,
@@ -36,17 +35,6 @@ export function loadUmami(cfg = CONFIG) {
     document.head.appendChild(s);
   });
   return umamiPromise;
-}
-
-export async function initSentry(cfg = CONFIG) {
-  if (!cfg.sentryDsn) return null;
-  const Sentry = await import('@sentry/browser');
-  Sentry.init({
-    dsn: cfg.sentryDsn,
-    sendDefaultPii: false, // no IP / PII
-    tracesSampleRate: 0, // errors only, no performance tracing, no replay
-  });
-  return Sentry;
 }
 
 // Safe custom-event tracker. No-op until the Umami script has loaded (or if it

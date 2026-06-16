@@ -3,17 +3,19 @@ import { Button } from '../components/Button.jsx';
 import { Badge } from '../components/Badge.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
 import { DemoChart } from '../components/DemoChart.jsx';
-import { useI18n } from '../i18n/index.jsx';
-import { navigate, Link } from '../router.jsx';
+import { useI18n, parseLocale, localePath } from '../i18n/index.jsx';
+import { navigate, Link, currentLocale } from '../router.jsx';
 import { EXAMPLES, EXAMPLE_BY_ID } from '../content/examples.js';
 
 /**
  * Parse sub-path from /examples/realtime etc.
  * Returns null for /examples (gallery), or the example id for detail pages.
+ * Handles locale-prefixed paths like /ru/examples/realtime.
  */
 function exampleIdFromPath() {
   if (typeof window === 'undefined') return null;
-  const m = window.location.pathname.match(/^\/examples\/([a-z-]+)\/?$/);
+  const { rest } = parseLocale(window.location.pathname);
+  const m = rest.match(/^\/examples\/([a-z-]+)\/?$/);
   return m ? m[1] : null;
 }
 
@@ -37,12 +39,12 @@ function CopyButton({ text }) {
 function ExampleCard({ example, texts }) {
   return (
     <a
-      href={`/examples/${example.id}`}
+      href={localePath(currentLocale(), `/examples/${example.id}`)}
       className="tl-feature tl-example-card"
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
         e.preventDefault();
-        window.history.pushState({}, '', `/examples/${example.id}`);
+        window.history.pushState({}, '', localePath(currentLocale(), `/examples/${example.id}`));
         window.dispatchEvent(new PopStateEvent('popstate'));
         window.scrollTo({ top: 0, behavior: 'auto' });
       }}
@@ -69,7 +71,7 @@ function ExampleDetail({ example, texts }) {
           type="button"
           className="pillar-link"
           onClick={() => {
-            window.history.pushState({}, '', '/examples');
+            window.history.pushState({}, '', localePath(currentLocale(), '/examples'));
             window.dispatchEvent(new PopStateEvent('popstate'));
             window.scrollTo({ top: 0, behavior: 'auto' });
           }}

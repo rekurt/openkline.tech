@@ -43,6 +43,11 @@ const ROUTES = {
     desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.',
     ogTitle: 'openkline roadmap',
   },
+  support: {
+    title: 'Support — openkline',
+    desc: 'Get help with openkline: community support via GitHub Discussions, commercial support and consulting for teams.',
+    ogTitle: 'openkline support',
+  },
 };
 
 function buildHreflangTags(routePath) {

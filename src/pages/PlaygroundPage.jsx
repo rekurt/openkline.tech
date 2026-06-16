@@ -5,7 +5,8 @@ import { CodeBlock } from '../components/CodeBlock.jsx';
 import { CandleChart } from '../components/CandleChart.jsx';
 import { SegmentedControl } from '../components/SegmentedControl.jsx';
 import { useI18n } from '../i18n/index.jsx';
-import { navigate } from '../router.jsx';
+import { navigate, currentLocale } from '../router.jsx';
+import { localePath } from '../i18n/index.jsx';
 import { PROJECT } from '../content/project.js';
 
 // ── Playground state defaults ───────────────────────────────────────────────
@@ -123,7 +124,7 @@ export function PlaygroundPage() {
   useEffect(() => {
     const params = stateToParams(state);
     const search = params.toString();
-    const url = '/playground' + (search ? `?${search}` : '');
+    const url = localePath(currentLocale(), '/playground') + (search ? `?${search}` : '');
     if (window.location.pathname + window.location.search !== url) {
       window.history.replaceState({}, '', url);
     }
@@ -149,7 +150,7 @@ export function PlaygroundPage() {
   const copyShareUrl = useCallback(() => {
     const params = stateToParams(state);
     const search = params.toString();
-    const url = `${PROJECT.site}/playground${search ? `?${search}` : ''}`;
+    const url = `${PROJECT.site}${localePath(currentLocale(), '/playground')}${search ? `?${search}` : ''}`;
     navigator.clipboard?.writeText(url);
   }, [state]);
 

@@ -19,7 +19,7 @@ function FeatureCard({ feature, t }) {
       {feature.proof && <p className="rm-card-proof">{feature.proof}</p>}
       <div className="rm-card-links">
         {feature.docs && <a href={feature.docs}>{labels.docsLink}</a>}
-        {feature.example && <Link to={`examples/${feature.id}`}>{labels.exampleLink}</Link>}
+        {feature.example && <Link to="examples">{labels.exampleLink}</Link>}
         {feature.status === 'sponsored' && (
           <a href={`mailto:${PROJECT.contacts.email}?subject=Sponsor: ${feature.id}`} className="btn btn-sm">
             {labels.sponsorCta}
