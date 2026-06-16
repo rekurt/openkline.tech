@@ -134,4 +134,19 @@
   <url><loc>https://openkline.tech/sn/roadmap</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://openkline.tech/zh/roadmap</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 
+  <!-- === Support === -->
+  <url>
+    <loc>https://openkline.tech/support</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://openkline.tech/support" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://openkline.tech/ru/support" />
+    <xhtml:link rel="alternate" hreflang="sn" href="https://openkline.tech/sn/support" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://openkline.tech/zh/support" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://openkline.tech/support" />
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url><loc>https://openkline.tech/ru/support</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://openkline.tech/sn/support</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://openkline.tech/zh/support</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
 </urlset>

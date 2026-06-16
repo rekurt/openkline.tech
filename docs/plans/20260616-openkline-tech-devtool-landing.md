@@ -188,16 +188,16 @@
 
 ### Task 7: Phase 7 — support, security и финальное укрепление
 
-- [ ] создать/переделать `/support` (Commercial / Community / Security / Contact); donation-options только вторичным блоком
-- [ ] добавить security contact и `.well-known/security.txt` + тексты «no telemetry» / «no hosted runtime» / «your market data stays in your app»
-- [ ] создать `docs/brand-tone.md` (разрешённые/запрещённые формулы, visual direction)
-- [ ] прогнать responsive QA (1440 / 1024 / 768 / 390, dark/light, длинные code blocks, широкие таблицы, меню, switcher, copy buttons, playground)
-- [ ] прогнать a11y QA (keyboard nav, focus states, aria labels, contrast, reduced motion, no keyboard traps, текст вокруг графиков)
-- [ ] прогнать link QA (GitHub, Docs, Reference, Examples, Benchmarks, Roadmap, Support, mailto, Telegram, sitemap, locale switch)
-- [ ] прогнать content QA (версии/метрики/числа синхронизированы, нет roadmap-фич в hero, нет fake benchmarks, нет неподтверждённых сравнений, нет crypto donation в воронке, footer в tone)
-- [ ] подготовить PR summary и manual verification checklist
-- [ ] написать/обновить тесты для изменённой функциональности
-- [ ] прогнать сборку и тесты проекта — должны проходить перед следующим Task
+- [x] создать/переделать `/support` (Commercial / Community / Security / Contact); donation-options только вторичным блоком
+- [x] добавить security contact и `.well-known/security.txt` + тексты «no telemetry» / «no hosted runtime» / «your market data stays in your app»
+- [x] создать `docs/brand-tone.md` (разрешённые/запрещённые формулы, visual direction)
+- [x] прогнать responsive QA (1440 / 1024 / 768 / 390, dark/light, длинные code blocks, широкие таблицы, меню, switcher, copy buttons, playground)
+- [x] прогнать a11y QA (keyboard nav, focus states, aria labels, contrast, reduced motion, no keyboard traps, текст вокруг графиков)
+- [x] прогнать link QA (GitHub, Docs, Reference, Examples, Benchmarks, Roadmap, Support, mailto, Telegram, sitemap, locale switch)
+- [x] прогнать content QA (версии/метрики/числа синхронизированы, нет roadmap-фич в hero, нет fake benchmarks, нет неподтверждённых сравнений, нет crypto donation в воронке, footer в tone)
+- [x] подготовить PR summary и manual verification checklist
+- [x] написать/обновить тесты для изменённой функциональности
+- [x] прогнать сборку и тесты проекта — должны проходить перед следующим Task
 
 ### Task 8: Verify acceptance criteria
 

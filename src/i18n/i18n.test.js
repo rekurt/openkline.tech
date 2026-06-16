@@ -399,3 +399,60 @@ describe('locale config consistency', () => {
     }
   });
 });
+
+// ---------------------------------------------------------------------------
+// Support page section
+// ---------------------------------------------------------------------------
+describe('support page section', () => {
+  const requiredKeys = [
+    'label', 'h1', 'lede',
+    'commercial', 'community', 'security', 'contact', 'donate',
+    'ctaH2', 'ctaLede', 'ctaPlayground', 'ctaDocs',
+  ];
+
+  for (const [name, dict] of Object.entries(locales)) {
+    it(`${name} has support key with all required fields`, () => {
+      expect(dict.support).toBeTruthy();
+      for (const key of requiredKeys) {
+        expect(dict.support).toHaveProperty(key);
+      }
+    });
+
+    it(`${name} has commercial support with features list`, () => {
+      const com = dict.support.commercial;
+      expect(com).toHaveProperty('h2');
+      expect(com).toHaveProperty('lede');
+      expect(com).toHaveProperty('cta');
+      expect(com.features).toHaveLength(4);
+    });
+
+    it(`${name} has security section with promises`, () => {
+      const sec = dict.support.security;
+      expect(sec).toHaveProperty('h2');
+      expect(sec).toHaveProperty('lede');
+      expect(sec).toHaveProperty('email');
+      expect(sec.promises).toHaveLength(3);
+    });
+
+    it(`${name} has contact section with email/github/telegram`, () => {
+      const con = dict.support.contact;
+      expect(con).toHaveProperty('h2');
+      expect(con.email).toHaveProperty('k');
+      expect(con.email).toHaveProperty('d');
+      expect(con.github).toHaveProperty('k');
+      expect(con.telegram).toHaveProperty('k');
+    });
+  }
+
+  it('commercial features count matches across locales', () => {
+    expect(ru.support.commercial.features.length).toBe(en.support.commercial.features.length);
+    expect(zh.support.commercial.features.length).toBe(en.support.commercial.features.length);
+    expect(sn.support.commercial.features.length).toBe(en.support.commercial.features.length);
+  });
+
+  it('security promises count matches across locales', () => {
+    expect(ru.support.security.promises.length).toBe(en.support.security.promises.length);
+    expect(zh.support.security.promises.length).toBe(en.support.security.promises.length);
+    expect(sn.support.security.promises.length).toBe(en.support.security.promises.length);
+  });
+});

@@ -180,6 +180,13 @@ describe('ROUTES source of truth', () => {
     expect(PATH_TO_ROUTE['/roadmap']).toBe('roadmap');
     expect(ROUTE_TO_PATH['roadmap']).toBe('/roadmap');
   });
+
+  it('has support route', () => {
+    const ids = ROUTE_DEFS.map((r) => r.id);
+    expect(ids).toContain('support');
+    expect(PATH_TO_ROUTE['/support']).toBe('support');
+    expect(ROUTE_TO_PATH['support']).toBe('/support');
+  });
 });
 
 // ---------------------------------------------------------------------------

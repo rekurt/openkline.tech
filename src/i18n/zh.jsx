@@ -549,4 +549,52 @@ export default {
     ctaPlayground: '打开 Playground',
     ctaDocs: '文档',
   },
+  support: {
+    label: '支持',
+    h1: '支持',
+    lede: 'openkline 是 MIT，并将一直是 MIT。无论您需要商业优先还是社区帮助——以下是联系方式。',
+    commercial: {
+      h2: '商业支持',
+      lede: '优先修复缺陷、交易所适配器、自定义指标和架构评审。付费工作以 MIT 进上游——所有人受益。',
+      features: [
+        '交易所适配器开发',
+        '自定义指标实现',
+        '优先缺陷修复和功能请求',
+        '集成架构评审',
+      ],
+      cta: '申请集成评审',
+    },
+    community: {
+      h2: '社区',
+      lede: '带复现或场景开 issue。通过评审的提案会获得里程碑。',
+      github: '在 GitHub 上打开 issue',
+      telegram: '在 Telegram 中快速提问',
+    },
+    security: {
+      h2: '安全',
+      lede: '发现漏洞？请私下报告。',
+      email: '邮件联系维护者',
+      pgp: 'PGP 密钥可应要求提供。',
+      promises: [
+        '零遥测——无分析、无回拨、无托管运行时。',
+        '您的市场数据留在您的应用中——openkline 永远看不到。',
+        '引擎不加载任何第三方脚本。',
+      ],
+    },
+    contact: {
+      h2: '联系方式',
+      email: { k: '邮箱', d: '功能定制、商务合作、安全报告' },
+      github: { k: 'github', d: 'Issues、PR、讨论——唯一事实来源' },
+      telegram: { k: '电报', d: '快速提问、集成协助' },
+    },
+    donate: {
+      h2: '赞助项目',
+      lede: '一次性或定期——每笔贡献都用于维护：分诊、评审、让测试保持绿色。',
+      cta: '在 GitHub 上赞助',
+    },
+    ctaH2: '准备好集成了吗？',
+    ctaLede: 'Playground 运行的是真正的引擎。试用后将配置复制到您的项目中。',
+    ctaPlayground: '打开 Playground',
+    ctaDocs: '文档',
+  },
 };

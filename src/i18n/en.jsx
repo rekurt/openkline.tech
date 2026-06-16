@@ -553,4 +553,52 @@ export default {
     ctaPlayground: 'Open playground',
     ctaDocs: 'Documentation',
   },
+  support: {
+    label: 'support',
+    h1: 'Support',
+    lede: 'openkline is MIT and stays MIT. Whether you need commercial priority or community help — here is how to reach us.',
+    commercial: {
+      h2: 'Commercial support',
+      lede: 'Priority bug fixes, exchange adapters, custom indicators and architecture reviews. Paid work lands upstream under MIT — everyone benefits.',
+      features: [
+        'Exchange adapter development',
+        'Custom indicator implementation',
+        'Priority bug fixes and feature requests',
+        'Architecture review for your integration',
+      ],
+      cta: 'Request integration review',
+    },
+    community: {
+      h2: 'Community',
+      lede: 'Open an issue with a repro or a use case. Proposals that survive review get a milestone.',
+      github: 'Open an issue on GitHub',
+      telegram: 'Quick questions in Telegram',
+    },
+    security: {
+      h2: 'Security',
+      lede: 'Found a vulnerability? Report it privately.',
+      email: 'Email the maintainer',
+      pgp: 'PGP key available on request.',
+      promises: [
+        'Zero telemetry — no analytics, no phone-home, no hosted runtime.',
+        'Your market data stays in your app — openkline never sees it.',
+        'No third-party scripts loaded by the engine.',
+      ],
+    },
+    contact: {
+      h2: 'Contact',
+      email: { k: 'email', d: 'Feature orders, commercial questions, security reports' },
+      github: { k: 'github', d: 'Issues, PRs, discussions — the source of truth' },
+      telegram: { k: 'telegram', d: 'Quick questions, integration help' },
+    },
+    donate: {
+      h2: 'Sponsor the project',
+      lede: 'One-off or recurring — every contribution goes to maintenance: triage, reviews, and keeping the test suite green.',
+      cta: 'Sponsor on GitHub',
+    },
+    ctaH2: 'Ready to integrate?',
+    ctaLede: 'The playground runs the real engine. Try it, then copy the config into your project.',
+    ctaPlayground: 'Open playground',
+    ctaDocs: 'Documentation',
+  },
 };

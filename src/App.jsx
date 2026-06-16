@@ -20,6 +20,7 @@ const ExamplesPage = lazy(() => import('./pages/ExamplesPage.jsx').then((m) => (
 const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage.jsx').then((m) => ({ default: m.PlaygroundPage })));
 const BenchmarksPage = lazy(() => import('./pages/BenchmarksPage.jsx').then((m) => ({ default: m.BenchmarksPage })));
 const RoadmapPage = lazy(() => import('./pages/RoadmapPage.jsx').then((m) => ({ default: m.RoadmapPage })));
+const SupportPage = lazy(() => import('./pages/SupportPage.jsx').then((m) => ({ default: m.SupportPage })));
 
 const REPO = PROJECT.urls.github;
 
@@ -34,6 +35,7 @@ const META = {
   playground: { title: 'Playground — openkline', desc: 'Interactive playground for the openkline charting engine. Pick a symbol, toggle indicators, switch themes and copy the generated config.' },
   benchmarks: { title: 'Benchmarks — openkline', desc: 'Performance benchmarks for the openkline OHLCV charting engine: setData, append, pan, zoom, indicator recompute and more.' },
   roadmap: { title: 'Roadmap — openkline', desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.' },
+  support: { title: 'Support — openkline', desc: 'Commercial support, community help, security contact and sponsorship for the openkline OHLCV charting engine.' },
 };
 
 const ORIGIN = 'https://openkline.tech';
@@ -199,6 +201,7 @@ export default function App() {
   if (route === 'playground') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><PlaygroundPage /></div></div></Suspense>;
   if (route === 'benchmarks') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><BenchmarksPage /></div></div></Suspense>;
   if (route === 'roadmap') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><RoadmapPage /></div></div></Suspense>;
+  if (route === 'support') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="support">{t.nav.support}</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><SupportPage /></div></div></Suspense>;
 
   const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
@@ -260,6 +263,7 @@ export default function App() {
           <Link to="playground">{t.footer.playground}</Link>
           <Link to="benchmarks">Benchmarks</Link>
           <Link to="roadmap">Roadmap</Link>
+          <Link to="support">{t.nav.support}</Link>
           <Link to="docs">{t.nav.docs}</Link>
           <Link to="reference">{t.nav.reference}</Link>
           <a href={`mailto:${PROJECT.contacts.email}`}>{PROJECT.contacts.email}</a>
@@ -287,9 +291,9 @@ export default function App() {
           <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
             <span className="num">02</span>{t.nav.reference}<span className="arr">→</span>
           </Link>
-          <button type="button" className="tl-menu-item" onClick={() => goSection('support')}>
+          <Link to="support" className="tl-menu-item" onNavigate={closeMenu}>
             <span className="num">03</span>{t.nav.support}<span className="arr">→</span>
-          </button>
+          </Link>
           <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
             <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
           </button>

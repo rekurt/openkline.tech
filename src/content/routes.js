@@ -10,8 +10,7 @@ export const ROUTE_DEFS = [
   { id: 'playground', path: '/playground' },
   { id: 'benchmarks', path: '/benchmarks' },
   { id: 'roadmap', path: '/roadmap' },
-  // Future routes (uncomment when pages are created):
-  // { id: 'support', path: '/support' },
+  { id: 'support', path: '/support' },
 ];
 
 /** path → route id lookup (includes aliases). */
