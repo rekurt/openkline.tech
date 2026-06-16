@@ -194,16 +194,6 @@ export default function App() {
     </button>
   );
 
-  // Dedicated full-page routes render their own chrome.
-  if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
-  if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
-  if (route === 'examples') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><ExamplesPage /></div></div></Suspense>;
-  if (route === 'playground') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><PlaygroundPage /></div></div></Suspense>;
-  if (route === 'benchmarks') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><BenchmarksPage /></div></div></Suspense>;
-  if (route === 'roadmap') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><RoadmapPage /></div></div></Suspense>;
-  if (route === 'support') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="support">{t.nav.support}</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><SupportPage /></div></div></Suspense>;
-
-  const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
   const goSection = (id) => {
     closeMenu();
@@ -214,6 +204,56 @@ export default function App() {
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }, 60);
   };
+
+  // The full-screen mobile menu is shared by every route (landing and the
+  // dedicated full-page routes below), so the burger button works everywhere.
+  const mobileMenu = (
+    <div id="tl-menu" className={`tl-menu${menuOpen ? ' open' : ''}`} role="dialog" aria-modal="true" aria-label={t.nav.menuOpen}>
+      <div className="shell tl-menu-bar">
+        <span className="brand">
+          <img src="/logo-mark.svg" width="28" height="28" alt="" />
+          openkline
+        </span>
+        <button type="button" className="tl-burger is-x" aria-label={t.nav.menuClose} onClick={closeMenu}>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div className="shell tl-menu-list">
+        <div className="seclabel">{t.nav.menuTag}</div>
+        <Link to="docs" className="tl-menu-item" onNavigate={closeMenu}>
+          <span className="num">01</span>{t.nav.docs}<span className="arr">→</span>
+        </Link>
+        <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
+          <span className="num">02</span>{t.nav.reference}<span className="arr">→</span>
+        </Link>
+        <Link to="support" className="tl-menu-item" onNavigate={closeMenu}>
+          <span className="num">03</span>{t.nav.support}<span className="arr">→</span>
+        </Link>
+        <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
+          <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
+        </button>
+        <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
+          <span className="num">05</span>GitHub<span className="arr">↗</span>
+        </a>
+      </div>
+      <div className="shell tl-menu-foot">
+        <LangSwitch />
+        {themeButton}
+        <span className="meta">MIT · v{version}</span>
+      </div>
+    </div>
+  );
+
+  // Dedicated full-page routes render their own chrome.
+  if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
+  if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
+  if (route === 'examples') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} aria-expanded={menuOpen} aria-controls="tl-menu" onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><ExamplesPage /></div>{mobileMenu}</div></Suspense>;
+  if (route === 'playground') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} aria-expanded={menuOpen} aria-controls="tl-menu" onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><PlaygroundPage /></div>{mobileMenu}</div></Suspense>;
+  if (route === 'benchmarks') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} aria-expanded={menuOpen} aria-controls="tl-menu" onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><BenchmarksPage /></div>{mobileMenu}</div></Suspense>;
+  if (route === 'roadmap') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} aria-expanded={menuOpen} aria-controls="tl-menu" onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><RoadmapPage /></div>{mobileMenu}</div></Suspense>;
+  if (route === 'support') return <Suspense fallback={null}><div className="tl"><Ticker /><div className="shell"><nav><Link to="product" className="brand"><img src="/logo-mark.svg" width="28" height="28" alt="" />openkline</Link><Badge>v{version}</Badge><div className="navlinks"><Link to="examples">Examples</Link><Link to="playground">Playground</Link><Link to="benchmarks">Benchmarks</Link><Link to="roadmap">Roadmap</Link><Link to="support">{t.nav.support}</Link><Link to="docs">{t.nav.docs}</Link><a href={REPO} target="_blank" rel="noreferrer">{t.nav.github}</a><LangSwitch />{themeButton}</div><button type="button" className="tl-burger" aria-label={t.nav.menuOpen} aria-expanded={menuOpen} aria-controls="tl-menu" onClick={() => setMenuOpen(true)}><span></span><span></span><span></span></button></nav><SupportPage /></div>{mobileMenu}</div></Suspense>;
+
+  const page = route === 'developers' ? 'developers' : 'product';
 
   return (
     <div className="tl">
@@ -272,41 +312,7 @@ export default function App() {
         </footer>
       </div>
 
-      {/* full-screen mobile menu — section links + theme + language; tabs live in the nav */}
-      <div id="tl-menu" className={`tl-menu${menuOpen ? ' open' : ''}`} role="dialog" aria-modal="true" aria-label={t.nav.menuOpen}>
-        <div className="shell tl-menu-bar">
-          <span className="brand">
-            <img src="/logo-mark.svg" width="28" height="28" alt="" />
-            openkline
-          </span>
-          <button type="button" className="tl-burger is-x" aria-label={t.nav.menuClose} onClick={closeMenu}>
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-        <div className="shell tl-menu-list">
-          <div className="seclabel">{t.nav.menuTag}</div>
-          <Link to="docs" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">01</span>{t.nav.docs}<span className="arr">→</span>
-          </Link>
-          <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">02</span>{t.nav.reference}<span className="arr">→</span>
-          </Link>
-          <Link to="support" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">03</span>{t.nav.support}<span className="arr">→</span>
-          </Link>
-          <button type="button" className="tl-menu-item" onClick={() => goSection('contacts')}>
-            <span className="num">04</span>{t.nav.contacts}<span className="arr">→</span>
-          </button>
-          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
-            <span className="num">05</span>GitHub<span className="arr">↗</span>
-          </a>
-        </div>
-        <div className="shell tl-menu-foot">
-          <LangSwitch />
-          {themeButton}
-          <span className="meta">MIT · v{version}</span>
-        </div>
-      </div>
+      {mobileMenu}
     </div>
   );
 }
