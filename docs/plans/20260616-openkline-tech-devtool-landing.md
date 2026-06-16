@@ -201,9 +201,9 @@
 
 ### Task 8: Verify acceptance criteria
 
-- [ ] verify all requirements from Overview are implemented (Definition of Done §16): лендинг продаёт за первые 10 секунд; понятно, для кого продукт и почему не iframe/hosted widget/generic chart; hero CTA корректны; есть working live demo; есть `/examples`, `/playground`, `/benchmarks`, `/roadmap`, `/support`; фичи имеют статусы; метрики имеют source of truth; нет противоречий сайт/docs/README; нет фейковых benchmarks и неподтверждённых claims; есть locale routes `ru / sn / zh`; есть SEO meta, hreflang, sitemap, нормальные OG images; есть professional commercial-support path; crypto donations вне основной воронки; footer в professional-punk tone; mobile работает; визуальный стиль сохранён
-- [ ] run full project test suite (`npm run build` + `npm test` / lint / typecheck где доступны) — всё должно проходить
-- [ ] run project linter — все проблемы должны быть исправлены
+- [x] verify all requirements from Overview are implemented (Definition of Done §16): лендинг продаёт за первые 10 секунд; понятно, для кого продукт и почему не iframe/hosted widget/generic chart; hero CTA корректны; есть working live demo; есть `/examples`, `/playground`, `/benchmarks`, `/roadmap`, `/support`; фичи имеют статусы; метрики имеют source of truth; нет противоречий сайт/docs/README; нет фейковых benchmarks и неподтверждённых claims; есть locale routes `ru / sn / zh`; есть SEO meta, hreflang, sitemap, нормальные OG images; есть professional commercial-support path; crypto donations вне основной воронки; footer в professional-punk tone; mobile работает; визуальный стиль сохранён
+- [x] run full project test suite (`npm run build` + `npm test` / lint / typecheck где доступны) — всё должно проходить
+- [x] run project linter — все проблемы должны быть исправлены
 
 ## Post-Completion
 
