@@ -93,6 +93,8 @@ export function CandleChart({
   drift = 0.02,
   height = 360,
   indicators = [],
+  type = 'candle',
+  theme,
   showVolume = true,
   showGrid = true,
   showAxes = true,
@@ -156,6 +158,8 @@ export function CandleChart({
         ind2: cssVar(wrap, '--ind-2', '#58a6ff'),
         ind3: cssVar(wrap, '--ind-3', '#c084fc'),
         ind4: cssVar(wrap, '--ind-4', '#f97583'),
+        accent: cssVar(wrap, '--accent', '#2962ff'),
+        accentDim: cssVar(wrap, '--accent-dim', 'rgba(41, 98, 255, 0.16)'),
       };
 
       const axisW = showAxes ? 56 : 0;
@@ -225,24 +229,6 @@ export function CandleChart({
         }
       }
 
-      /* candles */
-      for (let i = 0; i < n; i++) {
-        const c = candles[i];
-        const up = c.c >= c.o;
-        ctx.strokeStyle = up ? col.bull : col.bear;
-        ctx.fillStyle = up ? col.bull : col.bear;
-        const x = Math.round(xAt(i)) + 0.5;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x, yAt(c.h));
-        ctx.lineTo(x, yAt(c.l));
-        ctx.stroke();
-        const top = yAt(Math.max(c.o, c.c));
-        const hgt = Math.max(1, Math.abs(yAt(c.o) - yAt(c.c)));
-        ctx.fillRect(Math.round(xAt(i) - bodyW / 2), top, bodyW, hgt);
-      }
-
-      /* indicator overlays */
       function line(arr, color, width = 1.5) {
         ctx.strokeStyle = color;
         ctx.lineWidth = width;
@@ -259,6 +245,39 @@ export function CandleChart({
         }
         ctx.stroke();
       }
+
+      /* price series — candles, or a close-price line / area */
+      if (type === 'line' || type === 'area') {
+        const closes = candles.map((c) => c.c);
+        if (type === 'area') {
+          ctx.beginPath();
+          ctx.moveTo(xAt(0), yAt(closes[0]));
+          for (let i = 1; i < n; i++) ctx.lineTo(xAt(i), yAt(closes[i]));
+          ctx.lineTo(xAt(n - 1), plotH - volH);
+          ctx.lineTo(xAt(0), plotH - volH);
+          ctx.closePath();
+          ctx.fillStyle = col.accentDim;
+          ctx.fill();
+        }
+        line(closes, col.accent, 1.5);
+      } else {
+        for (let i = 0; i < n; i++) {
+          const c = candles[i];
+          const up = c.c >= c.o;
+          ctx.strokeStyle = up ? col.bull : col.bear;
+          ctx.fillStyle = up ? col.bull : col.bear;
+          const x = Math.round(xAt(i)) + 0.5;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x, yAt(c.h));
+          ctx.lineTo(x, yAt(c.l));
+          ctx.stroke();
+          const top = yAt(Math.max(c.o, c.c));
+          const hgt = Math.max(1, Math.abs(yAt(c.o) - yAt(c.c)));
+          ctx.fillRect(Math.round(xAt(i) - bodyW / 2), top, bodyW, hgt);
+        }
+      }
+
       if (series.bb) {
         line(series.bb.up, col.ind3, 1);
         line(series.bb.lo, col.ind3, 1);
@@ -385,10 +404,14 @@ export function CandleChart({
       if (onMove) canvas.removeEventListener('mousemove', onMove);
       if (onLeave) canvas.removeEventListener('mouseleave', onLeave);
     };
-  }, [candles, series, height, showVolume, showGrid, showAxes, showLastPrice, interactive]);
+  }, [candles, series, height, type, theme, showVolume, showGrid, showAxes, showLastPrice, interactive]);
 
   return (
-    <div ref={wrapRef} style={{ position: 'relative', width: '100%', height, ...style }}>
+    <div
+      ref={wrapRef}
+      data-theme={theme || undefined}
+      style={{ position: 'relative', width: '100%', height, ...style }}
+    >
       <canvas ref={canvasRef} style={{ display: 'block', cursor: interactive ? 'crosshair' : 'default' }}></canvas>
     </div>
   );

@@ -78,6 +78,7 @@ const chart = new OHLCVChart({
   container,
   symbol: '${state.symbol}',
   resolution: '${state.resolution}',
+  type: '${state.chartType}',
   theme: '${state.theme}',
 });
 
@@ -240,6 +241,8 @@ export function PlaygroundPage() {
               basePrice={basePrice}
               drift={0.03}
               height={420}
+              type={state.chartType}
+              theme={state.theme}
               indicators={state.indicators}
             />
           </div>

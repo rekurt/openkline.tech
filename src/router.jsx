@@ -45,15 +45,16 @@ export function navigate(page, hash) {
   if (!hash) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
-/** Navigate to a specific locale, keeping the current route. */
+/** Navigate to a specific locale, keeping the current route, subpath and query. */
 export function navigateToLocale(locale) {
-  const route = currentRoute();
-  const routePath = PATH_OF[route] || '/';
-  const path = localePath(locale, routePath);
-  const hash = window.location.hash;
-  const url = path + hash;
-  if (window.location.pathname + window.location.hash !== url) {
-    window.history.pushState({ route }, '', url);
+  // Rebuild from the *actual* path after the locale prefix (e.g. /examples/realtime),
+  // not the coarse route id, and keep the query string — otherwise switching
+  // languages drops example ids and shareable playground params.
+  const { rest } = parseLocale(window.location.pathname);
+  const path = localePath(locale, rest);
+  const url = path + window.location.search + window.location.hash;
+  if (window.location.pathname + window.location.search + window.location.hash !== url) {
+    window.history.pushState({}, '', url);
   }
   window.dispatchEvent(new PopStateEvent('popstate'));
 }

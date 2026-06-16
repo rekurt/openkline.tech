@@ -91,4 +91,15 @@ describe('playground generateCode', () => {
     expect(code).toContain("symbol: 'ETH/USDT'");
     expect(code).not.toContain('setIndicatorConfigs');
   });
+
+  it('wires the selected chart type into the config', () => {
+    const code = generateCode({
+      symbol: 'BTC/USDT',
+      resolution: '1H',
+      chartType: 'area',
+      theme: 'dark',
+      indicators: [],
+    });
+    expect(code).toContain("type: 'area'");
+  });
 });

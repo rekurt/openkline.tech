@@ -64,6 +64,18 @@ export function I18nProvider({ children }) {
     }
   }, [lang]);
 
+  // The locale is encoded in the URL, so any history change (Back/Forward, or a
+  // programmatic navigate) must re-sync it — otherwise an English URL can keep
+  // rendering Russian copy and a stale <html lang>.
+  useEffect(() => {
+    const onPop = () => {
+      const { locale } = parseLocale(window.location.pathname);
+      if (DICTS[locale]) setLang(locale);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
   return <I18nContext.Provider value={{ lang, setLang, t: DICTS[lang] }}>{children}</I18nContext.Provider>;
 }
 
