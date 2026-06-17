@@ -8,7 +8,9 @@ import { presetsToConfigs } from '../engine/indicatorPresets.js';
 import { LegendChip } from '../components/LegendChip.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useMetrics } from '../lib/useMetrics.jsx';
-import { navigate } from '../router.jsx';
+import { navigate, Link } from '../router.jsx';
+import { PROJECT } from '../content/project.js';
+import { INDICATOR_COUNT, DRAWING_TOOL_COUNT } from '../content/features.js';
 
 const FEATURE_NUMS = ['/01', '/02', '/03', '/04'];
 
@@ -45,11 +47,15 @@ export function ProductPage({ onOpenDev }) {
           <h1>{p.h1}</h1>
           <p className="lede">{p.lede}</p>
           <div className="cta">
-            <Button variant="ember" size="lg" onClick={() => navigate('docs')}>{p.ctaPlayground}</Button>
-            <Button size="lg" onClick={onOpenDev}>{p.ctaDocs}</Button>
+            <Button variant="ember" size="lg" onClick={() => {
+              const el = document.getElementById('playground');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}>{p.ctaPlayground}</Button>
+            <Button size="lg" onClick={() => navigate('docs')}>{p.ctaDocs}</Button>
+            <Button size="lg" onClick={() => window.open(PROJECT.urls.github, '_blank')}>GitHub</Button>
           </div>
-          <CodeBlock prompt size="sm" copy copyText="npm install @rekurt/openkline-core" style={{ maxWidth: 440 }}>
-            npm install @rekurt/openkline-core<span className="tl-cursor"></span>
+          <CodeBlock prompt size="sm" copy copyText={PROJECT.install.core} style={{ maxWidth: 440 }}>
+            {PROJECT.install.core}<span className="tl-cursor"></span>
           </CodeBlock>
         </div>
         <div className="tl-frame">
@@ -113,7 +119,7 @@ export function ProductPage({ onOpenDev }) {
         <h2>{p.s02.h2}</h2>
         <p className="sectionLede">{p.s02.lede}</p>
         <div className="tl-codegrid">
-          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '@rekurt/openkline-core';
+          <CodeBlock title="chart.ts">{`import { OHLCVChart } from '${PROJECT.packages.core}';
 
 const chart = new OHLCVChart({
   container, symbol: 'BTC/USDT',
@@ -130,6 +136,75 @@ chart.setData(candles);`}</CodeBlock>
               {p.s02.btn}
             </Button>
           </div>
+        </div>
+      </section>
+
+      <section id="problem" data-num="problem">
+        <div className="seclabel">{p.problem.label}</div>
+        <h2>{p.problem.h2}</h2>
+        <p className="sectionLede">{p.problem.lede}</p>
+        <div className="tl-features">
+          {p.problem.cards.map((card, i) => (
+            <div className="tl-feature" key={i}>
+              <span className="num">{card.icon}</span>
+              <h3>{card.h}</h3>
+              <p>{card.p}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 24 }}>
+          <Button variant="ember" onClick={() => {
+            const el = document.getElementById('compare');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}>{p.problem.cta}</Button>
+        </div>
+      </section>
+
+      <section id="built-for" data-num="for">
+        <div className="seclabel">{p.builtFor.label}</div>
+        <h2>{p.builtFor.h2}</h2>
+        <p className="sectionLede">{p.builtFor.lede}</p>
+        <div className="tl-features">
+          {p.builtFor.segments.map((seg, i) => (
+            <div className="tl-feature" key={i}>
+              <h3>{seg.h}</h3>
+              <p style={{ marginBottom: 8 }}>{seg.pain}</p>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-muted)' }}>{seg.features}</p>
+              <div style={{ marginTop: 'auto', paddingTop: 16 }}>
+                {seg.ctaId ? (
+                  <Button size="sm" onClick={() => {
+                    const el = document.getElementById(seg.ctaId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}>{seg.cta}</Button>
+                ) : (
+                  <Button size="sm" onClick={() => navigate(seg.ctaRoute)}>{seg.cta}</Button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="pillars" data-num="proof">
+        <div className="seclabel">{p.pillars.label}</div>
+        <h2>{p.pillars.h2}</h2>
+        <p className="sectionLede">{p.pillars.lede}</p>
+        <div className="tl-pillars">
+          {p.pillars.items.map((item, i) => (
+            <div className="tl-pillar" key={i}>
+              <h3>{item.claim}</h3>
+              <p className="proof">{item.proof}</p>
+              <div className="pillar-links">
+                {item.demo && (
+                  <button type="button" className="pillar-link" onClick={() => {
+                    const el = document.getElementById(item.demoId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}>{item.demo} →</button>
+                )}
+                {item.docs && <Link className="pillar-link" to="docs" hash={item.docs.replace('/docs#', '')}>{item.docs.includes('indicator') ? 'Docs: indicators' : item.docs.includes('drawing') ? 'Docs: drawings' : 'Docs'} →</Link>}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -160,6 +235,72 @@ chart.setData(candles);`}</CodeBlock>
           </tbody>
         </table>
         </div>
+      </section>
+
+      <section id="use-when" data-num="vs">
+        <div className="seclabel">{p.useWhen.label}</div>
+        <h2>{p.useWhen.h2}</h2>
+        <p className="sectionLede">{p.useWhen.lede}</p>
+        <div className="tl-usewhen">
+          <div className="tl-usewhen-col use">
+            <h3>{p.useWhen.use.h}</h3>
+            <ul>
+              {p.useWhen.use.items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+          <div className="tl-usewhen-col other">
+            <h3>{p.useWhen.other.h}</h3>
+            <ul>
+              {p.useWhen.other.items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+        <p className="tl-footnote">{p.useWhen.footnote}</p>
+      </section>
+
+      <section id="commercial-support" data-num="sup">
+        <div className="seclabel">{p.commercialSupport?.label || p.faq.label}</div>
+        <h2>{p.commercialSupport?.h2 || 'Commercial support'}</h2>
+        <p className="sectionLede">{p.commercialSupport?.lede || ''}</p>
+        {p.commercialSupport?.features && (
+          <ul className="tl-suplist">
+            {p.commercialSupport.features.map((f, i) => <li key={i}>{f}</li>)}
+          </ul>
+        )}
+        <div style={{ marginTop: 20 }}>
+          <Button variant="ember" size="lg" onClick={() => {
+            window.location.href = `mailto:${PROJECT.contacts.email}?subject=openkline%20integration%20review`;
+          }}>{p.commercialSupport?.cta || 'Request integration review'}</Button>
+        </div>
+      </section>
+
+      <section id="faq" data-num="faq">
+        <div className="seclabel">{p.faq.label}</div>
+        <h2>{p.faq.h2}</h2>
+        <div className="tl-faq">
+          {p.faq.items.map((item, i) => (
+            <details className="tl-faq-item" key={i}>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section id="final-cta" className="tl-finalcta">
+        <h2>{p.finalCta.h2}</h2>
+        <p className="sectionLede" style={{ textAlign: 'center', margin: '0 auto 28px' }}>{p.finalCta.lede}</p>
+        <div className="cta" style={{ justifyContent: 'center' }}>
+          <Button variant="ember" size="lg" onClick={() => {
+            const el = document.getElementById('playground');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}>{p.finalCta.btnDemo}</Button>
+          <Button size="lg" onClick={() => navigate('docs')}>{p.finalCta.btnDocs}</Button>
+          <Button size="lg" onClick={() => window.open(PROJECT.urls.github, '_blank')}>{p.finalCta.btnGithub}</Button>
+        </div>
+        <CodeBlock prompt size="sm" copy copyText={PROJECT.install.core} style={{ maxWidth: 440, margin: '20px auto 0' }}>
+          {PROJECT.install.core}<span className="tl-cursor"></span>
+        </CodeBlock>
       </section>
     </div>
   );

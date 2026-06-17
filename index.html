@@ -8,7 +8,7 @@
     <meta name="robots" content="index, follow" />
 
     <title>openkline — open-source OHLCV charting engine</title>
-    <meta name="description" content="openkline — TradingView-grade open-source OHLCV charting engine. MIT, framework-agnostic, candles, 30+ indicators, drawing tools and realtime out of the box." />
+    <meta name="description" content="openkline — TradingView-grade open-source OHLCV charting engine. MIT, framework-agnostic, candles, 24 indicators, drawing tools and realtime out of the box." />
     <link rel="canonical" href="https://openkline.tech/" />
 
     <!-- icons / manifest -->
@@ -19,19 +19,28 @@
     <!-- Open Graph -->
     <meta property="og:site_name" content="openkline" />
     <meta property="og:title" content="openkline — Not your engine, not your charts." />
-    <meta property="og:description" content="Open-source MIT charting engine. Candles, 30+ indicators, anchored drawing tools, realtime transports. One TypeScript core; React and Vue wrappers." />
+    <meta property="og:description" content="Open-source MIT charting engine. Candles, 24 indicators, anchored drawing tools, realtime transports. One TypeScript core; React and Vue wrappers." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://openkline.tech/" />
-    <meta property="og:image" content="https://openkline.tech/logo-mark.svg" />
+    <meta property="og:image" content="https://openkline.tech/og/en.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ru_RU" />
     <meta property="og:locale:alternate" content="zh_CN" />
 
+    <!-- hreflang — static defaults, overridden at runtime by applyMeta() -->
+    <link rel="alternate" hreflang="en" href="https://openkline.tech/" />
+    <link rel="alternate" hreflang="ru" href="https://openkline.tech/ru" />
+    <link rel="alternate" hreflang="sn" href="https://openkline.tech/sn" />
+    <link rel="alternate" hreflang="zh" href="https://openkline.tech/zh" />
+    <link rel="alternate" hreflang="x-default" href="https://openkline.tech/" />
+
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="openkline — Not your engine, not your charts." />
-    <meta name="twitter:description" content="Open-source MIT charting engine. Candles, 30+ indicators, anchored drawing tools, realtime transports." />
-    <meta name="twitter:image" content="https://openkline.tech/logo-mark.svg" />
+    <meta name="twitter:description" content="Open-source MIT charting engine. Candles, 24 indicators, anchored drawing tools, realtime transports." />
+    <meta name="twitter:image" content="https://openkline.tech/og/en.png" />
 
     <!-- perf: warm up the font + data origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,7 +61,7 @@
             "url": "https://openkline.tech/",
             "name": "openkline",
             "description": "Open-source MIT OHLCV charting engine.",
-            "inLanguage": ["en", "ru", "zh"]
+            "inLanguage": ["en", "ru", "sn", "zh"]
           },
           {
             "@type": "Organization",
@@ -67,7 +76,7 @@
             "name": "openkline",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Web, Node.js",
-            "description": "TradingView-grade OHLCV charting engine: candles, 30+ indicators, anchored drawing tools and realtime transports. One TypeScript core; React and Vue wrappers.",
+            "description": "TradingView-grade OHLCV charting engine: candles, 24 indicators, anchored drawing tools and realtime transports. One TypeScript core; React and Vue wrappers.",
             "url": "https://openkline.tech/",
             "license": "https://opensource.org/licenses/MIT",
             "isAccessibleForFree": true,
@@ -78,22 +87,10 @@
       }
     </script>
 
-    <!-- analytics: Umami (cookieless, privacy-friendly) -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="1ecb866f-f880-4672-825e-e2d397878bac"></script>
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109875855', 'ym');
-
-        ym(109875855, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/109875855" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
+    <!-- analytics: Umami only — cookieless, privacy-friendly, no PII.
+         No Sentry, no Yandex.Metrika: the site ships zero session-replay /
+         cross-site tracking, matching the "zero telemetry" promise in the copy. -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="%VITE_UMAMI_WEBSITE_ID%"></script>
   </head>
   <body>
     <div id="root"></div>

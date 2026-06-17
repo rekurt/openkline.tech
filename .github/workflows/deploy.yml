@@ -23,12 +23,14 @@ jobs:
           submodules: recursive # vendor/openkline — the real engine source, aliased by Vite
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+          node-version: 22
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
         env:
-          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+          # Build-time analytics ID (public). Cookieless Umami only — no Sentry,
+          # no Yandex. Local builds fall back to the committed .env default.
+          VITE_UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

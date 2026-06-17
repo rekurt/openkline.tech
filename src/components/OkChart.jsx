@@ -34,10 +34,13 @@ export function OkChart({
   height = 320,
   style,
   onReady,
+  theme, // optional explicit theme; when omitted the chart follows the site theme
 }) {
   const containerRef = useRef(null);
   const chartRef = useRef(null);
   const initialIdRef = useRef({ symbol, resolution });
+  const themeRef = useRef(theme);
+  const resolveTheme = () => themeRef.current || siteTheme();
 
   // Deterministic dataset — only regenerates when the identity/length changes.
   const candles = useMemo(
@@ -58,7 +61,7 @@ export function OkChart({
         container: containerRef.current,
         symbol,
         resolution,
-        theme: siteTheme(),
+        theme: resolveTheme(),
         chartType,
         onError: (err) => console.warn('[openkline]', err),
       });
@@ -72,8 +75,9 @@ export function OkChart({
     initialIdRef.current = { symbol, resolution };
     onReady?.(chart);
 
-    // Follow the site theme toggle (data-theme on <html>).
-    const obs = new MutationObserver(() => chart.setTheme(siteTheme()));
+    // Follow the site theme toggle (data-theme on <html>) unless an explicit
+    // theme prop pins it.
+    const obs = new MutationObserver(() => chart.setTheme(resolveTheme()));
     obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     return () => {
@@ -94,6 +98,12 @@ export function OkChart({
     }
     Promise.resolve(chartRef.current?.switchSymbol(symbol, resolution)).catch(() => {});
   }, [symbol, resolution]);
+
+  useEffect(() => {
+    themeRef.current = theme;
+    chartRef.current?.setTheme(resolveTheme());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
 
   useEffect(() => {
     chartRef.current?.setData(candles, { preserveView: true });

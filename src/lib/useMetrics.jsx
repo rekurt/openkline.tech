@@ -6,17 +6,18 @@
 // copy (src/data/metrics.json) is the offline / first-paint / rate-limited
 // fallback, so the numbers are never empty.
 import { createContext, useContext, useEffect, useState } from 'react';
-import FALLBACK from '../data/metrics.json';
+import { FALLBACK_METRICS as FALLBACK, METRIC_FIELDS } from '../content/metrics.js';
+import { PROJECT } from '../content/project.js';
 
-const METRICS_URL = 'https://raw.githubusercontent.com/rekurt/openkline/master/metrics.json';
-const REPO_URL = 'https://api.github.com/repos/rekurt/openkline';
-const RELEASE_URL = 'https://api.github.com/repos/rekurt/openkline/releases/latest';
+const METRICS_URL = `https://raw.githubusercontent.com/${PROJECT.repoOrg}/${PROJECT.repoName}/master/metrics.json`;
+const REPO_URL = `https://api.github.com/repos/${PROJECT.repoOrg}/${PROJECT.repoName}`;
+const RELEASE_URL = `https://api.github.com/repos/${PROJECT.repoOrg}/${PROJECT.repoName}/releases/latest`;
 
 const CACHE_KEY = 'ok_metrics_v1';
 const TTL_MS = 60 * 60 * 1000; // 1h between network calls
 const RECHECK_MS = 10 * 60 * 1000;
 
-const FIELDS = ['version', 'coreSizeGzipKb', 'tests', 'lintWarnings', 'indicators', 'drawingTools'];
+const FIELDS = METRIC_FIELDS;
 
 function clean(obj) {
   // keep only known numeric/version fields with sane values

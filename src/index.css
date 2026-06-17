@@ -49,6 +49,24 @@
   --success: var(--bull);
 }
 
+/* Explicit dark override so any element can force the dark palette on its
+   subtree (e.g. the playground preview chart) regardless of the page theme. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-canvas: #131722;
+  --surface-panel: #1e222d;
+  --surface-raised: #262b38;
+  --border: #363a45;
+  --grid: #1e222d;
+  --text-1: #d1d4dc;
+  --text-muted: #758696;
+  --crosshair: #758696;
+  --price-line: #4c525e;
+  --axis: #363a45;
+  --accent-dim: rgba(41, 98, 255, 0.16);
+  --ember-dim: rgba(255, 107, 44, 0.14);
+}
+
 [data-theme='light'] {
   color-scheme: light;
   --bg-canvas: #ffffff;
