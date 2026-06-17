@@ -1,5 +1,7 @@
 /* ── docs & reference — built on the openkline tokens ── */
-.dx { background: var(--bg-canvas); color: var(--text-1); font-family: var(--font-ui); min-height: 100vh; }
+/* docs/reference now render INSIDE the shared site shell (nav + footer come
+   from App.jsx), so no full-page chrome here — just the canvas + sidebar grid. */
+.dx { background: var(--bg-canvas); color: var(--text-1); font-family: var(--font-ui); }
 .dx a { color: inherit; }
 .dx .shell { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 .dx code { font-family: var(--font-mono); font-size: 0.92em; color: var(--text-1); }
@@ -17,6 +19,8 @@
   font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); cursor: pointer; transition: border-color var(--dur-fast) var(--ease-out); }
 .dx-searchbtn:hover { border-color: var(--text-muted); }
 .dx-searchbtn .keys { display: flex; gap: 3px; }
+/* search trigger relocated into the docs sidebar (the old topbar is gone) */
+.dx-searchbtn--side { margin-left: 0; width: 100%; min-width: 0; margin-bottom: 6px; }
 .dx-toplinks { display: flex; gap: 18px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
 .dx-toplinks a { text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
 .dx-toplinks a:hover { color: var(--ember); }
@@ -89,6 +93,32 @@
 .dx-ref-group h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; }
 .dx-ref-group h2 .dot { width: 9px; height: 9px; border-radius: 2px; }
 
+/* rich api entries */
+.dx-api-entries { display: flex; flex-direction: column; gap: 16px; }
+.dx-api-entry { border: var(--hairline); background: var(--surface-panel); padding: 18px 18px 16px; scroll-margin-top: 84px; }
+.dx-api-entry-head { display: flex; align-items: baseline; gap: 10px; }
+.dx-api-entry-head .kind { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+.dx-api-entry-head .name { font-size: 15px; font-weight: 700; color: var(--text-1); }
+.dx-anchor { margin-left: auto; color: var(--text-muted); text-decoration: none; font-family: var(--font-mono); opacity: 0; transition: opacity var(--dur-fast) var(--ease-out); }
+.dx-api-entry:hover .dx-anchor, .dx-anchor:focus { opacity: 1; color: var(--ember); }
+.dx-api-sig { display: block; margin: 8px 0 10px; font-size: 12.5px; color: var(--text-muted); word-break: break-word; }
+.dx-api-desc { margin: 0 0 12px; font-size: var(--text-md); line-height: 1.65; color: var(--text-1); max-width: 72ch; }
+.dx-params { width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 13px; }
+.dx-params th { text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; padding: 0 12px 7px 0; border-bottom: var(--hairline); }
+.dx-params td { padding: 8px 12px 8px 0; border-bottom: var(--hairline); color: var(--text-muted); vertical-align: top; line-height: 1.55; }
+.dx-params tr:last-child td { border-bottom: 0; }
+.dx-params td:first-child code { color: var(--text-1); }
+.dx-params .ty { color: var(--ind-2); font-size: 12px; }
+.dx-params .req { color: var(--ember); margin-left: 2px; }
+.dx-returns { margin: 0 0 12px; font-size: 13px; color: var(--text-muted); }
+.dx-returns .lbl, .dx-seealso .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 8px; }
+.dx-returns .ty { color: var(--ind-2); }
+.dx-note { margin: 12px 0 0; padding: 10px 12px; border-left: 2px solid var(--ember); background: var(--ember-dim); font-size: 13px; line-height: 1.6; color: var(--text-1); }
+.dx-seealso { margin: 12px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.dx-seealso a { text-decoration: none; }
+.dx-seealso a code { font-size: 12px; color: var(--ember); border-bottom: 1px solid var(--ember-dim); }
+.dx-seealso a:hover code { border-bottom-color: var(--ember); }
+
 /* ⌘K palette */
 .dx-overlay { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,0.55); display: flex; align-items: flex-start; justify-content: center; padding-top: 12vh; }
 .dx-palette { width: min(620px, 92vw); background: var(--surface-panel); border: var(--hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-modal); overflow: hidden; }
@@ -104,22 +134,34 @@
 @media (max-width: 900px) {
   .dx .shell { padding: 0 20px; }
   .dx-shell { grid-template-columns: 1fr; gap: 0; }
-  .dx-nav { position: static; flex-direction: row; flex-wrap: wrap; gap: 12px 18px; max-height: none; overflow: visible; padding: 14px 0; border-bottom: var(--hairline); }
-  .dx-navgroup { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .dx-navgroup .g { margin: 0 6px 0 0; }
-  .dx-navlink { padding: 5px 8px; }
+  /* sidebar collapses to a full-width search + a stacked section menu under
+     the site nav. Block layout (not flex) so heights never collapse inside the
+     grid; each group is a wrapped row with its label on its own line. */
+  .dx-nav { display: block; position: static; max-height: none; overflow: visible;
+    padding: 14px 0; border-bottom: var(--hairline); }
+  .dx-searchbtn--side { width: 100%; margin-bottom: 12px; }
+  .dx-navgroup { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center;
+    gap: 8px; margin-bottom: 10px; }
+  .dx-navgroup .g { width: 100%; margin: 0 0 2px; }
+  .dx-navlink { padding: 7px 10px; }
   .dx-navlink .n { display: none; }
   .dx-grid2, .dx-tabs2, .dx-catalog, .dx-cards { grid-template-columns: 1fr; }
-  .dx-searchbtn { min-width: 0; }
-  .dx-searchbtn span:first-child { display: none; }
-  .dx-toplinks { display: none; }
 }
 @media (max-width: 560px) {
   .dx .shell { padding: 0 16px; }
-  .dx-badges { display: none; }
   .dx-sec h2 { font-size: var(--text-xl); }
   .dx-ref-head h1 { font-size: var(--text-2xl); }
   .dx-apirow { grid-template-columns: 1fr; }
   .dx-apirow .kind { grid-row: auto; }
   .dx-apirow .name, .dx-apirow .sig, .dx-apirow .desc { grid-column: 1; }
+  /* rich api entries: tighten, and stack the param table into cards so the
+     type/description never get crushed into a 3-column grid on a phone. */
+  .dx-api-entry { padding: 14px; }
+  .dx-api-entry-head { flex-wrap: wrap; gap: 6px; }
+  .dx-params, .dx-params tbody, .dx-params tr, .dx-params td { display: block; width: 100%; }
+  .dx-params thead { display: none; }
+  .dx-params tr { padding: 8px 0; border-bottom: var(--hairline); }
+  .dx-params tr:last-child { border-bottom: 0; }
+  .dx-params td { padding: 2px 0; border: 0; }
+  .dx-params .ty { display: inline-block; margin: 2px 0; }
 }

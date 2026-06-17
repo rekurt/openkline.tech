@@ -27,7 +27,7 @@ export default {
     lede: (
       <>
         So own it: <code>@rekurt/openkline</code> — a TradingView-grade OHLCV charting engine. Open source, MIT, no vendor lock-in.
-        Candles, 30+ indicators, anchored drawing tools and realtime transports out of the box.
+        Candles, 24 indicators, anchored drawing tools and realtime transports out of the box.
         One TypeScript core; <code>react</code> and <code>vue</code> wrappers with full API parity.
       </>
     ),
@@ -75,7 +75,7 @@ export default {
         ),
       },
       {
-        h: '30+ indicators, 9 drawing tools',
+        h: '24 indicators, 14 drawing tools',
         p: (
           <>
             Overlays from SMA to Ichimoku, Supertrend and anchored VWAP; sub-pane RSI, MACD, Stochastic and more.
@@ -109,8 +109,8 @@ export default {
     table: {
       cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
       rows: [
-        { label: 'Indicators built in', cells: [{ cls: 'yes', text: '30+' }, { cls: 'no', text: 'write your own' }, { cls: 'yes', text: 'yes' }, { cls: 'part', text: 'generic' }] },
-        { label: 'Drawing tools', cells: [{ cls: 'yes', text: '9, anchored' }, { cls: 'no', text: 'none' }, { cls: 'yes', text: 'yes' }, { cls: 'no', text: 'none' }] },
+        { label: 'Indicators built in', cells: [{ cls: 'yes', text: '24' }, { cls: 'no', text: 'write your own' }, { cls: 'yes', text: 'yes' }, { cls: 'part', text: 'generic' }] },
+        { label: 'Drawing tools', cells: [{ cls: 'yes', text: '14, anchored' }, { cls: 'no', text: 'none' }, { cls: 'yes', text: 'yes' }, { cls: 'no', text: 'none' }] },
         { label: 'Realtime transports', cells: [{ cls: 'yes', text: 'built in' }, { cls: 'no', text: 'bring your own' }, { cls: 'part', text: 'partial' }, { cls: 'no', text: 'bring your own' }] },
         { label: 'Keyboard + a11y', cells: [{ cls: 'yes', text: 'first-class' }, { cls: 'no', text: 'none' }, { cls: 'part', text: 'partial' }, { cls: 'part', text: 'partial' }] },
         { label: 'License', cells: [{ cls: 'yes', text: 'MIT' }, { cls: 'yes', text: 'Apache-2.0' }, { cls: 'no', text: 'commercial' }, { cls: 'yes', text: 'MIT' }] },
@@ -154,7 +154,7 @@ export default {
             entirely. The same objects round-trip through <code>saveLayoutState</code>.
           </>
         ),
-        metrics: [<><b>30+</b> indicator types</>, <><b>0</b> manual instances</>, <><b>diffed</b> on every render</>],
+        metrics: [<><b>24</b> indicator types</>, <><b>0</b> manual instances</>, <><b>diffed</b> on every render</>],
       },
       {
         k: 'transports',
@@ -263,7 +263,7 @@ export default {
         { k: 'guide', t: 'Theming', d: 'Built-in modes, custom ThemeColors, price and volume formatting.' },
         { k: 'guide', t: 'Live data & transports', d: 'DataTransport interface, polling and WebSocket bases, backoff.' },
         { k: 'reference', t: 'API reference', d: 'Full TypeDoc — every class, option and event in the core.' },
-        { k: 'reference', t: 'Indicators', d: 'Config shapes for all 30+ built-ins, plus the custom-indicator path.' },
+        { k: 'reference', t: 'Indicators', d: 'Config shapes for all 24 built-ins, plus the custom-indicator path.' },
         { k: 'reference', t: 'Drawing tools', d: 'Nine anchored tools, hit-testing, save/load round-trips.' },
         { k: 'meta', t: 'Changelog', d: 'Every release, no surprises — strict semver from 0.1.0.' },
       ],

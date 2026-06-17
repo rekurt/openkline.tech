@@ -172,7 +172,7 @@ export function DevPage() {
             </div>
             <CodeBlock>{QUICKSTART[fw].code}</CodeBlock>
           </div>
-          <DemoChart seed={9} indicators={FW_INDICATORS[fw]} height={300} toggles={false} symbol="BTC/USDT · 1H" />
+          <DemoChart indicators={FW_INDICATORS[fw]} height={300} toggles={false} symbol="BTC/USDT · 1H" />
         </div>
       </section>
 
@@ -299,7 +299,7 @@ chart.setTheme('auto');   // prefers-color-scheme`}</CodeBlock>
 chart.setTheme(myTheme);`}</CodeBlock>
         </div>
         <div style={{ marginTop: 16 }}>
-          <DemoChart seed={64} indicators={['ema50', 'vwap']} height={260} symbol="BTC/USDT · 1H — toggle the site theme to repaint" />
+          <DemoChart indicators={['ema50', 'vwap']} height={260} symbol="BTC/USDT · 1H — toggle the site theme to repaint" />
         </div>
       </section>
     </div>

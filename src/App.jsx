@@ -154,10 +154,7 @@ export default function App() {
     </button>
   );
 
-  // Dedicated full-page routes render their own chrome.
-  if (route === 'docs') return <Suspense fallback={null}><DocsPage /></Suspense>;
-  if (route === 'reference') return <Suspense fallback={null}><ReferencePage /></Suspense>;
-
+  const onLanding = route === 'product' || route === 'developers';
   const page = route === 'developers' ? 'developers' : 'product';
   const closeMenu = () => setMenuOpen(false);
   const goSection = (id) => {
@@ -184,12 +181,12 @@ export default function App() {
           <Badge>v{version}</Badge>
           {/* page tabs stay visible on every viewport — they never hide in the menu */}
           <div className="tl-pagetabs" role="tablist">
-            <button type="button" role="tab" aria-selected={page === 'product'} className={page === 'product' ? 'on' : ''} onClick={() => navigate('product')}>{t.nav.product}</button>
-            <button type="button" role="tab" aria-selected={page === 'developers'} className={page === 'developers' ? 'on' : ''} onClick={() => navigate('developers')}>{t.nav.dev}</button>
+            <button type="button" role="tab" aria-selected={onLanding && page === 'product'} className={onLanding && page === 'product' ? 'on' : ''} onClick={() => navigate('product')}>{t.nav.product}</button>
+            <button type="button" role="tab" aria-selected={onLanding && page === 'developers'} className={onLanding && page === 'developers' ? 'on' : ''} onClick={() => navigate('developers')}>{t.nav.dev}</button>
           </div>
           <div className="navlinks">
-            <Link to="docs">{t.nav.docs}</Link>
-            <Link to="reference">{t.nav.reference}</Link>
+            <Link to="docs" className={route === 'docs' ? 'on' : ''}>{t.nav.docs}</Link>
+            <Link to="reference" className={route === 'reference' ? 'on' : ''}>{t.nav.reference}</Link>
             <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'nav' })}>{t.nav.github}</a>
             <LangSwitch />
             {themeButton}
@@ -205,11 +202,20 @@ export default function App() {
             <span></span><span></span><span></span>
           </button>
         </nav>
+      </div>
 
-        {page === 'product' ? <ProductPage onOpenDev={() => navigate('developers')} /> : <DevPage />}
+      {route === 'docs' ? (
+        <Suspense fallback={null}><DocsPage /></Suspense>
+      ) : route === 'reference' ? (
+        <Suspense fallback={null}><ReferencePage /></Suspense>
+      ) : (
+        <div className="shell">
+          {page === 'product' ? <ProductPage onOpenDev={() => navigate('developers')} /> : <DevPage />}
+          <LandingCommunity />
+        </div>
+      )}
 
-        <LandingCommunity />
-
+      <div className="shell">
         <footer>
           <a href={REPO} target="_blank" rel="noreferrer" onClick={() => track('github-click', { location: 'footer' })}>{t.footer.github}</a>
           <Link to="docs">{t.nav.docs}</Link>

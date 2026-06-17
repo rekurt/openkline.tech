@@ -64,7 +64,19 @@ function spaSeoShells() {
   };
 }
 
+// The real engine ships only as TypeScript source in the vendored submodule
+// (vendor/openkline, not published to npm). We alias the package name straight
+// to its `src` entry and let esbuild/Vite transpile it — exactly what the
+// engine's own examples/playground does. The core is zero-dependency and
+// browser-only, so this bundles cleanly.
+const CORE = resolve(process.cwd(), 'vendor/openkline/packages/core/src');
+const engineAlias = [
+  { find: '@rekurt/openkline-core/indicators', replacement: resolve(CORE, 'indicators/index.ts') },
+  { find: '@rekurt/openkline-core', replacement: resolve(CORE, 'index.ts') },
+];
+
 export default defineConfig({
   plugins: [react(), spaSeoShells()],
   base: '/',
+  resolve: { alias: engineAlias },
 });

@@ -13,7 +13,9 @@
 .tl-ticker-in .live { color: var(--ember); letter-spacing: 0.12em; }
 
 /* ── nav ── */
-.tl nav { display: flex; align-items: center; gap: 14px; height: 64px; border-bottom: var(--hairline); position: sticky; top: 0; z-index: 20; background: var(--bg-canvas); }
+/* Direct-child scope: the site shell now also contains the docs <nav class="dx-nav">,
+   which must NOT inherit the top-bar height/sticky/border. */
+.tl > .shell > nav { display: flex; align-items: center; gap: 14px; height: 64px; border-bottom: var(--hairline); position: sticky; top: 0; z-index: 20; background: var(--bg-canvas); }
 .tl .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; color: inherit; flex: none; }
 .tl .brand .pkg { font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--text-muted); margin-top: 4px; }
 .tl-pagetabs { display: flex; border: var(--hairline); background: var(--bg-canvas); }
@@ -227,7 +229,7 @@
   .tl-advrow .proof { border-left: 0; border-top: var(--hairline); }
 
   /* nav: brand + page tabs stay explicit; the links collapse into the menu */
-  .tl nav { gap: 12px; }
+  .tl > .shell > nav { gap: 12px; }
   .tl .brand .pkg { display: none; }
   .tl nav > .ok-badge { display: none; }
   .tl nav .navlinks { display: none; }

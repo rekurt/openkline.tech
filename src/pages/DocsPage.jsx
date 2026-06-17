@@ -22,37 +22,13 @@ function jumpTo(id) {
   }
 }
 
-function TopBar({ onSearch }) {
-  const { metrics } = useMetrics();
-  return (
-    <header className="dx-topbar">
-      <div className="shell dx-topbar-in">
-        <Link to="docs" className="dx-brand">
-          <img src="/logo-mark.svg" width="26" height="26" alt="" />
-          <span className="name">openkline</span>
-          <span className="path">/ docs</span>
-        </Link>
-        <div className="dx-badges">
-          <Badge>v{metrics.version}</Badge>
-          <Badge tone="ember">MIT</Badge>
-        </div>
-        <button type="button" className="dx-searchbtn" onClick={onSearch}>
-          <span>Search the docs</span>
-          <span className="keys"><Kbd>⌘</Kbd><Kbd>K</Kbd></span>
-        </button>
-        <nav className="dx-toplinks">
-          <Link to="reference">reference</Link>
-          <Link to="product">site</Link>
-          <a href="https://github.com/rekurt/openkline" target="_blank" rel="noreferrer">github →</a>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function SideNav({ active }) {
+function SideNav({ active, onSearch }) {
   return (
     <nav className="dx-nav" aria-label="Documentation sections">
+      <button type="button" className="dx-searchbtn dx-searchbtn--side" onClick={onSearch}>
+        <span>Search the docs</span>
+        <span className="keys"><Kbd>⌘</Kbd><Kbd>K</Kbd></span>
+      </button>
       {DOCS_NAV.map((g) => (
         <div className="dx-navgroup" key={g.group}>
           <span className="g">{g.group}</span>
@@ -192,9 +168,8 @@ export function DocsPage() {
 
   return (
     <div className="dx">
-      <TopBar onSearch={() => setSearchOpen(true)} />
       <div className="shell dx-shell">
-        <SideNav active={active} />
+        <SideNav active={active} onSearch={() => setSearchOpen(true)} />
         <main className="dx-main">
           <Sec id="overview">
             <p className="dx-lede">
@@ -202,7 +177,7 @@ export function DocsPage() {
               open source, MIT, framework-agnostic. One pure-TypeScript core with thin React and Vue wrappers
               at full API parity. Every demo on this page is the engine running live.
             </p>
-            <DemoChart seed={11} indicators={['sma20', 'ema50']} height={320} />
+            <DemoChart indicators={['sma20', 'ema50']} height={320} />
             <div className="dx-cards">
               <Link to="docs" hash="quickstart" className="dx-card"><span className="k">01</span><b>Quick start</b><p>Five lines to the first candle.</p></Link>
               <Link to="docs" hash="live-data" className="dx-card"><span className="k">03</span><b>Live data</b><p>Implement a transport, go realtime.</p></Link>
@@ -215,7 +190,7 @@ export function DocsPage() {
             <CodeBlock prompt size="sm" copy copyText={S.install}>{S.install}</CodeBlock>
             <div className="dx-grid2">
               <CodeBlock title="vanilla.ts">{S.vanilla}</CodeBlock>
-              <DemoChart seed={3} indicators={['sma20']} height={260} toggles={false} />
+              <DemoChart indicators={['sma20']} height={260} toggles={false} />
             </div>
             <div className="dx-tabs2">
               <CodeBlock title="App.tsx — React">{S.react}</CodeBlock>
@@ -246,7 +221,7 @@ export function DocsPage() {
               Indicators are config objects, not class instances — pass an array, the core diffs and reconciles.
               Toggle them live below.
             </p>
-            <DemoChart seed={21} indicators={['sma20', 'ema50', 'bb']} height={320} />
+            <DemoChart indicators={['sma20', 'ema50', 'bb']} height={320} />
             <CodeBlock title="indicators.ts">{S.indicators}</CodeBlock>
             <div className="dx-catalog">
               <div className="dx-catgroup">
@@ -273,7 +248,7 @@ export function DocsPage() {
               Three built-in modes or a full <code>ThemeColors</code> object. Toggle the site theme (top-right) and
               every chart on this page repaints instantly.
             </p>
-            <DemoChart seed={42} indicators={['vwap']} height={260} toggles={false} />
+            <DemoChart indicators={['vwap']} height={260} toggles={false} />
             <div className="dx-tabs2">
               <CodeBlock title="modes">{S.themeModes}</CodeBlock>
               <CodeBlock title="custom-theme.ts">{S.themeCustom}</CodeBlock>
@@ -327,9 +302,7 @@ export function DocsPage() {
             </table>
           </Sec>
 
-          <footer className="dx-foot">
-            MIT · openkline {metrics.version} · every demo here runs on the engine's own primitives
-          </footer>
+          <p className="dx-foot">every demo here runs on the engine's own primitives — openkline {metrics.version}</p>
         </main>
       </div>
       {searchOpen ? <SearchPalette onClose={() => setSearchOpen(false)} /> : null}

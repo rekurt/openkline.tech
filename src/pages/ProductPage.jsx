@@ -2,8 +2,9 @@ import { Button } from '../components/Button.jsx';
 import { Badge } from '../components/Badge.jsx';
 import { CodeBlock } from '../components/CodeBlock.jsx';
 import { Kbd } from '../components/Kbd.jsx';
-import { CandleChart } from '../components/CandleChart.jsx';
-import { DemoChart } from '../components/DemoChart.jsx';
+import { OkChart } from '../components/OkChart.jsx';
+import { Playground } from '../components/Playground.jsx';
+import { presetsToConfigs } from '../engine/indicatorPresets.js';
 import { LegendChip } from '../components/LegendChip.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useMetrics } from '../lib/useMetrics.jsx';
@@ -64,7 +65,7 @@ export function ProductPage({ onOpenDev }) {
               <LegendChip color="var(--ind-1)" label="SMA 20" />
               <LegendChip color="var(--ind-2)" label="EMA 50" />
             </div>
-            <CandleChart seed={29} count={150} basePrice={67000} drift={0.03} height={360} indicators={['sma20', 'ema50']} />
+            <OkChart symbol="BTC/USDT" resolution="1H" indicators={presetsToConfigs(['sma20', 'ema50'])} count={150} height={360} />
           </div>
         </div>
       </header>
@@ -84,23 +85,7 @@ export function ProductPage({ onOpenDev }) {
         <div className="seclabel">{p.live.label}</div>
         <h2>{p.live.h2}</h2>
         <p className="sectionLede">{p.live.lede}</p>
-        <DemoChart seed={88} indicators={['sma20', 'ema50', 'bb']} height={360} symbol="BTC/USDT · 1H" />
-        <div className="tl-features" style={{ marginTop: 16 }}>
-          <div className="tl-feature">
-            <h3>{p.live.presetPlain}</h3>
-            <DemoChart seed={5} indicators={[]} height={200} toggles={false} symbol="ETH/USDT · 1H" basePrice={3100} drift={-0.01} />
-          </div>
-          <div className="tl-feature">
-            <h3>{p.live.presetBb}</h3>
-            <DemoChart seed={17} indicators={['bb']} height={200} toggles={false} symbol="SOL/USDT · 1H" basePrice={144} drift={0.05} />
-          </div>
-        </div>
-        <div className="tl-features" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
-          <div className="tl-feature">
-            <h3>{p.live.presetVwap}</h3>
-            <DemoChart seed={31} indicators={['vwap', 'ema50']} height={220} toggles={false} symbol="BTC/USDT · 4H" />
-          </div>
-        </div>
+        <Playground />
       </section>
 
       <section id="engine" data-num="01">
