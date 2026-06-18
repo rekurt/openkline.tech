@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { OHLCVChart } from '@rekurt/openkline-core';
 import { generateCandles, symbolByLabel, resolutionById } from '../engine/index.js';
 
@@ -42,6 +42,15 @@ export function OkChart({
   const themeRef = useRef(theme);
   const resolveTheme = () => themeRef.current || siteTheme();
 
+  // Lazy-mount: the engine (canvas, RAF loop) is only constructed once the chart
+  // scrolls near the viewport, so pages with several charts don't build them all
+  // up front. Falls back to eager mount where IntersectionObserver is missing
+  // (SSR / jsdom). Above-the-fold charts intersect immediately, so the hero still
+  // builds on first paint.
+  const [visible, setVisible] = useState(
+    typeof IntersectionObserver === 'undefined',
+  );
+
   // Deterministic dataset — only regenerates when the identity/length changes.
   const candles = useMemo(
     () => generateCandles({ symbol: symbolByLabel(symbol), resolution: resolutionById(resolution), count }),
@@ -52,9 +61,25 @@ export function OkChart({
   // not re-run the reconcile effect every render.
   const indicatorKey = useMemo(() => JSON.stringify(indicators), [indicators]);
 
-  // Mount: build the engine once, wire a theme observer, tear down on unmount.
+  // Flip `visible` when the container nears the viewport, then stop observing.
   useEffect(() => {
-    if (!containerRef.current) return undefined;
+    if (visible || !containerRef.current || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(containerRef.current);
+    return () => io.disconnect();
+  }, [visible]);
+
+  // Build the engine once visible, wire a theme observer, tear down on unmount.
+  useEffect(() => {
+    if (!visible || !containerRef.current) return undefined;
     let chart;
     try {
       chart = new OHLCVChart({
@@ -87,7 +112,7 @@ export function OkChart({
       chartRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [visible]);
 
   // Identity switch must land before the new dataset (declared first).
   useEffect(() => {
