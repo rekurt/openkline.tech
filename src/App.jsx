@@ -265,6 +265,8 @@ export default function App() {
       <div className="shell">
         <footer>
           <a href={REPO} target="_blank" rel="noreferrer">{t.footer.github}</a>
+          <a href={PROJECT.urls.reactRepo} target="_blank" rel="noreferrer">React</a>
+          <a href={PROJECT.urls.vueRepo} target="_blank" rel="noreferrer">Vue</a>
           <Link to="examples">Examples</Link>
           <Link to="playground">{t.footer.playground}</Link>
           <Link to="benchmarks">Benchmarks</Link>

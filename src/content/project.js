@@ -26,6 +26,8 @@ export const PROJECT = {
     issues: 'https://github.com/rekurt/openkline/issues',
     releases: 'https://github.com/rekurt/openkline/releases',
     sponsors: 'https://github.com/sponsors/rekurt',
+    reactRepo: 'https://github.com/rekurt/openkline-react',
+    vueRepo: 'https://github.com/rekurt/openkline-vue',
   },
 
   contacts: {

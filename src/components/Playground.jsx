@@ -3,6 +3,7 @@ import { OkChart } from './OkChart.jsx';
 import { CodeBlock } from './CodeBlock.jsx';
 import { SYMBOLS, RESOLUTIONS } from '../engine/index.js';
 import { INDICATOR_PRESETS, presetsToConfigs } from '../engine/indicatorPresets.js';
+import { PROJECT } from '../content/project.js';
 import './playground.css';
 
 const CHART_TYPES = [
@@ -139,6 +140,7 @@ export function Playground() {
             {dirty ? 'Update ▸' : 'Up to date'}
           </button>
           <button type="button" className="ok-btn pg-share" onClick={share}>{copied ? 'Link copied ✓' : 'Copy link'}</button>
+          <a className="ok-btn pg-star" href={PROJECT.urls.github} target="_blank" rel="noreferrer">★ Star on GitHub</a>
           <button type="button" className="pg-reset" onClick={reset}>Reset</button>
         </div>
       </div>

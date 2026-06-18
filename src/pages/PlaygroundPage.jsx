@@ -253,6 +253,7 @@ export function PlaygroundPage() {
         <div className="tl-pg-actions">
           <Button variant="ember" onClick={() => navigate('examples')}>{pg.browseExamples}</Button>
           <Button onClick={() => navigate('docs')}>{pg.readDocs}</Button>
+          <a className="ok-btn" href={PROJECT.urls.github} target="_blank" rel="noreferrer">★ Star on GitHub</a>
         </div>
       </section>
     </div>
