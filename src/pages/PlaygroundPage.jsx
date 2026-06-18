@@ -64,19 +64,20 @@ export function generateCode(state) {
     .map((id) => {
       if (id === 'sma20') return "  { type: 'sma', period: 20 }";
       if (id === 'ema50') return "  { type: 'ema', period: 50 }";
-      if (id === 'bb') return "  { type: 'bollinger', period: 20, stdDev: 2 }";
-      if (id === 'vwap') return "  { type: 'vwap' }";
+      if (id === 'bb') return "  { type: 'bb', period: 20, stdDev: 2 }";
+      if (id === 'vwap') return "  { type: 'vwap', anchor: 'session' }";
       return `  { type: '${id}' }`;
     })
     .join(',\n');
 
+  const chartType = state.chartType === 'candle' ? 'candles' : state.chartType;
   return `import { OHLCVChart } from '${PROJECT.packages.core}';
 
 const chart = new OHLCVChart({
-  container,
+  container: document.getElementById('chart'),
   symbol: '${state.symbol}',
   resolution: '${state.resolution}',
-  type: '${state.chartType}',
+  chartType: '${chartType}',
   theme: '${state.theme}',
 });
 

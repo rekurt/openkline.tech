@@ -1,6 +1,6 @@
 {
   "_comment": "Source of truth lives in the engine repo at https://raw.githubusercontent.com/rekurt/openkline/master/metrics.json with this exact shape. This committed copy is the offline/first-paint fallback. Edit it there (or here) and the site reflects it.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "coreSizeGzipKb": 27,
   "tests": 440,
   "lintWarnings": 0,

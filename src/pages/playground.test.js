@@ -100,6 +100,6 @@ describe('playground generateCode', () => {
       theme: 'dark',
       indicators: [],
     });
-    expect(code).toContain("type: 'area'");
+    expect(code).toContain("chartType: 'area'");
   });
 });
