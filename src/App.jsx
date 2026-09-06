@@ -160,6 +160,12 @@ export default function App() {
   // Keep the document title / description / canonical / hreflang correct as routes or locale change.
   useEffect(() => {
     applyMeta(route, lang);
+    const familyLink = document.querySelector('.project-family-nav a:last-child');
+    if (familyLink) {
+      familyLink.textContent = ({ en: 'All projects ↗', ru: 'Все проекты ↗', zh: '全部项目 ↗', sn: 'Zvirongwa zvese ↗' })[lang] || 'All projects ↗';
+      const prefix = lang === 'ru' ? 'ru/' : lang === 'zh' ? 'zh-cn/' : '';
+      familyLink.setAttribute('href', `https://rekurt.github.io/openkline/${prefix}projects/`);
+    }
   }, [route, lang]);
 
   useEffect(() => {

@@ -49,6 +49,11 @@
   --success: var(--bull);
 }
 
+.project-family-nav { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem max(1rem, calc((100vw - 1240px) / 2)); border-bottom: 1px solid var(--border); background: var(--bg-canvas); font: 14px/1.5 ui-monospace, monospace; }
+.project-family-nav a { display: inline-flex; align-items: center; min-height: 36px; color: var(--text-1); text-decoration: none; }
+.project-family-nav a:hover { color: var(--ember); }
+.project-family-nav a:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+
 /* Explicit dark override so any element can force the dark palette on its
    subtree (e.g. the playground preview chart) regardless of the page theme. */
 [data-theme='dark'] {
