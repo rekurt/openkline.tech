@@ -21,15 +21,15 @@ export default {
     github: 'GitHub',
     playground: 'Playground',
     api: 'API reference',
-    right: 'source is the contract',
+    right: 'TypeScript charting · MIT',
   },
   product: {
     badges: { agnostic: 'framework-agnostic', realtime: 'realtime' },
-    h1: <>Not <em>your</em> engine, not <em>your</em> charts.</>,
+    h1: <><em>OHLCV charts</em> for trading applications.</>,
     lede: (
       <>
-        So own it: <code>@rekurt/openkline</code> — a TradingView-grade OHLCV charting engine. Open source, MIT, no vendor lock-in.
-        Candles, {INDICATOR_COUNT} indicators, anchored drawing tools and realtime transports out of the box.
+        <code>@rekurt/openkline-core</code> renders market data in your application under the MIT license.
+        Add candlesticks, {INDICATOR_COUNT} indicators, drawing tools, and your own data feed.
         One TypeScript core; <code>react</code> and <code>vue</code> wrappers with full API parity.
       </>
     ),
@@ -40,20 +40,20 @@ export default {
       { k: 'lint warnings in CI' },
       { k: 'core, gzipped' },
       { k: 'indicators built in' },
-      { k: 'license fees, forever' },
+      { k: 'license fees under MIT' },
     ],
     live: {
-      label: 'live — poke the engine',
+      label: 'interactive demo',
       h2: 'Try it right here',
-      lede: 'Every chart on this site is the openkline canvas engine running for real. Toggle indicators, scrub the crosshair — no install, no iframe, no screenshots.',
+      lede: 'Try the canvas engine in your browser: switch indicators, pan, zoom, and inspect candle values.',
       presetPlain: 'Candles + volume',
       presetBb: 'Bollinger Bands',
       presetVwap: 'Anchored VWAP',
     },
     s01: {
       label: '01 — the engine',
-      h2: 'Batteries included',
-      lede: 'Teams building trading UIs pick between fast-but-bare and complete-but-licensed. openkline closes all four gaps in one package.',
+      h2: 'Candles, indicators, and drawing tools',
+      lede: 'Use the TypeScript core directly or add React and Vue bindings. Connect historical candles and streaming updates through your own data source.',
     },
     features: [
       {
@@ -72,7 +72,7 @@ export default {
           <>
             Canvas rendering on <code>Float64Array</code> buffers, O(1) <code>append</code>/<code>updateLast</code>,
             three-layer canvas for cheap crosshair redraws, RAF-coalesced ticks, jittered-backoff reconnect,
-            stale-response protection. Not a report chart — an engine for a live order book.
+            stale-response protection. Connect these components to your candle feed.
           </>
         ),
       },
@@ -87,7 +87,7 @@ export default {
         ),
       },
       {
-        h: 'UX the competitors skip',
+        h: 'Keyboard navigation and saved layouts',
         p: (
           <>
             Keyboard-first navigation, <code>prefers-reduced-motion</code> respected, an explicit auto-follow
@@ -99,57 +99,57 @@ export default {
     kbd: { pan: 'pan', zoom: 'zoom', jump: 'jump', fit: 'fit' },
     s02: {
       label: '02 — for developers',
-      h2: 'Five lines to first candle',
+      h2: 'Create your first chart',
       lede: 'Indicators are config objects, not class instances — the core reconciles them. The full technical tour with examples lives on the Developers page.',
       btn: 'Developers page →',
     },
     s03: {
-      label: '03 — the four-way gap',
-      h2: 'Pick all four',
-      lede: 'Realtime performance + full indicator set + drawing tools + framework freedom. Every alternative makes you drop at least one.',
+      label: '03 — integration',
+      h2: 'Choose an integration',
+      lede: 'The core handles chart rendering and interaction. Framework bindings connect it to your component lifecycle; your application provides market data.',
     },
     table: {
-      cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
+      cols: ["TypeScript core","React","Vue","Your application"],
       rows: [
-        { label: 'Indicators built in', cells: [{ cls: 'yes', text: String(INDICATOR_COUNT) }, { cls: 'no', text: 'write your own' }, { cls: 'yes', text: 'yes' }, { cls: 'part', text: 'generic' }] },
-        { label: 'Drawing tools', cells: [{ cls: 'yes', text: `${DRAWING_TOOL_COUNT}, anchored` }, { cls: 'no', text: 'none' }, { cls: 'yes', text: 'yes' }, { cls: 'no', text: 'none' }] },
-        { label: 'Realtime transports', cells: [{ cls: 'yes', text: 'built in' }, { cls: 'no', text: 'bring your own' }, { cls: 'part', text: 'partial' }, { cls: 'no', text: 'bring your own' }] },
-        { label: 'Keyboard + a11y', cells: [{ cls: 'yes', text: 'first-class' }, { cls: 'no', text: 'none' }, { cls: 'part', text: 'partial' }, { cls: 'part', text: 'partial' }] },
-        { label: 'License', cells: [{ cls: 'yes', text: 'MIT' }, { cls: 'yes', text: 'Apache-2.0' }, { cls: 'no', text: 'commercial' }, { cls: 'yes', text: 'MIT' }] },
-        { label: 'Framework lock-in', cells: [{ cls: 'yes', text: 'none' }, { cls: 'yes', text: 'none' }, { cls: 'part', text: 'vendor APIs' }, { cls: 'yes', text: 'none' }] },
+        { label: "Indicators", cells: [{ cls: 'yes', text: "Built in" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Choose configurations" }] },
+        { label: "Drawing tools", cells: [{ cls: 'yes', text: "Candle-anchored" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Save drawings" }] },
+        { label: "Market data", cells: [{ cls: 'yes', text: "Transport interface" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Connect a provider" }] },
+        { label: "Chart navigation", cells: [{ cls: 'yes', text: "Keyboard and pointer" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Core API" }, { cls: 'yes', text: "Configure controls" }] },
+        { label: "License", cells: [{ cls: 'yes', text: "MIT" }, { cls: 'yes', text: "MIT" }, { cls: 'yes', text: "MIT" }, { cls: 'yes', text: "Review license terms" }] },
+        { label: "Integration", cells: [{ cls: 'yes', text: "Direct API" }, { cls: 'yes', text: "React bindings" }, { cls: 'yes', text: "Vue bindings" }, { cls: 'yes', text: "Mount and dispose" }] },
       ],
     },
     problem: {
       label: 'the problem',
-      h2: 'Every charting option makes you give something up',
-      lede: 'Teams building trading UIs hit the same four walls. Pick any existing solution — you lose at least one thing that matters.',
+      h2: 'Plan the chart integration',
+      lede: 'Start with four decisions: data access, framework, analysis tools, and chart state.',
       cards: [
-        { icon: '🔒', h: 'iframe rent', p: 'Hosted widgets charge per embed. Your data leaves your infra, your UX is someone else\'s roadmap, and the invoice scales with your success.' },
-        { icon: '🔗', h: 'Vendor lock-in', p: 'Proprietary APIs mean rewriting everything when you outgrow the vendor. Migrations cost quarters, not sprints.' },
-        { icon: '🪨', h: 'Bare-bones open source', p: 'Free charting libs give you a canvas and a prayer. No indicators, no drawings, no realtime — you build it all yourself.' },
-        { icon: '📊', h: 'Generic chart libraries', p: 'ECharts and Chart.js are great for dashboards. But OHLCV candles, anchored drawings and tick-level updates aren\'t their job.' },
+        { icon: '🔒', h: 'Market data', p: 'Connect your historical candles and updates. Data access and provider credentials stay under application control.' },
+        { icon: '🔗', h: 'Framework bindings', p: 'Use the TypeScript core directly, or mount the same engine through React and Vue components.' },
+        { icon: '🪨', h: 'Analysis tools', p: 'Configure indicators and candle-anchored drawings through the chart API.' },
+        { icon: '📊', h: 'Saved layouts', p: 'Save chart settings and drawings, then restore them when the user returns.' },
       ],
-      cta: 'Compare alternatives',
+      cta: 'Compare integrations',
     },
     builtFor: {
       label: 'built for',
-      h2: 'Who ships with openkline',
-      lede: 'Not "for everyone." For teams where chart quality is a product differentiator.',
+      h2: 'Where to use openkline',
+      lede: 'Trading interfaces, market dashboards, and prototypes that need programmable OHLCV charts.',
       segments: [
         { h: 'Trading platforms', pain: 'Need realtime candles, indicators and drawings — without paying per-seat license fees.', features: 'Realtime transports, indicators, drawing tools, state serialization.', cta: 'See live demo', ctaId: 'playground' },
-        { h: 'Fintech product teams', pain: 'Need MIT-licensed charts that pass legal review and don\'t create vendor dependency.', features: 'MIT license, no telemetry, full source access, framework wrappers.', cta: 'Read the docs', ctaRoute: 'docs' },
+        { h: 'Fintech product teams', pain: 'Need source access to review, customize, and distribute the chart with your product.', features: 'MIT license, no telemetry, full source access, framework wrappers.', cta: 'Read the docs', ctaRoute: 'docs' },
         { h: 'Quant & analytics dashboards', pain: 'Need keyboard-first navigation, URL-serializable state, and sub-pane indicators.', features: 'Keyboard nav, saveLayoutState, multi-pane RSI/MACD/Stochastic, theming API.', cta: 'Developers page', ctaRoute: 'developers' },
-        { h: 'Indie devs & startups', pain: 'Need full-featured charts without enterprise budgets or months of custom work.', features: 'Five lines to first candle, zero license fees, React + Vue + vanilla.', cta: 'Quick start', ctaRoute: 'docs' },
+        { h: 'Indie devs & startups', pain: 'Need to prototype with candles and indicators in an existing React, Vue, or TypeScript app.', features: 'Create your first chart, zero license fees, React + Vue + vanilla.', cta: 'Quick start', ctaRoute: 'docs' },
       ],
     },
     pillars: {
       label: 'why openkline',
-      h2: 'Every claim backed by a mechanism',
-      lede: 'Not adjectives — data structures, complexity bounds and state machines you can read in the source.',
+      h2: 'Rendering, data, and state',
+      lede: 'The engine separates candle storage, rendering, data transport, and user interaction.',
       items: [
         {
-          claim: 'Realtime without compromise',
-          proof: <>O(1) <code>append</code>/<code>updateLast</code> on <code>Float64Array</code> buffers, RAF-coalesced ticks, 3-layer canvas for zero-cost crosshair redraws.</>,
+          claim: 'Incremental candle updates',
+          proof: <>O(1) <code>append</code>/<code>updateLast</code> on <code>Float64Array</code> buffers, RAF-coalesced ticks, 3-layer canvas for separate crosshair redraws.</>,
           demo: 'Try the live demo above',
           demoId: 'playground',
           docs: '/docs#live-data',
@@ -180,8 +180,8 @@ export default {
           docs: '/docs#quickstart',
         },
         {
-          claim: 'The whole chart fits in a URL',
-          proof: <><code>saveLayoutState</code> serializes everything into a compact object. <code>loadState</code> validates untrusted input and runs schema migrations.</>,
+          claim: 'Save and restore chart layouts',
+          proof: <><code>saveLayoutState</code> serializes chart settings and drawings. <code>loadState</code> validates untrusted input and runs schema migrations.</>,
           demo: null,
           docs: '/docs#state',
         },
@@ -189,13 +189,13 @@ export default {
     },
     useWhen: {
       label: 'when to use what',
-      h2: 'Honest guidance',
-      lede: 'openkline isn\'t for every chart. Here\'s when it\'s the right call — and when it\'s not.',
+      h2: 'Integration requirements',
+      lede: 'Check the chart types, data connection, and interaction tools against your application requirements.',
       use: {
         h: 'Use openkline when',
         items: [
           'You need OHLCV candles with indicators and drawings',
-          'Realtime tick updates matter (order books, live trading)',
+          'You need to append candles and update the latest candle',
           'You want MIT licensing with no per-seat fees',
           'Your data pipeline stays in your infra — no hosted widgets',
           'You need React, Vue, or vanilla — same engine, your choice',
@@ -205,18 +205,18 @@ export default {
       other: {
         h: 'Use something else when',
         items: [
-          'You need pie charts, bar charts, or generic dashboards — try ECharts or Chart.js',
-          'You want a hosted widget with zero setup — TradingView widget may be faster to ship',
-          'You need 100+ indicators out of the box today — Highcharts Stock has a larger catalog',
+          'Your primary requirement is pie charts or general dashboard charts',
+          'You need a hosted widget with a bundled market data feed',
+          'You need indicators that are outside the current catalog',
           'You\'re building a static report, not a live trading UI',
         ],
       },
-      footnote: 'Comparisons based on publicly available documentation as of the latest openkline release. Features and pricing of third-party products may change.',
+      footnote: 'Review the API reference and examples for the version you plan to integrate.',
     },
     commercialSupport: {
       label: 'support',
-      h2: 'Need a faster lane?',
-      lede: 'openkline is MIT and stays MIT. Commercial support gets you priority.',
+      h2: 'Integration support',
+      lede: 'Contact the maintainer to discuss adapter development, custom indicators, or an integration review.',
       cta: 'Request integration review',
       features: [
         'Exchange adapter development',
@@ -229,19 +229,19 @@ export default {
       label: 'faq',
       h2: 'Frequently asked questions',
       items: [
-        { q: 'Is openkline production-ready?', a: 'The core API is stable and tested. Check the test count in the stats strip — that\'s the live number from CI. The project follows strict semver; breaking changes only land in major versions.' },
-        { q: 'How does openkline compare to TradingView?', a: 'TradingView is a hosted platform with a massive feature set. openkline is a self-hosted open-source engine. You get full control over rendering, data, and UX — but you host it yourself. There\'s no built-in data feed or social features.' },
+        { q: 'Is openkline production-ready?', a: 'Evaluate the version you plan to use with your data volume, target devices, and error handling. The API reference, tests, and changelog describe the current implementation.' },
+        { q: 'How does openkline compare to TradingView?', a: 'openkline is a charting library that runs inside your application. You provide market data, hosting, and the surrounding product interface. The source is available under MIT.' },
         { q: 'Can I use openkline with my own data source?', a: 'Yes. Implement the DataTransport interface (four methods) and you\'re live. Polling, WebSocket, REST — the engine doesn\'t care where the candles come from.' },
         { q: 'What about mobile support?', a: 'Touch gestures (one-finger pan, two-finger pinch) work out of the box. The canvas is responsive and handles hi-DPI displays. Complex drawing tools may be harder to use on small screens — that\'s a UX constraint, not a bug.' },
-        { q: 'Are there planned features like alerts and replay mode?', a: 'Yes — check the roadmap. Alerts, replay mode, compare mode, and workspaces are planned. They\'re not shipped yet, and we don\'t show them as available features.' },
-        { q: 'Is there telemetry or tracking?', a: 'No. Zero telemetry, zero phone-home, zero hosted runtime. Your market data stays in your app.' },
+        { q: 'Are there planned features like alerts and replay mode?', a: 'Check the roadmap and API reference for the version you are using. Feature availability can differ between the engine package and this site.' },
+        { q: 'Is there telemetry or tracking?', a: 'The engine does not send telemetry. Your application chooses market data sources and controls network requests.' },
         { q: 'Can I use it commercially?', a: 'Yes. MIT license — use it in any project, commercial or not, with no attribution requirement beyond the license file.' },
         { q: 'How do I get support?', a: 'Community support via GitHub issues. Commercial support (priority features, integration reviews, custom indicators) is available — email the maintainer.' },
       ],
     },
     finalCta: {
-      h2: 'Own your chart runtime',
-      lede: 'Source-controlled, MIT-licensed, no iframe rent. Five lines to first candle.',
+      h2: 'Try openkline with your data',
+      lede: 'Explore the demo, then follow the TypeScript, React, or Vue integration guide.',
       btnDemo: 'Try live demo',
       btnDocs: 'Documentation',
       btnGithub: 'GitHub',
@@ -256,13 +256,13 @@ export default {
     },
     s02: {
       label: '02 — why devs pick openkline',
-      h2: 'Every claim, backed by a mechanism',
-      lede: 'Not adjectives — data structures, complexity bounds and state machines you can read in the source.',
+      h2: 'Rendering, data, and state',
+      lede: 'The engine separates candle storage, rendering, data transport, and user interaction.',
     },
     adv: [
       {
         k: 'realtime path',
-        h: 'O(1) per tick, no GC churn',
+        h: 'Incremental candle storage',
         p: (
           <>
             Candles live in a <code>Float64Array</code>-backed ring buffer. <code>append</code> and{' '}
@@ -271,7 +271,7 @@ export default {
             move never repaints the candles.
           </>
         ),
-        metrics: [<><b>O(1)</b> append / updateLast</>, <><b>3</b> canvas layers</>, <><b>~0 cost</b> static frame</>],
+        metrics: [<><b>O(1)</b> append / updateLast</>, <><b>3</b> canvas layers</>, <><b>dirty-flag</b> rendering</>],
       },
       {
         k: 'declarative api',
@@ -300,7 +300,7 @@ export default {
       },
       {
         k: 'state',
-        h: 'The whole chart fits in a URL',
+        h: 'Save and restore chart layouts',
         p: (
           <>
             <code>saveLayoutState()</code> serializes symbol, resolution, chart type, theme, indicators and
@@ -312,13 +312,13 @@ export default {
         metrics: [<><b>1</b> query param</>, <><b>migrated</b> schemas</>, <><b>validated</b> untrusted input</>],
       },
     ],
-    s03: { label: '03 — architecture', h2: 'Three subsystems, no magic' },
+    s03: { label: '03 — architecture', h2: 'Rendering, data, and interaction' },
     arch: [
       {
         h: 'Rendering',
         items: [
           <>Hi-DPI canvas, three-layer split: chart / UI / interaction</>,
-          <>Dirty-flag RAF — static chart costs ~0 between frames</>,
+          <>Dirty-flag RAF schedules redraws when chart state changes</>,
           <>Sub-pixel <code>fitAll</code> with per-column conflation</>,
           <>Multi-pane: sub-pane indicators get auto-sized bands + own Y-axes</>,
           <>Candles, line, area, OHLC bars, first-class Heikin-Ashi</>,
@@ -355,8 +355,8 @@ export default {
     },
     s05: {
       label: '05 — keyboard-first',
-      h2: 'Hands stay on the keys',
-      lede: 'Full chart control without a mouse — a pillar, not an afterthought.',
+      h2: 'Navigate with the keyboard',
+      lede: 'Pan, zoom, fit the visible range, and select drawing tools using keyboard shortcuts.',
     },
     keymap: [
       'Pan left / right',
@@ -370,7 +370,7 @@ export default {
     ],
     s06: {
       label: '06 — theming',
-      h2: 'Ten tokens, any brand',
+      h2: 'Configure colors and number formats',
       p: (
         <>
           <code>dark</code>, <code>light</code> or <code>auto</code> built in — or pass a full{' '}
@@ -382,9 +382,9 @@ export default {
   },
   community: {
     docs: {
-      label: "docs — read the source's manual",
+      label: "documentation",
       h2: 'Documentation',
-      lede: 'Guides for the common paths, TypeDoc for everything else. The playground is the fastest way to poke the engine without installing anything.',
+      lede: 'Start with the integration guides. Use TypeDoc for API details and the playground to inspect chart behavior.',
       cards: [
         { k: 'guide', t: 'Quick start', d: 'Install, first chart, live data in five lines — vanilla, React or Vue.' },
         { k: 'guide', t: 'SSR integration', d: 'Next.js and Nuxt recipes — client-only mounting, hydration gotchas.' },
@@ -394,23 +394,23 @@ export default {
         { k: 'reference', t: 'API reference', d: 'Full TypeDoc — every class, option and event in the core.' },
         { k: 'reference', t: 'Indicators', d: `Config shapes for all ${INDICATOR_COUNT} built-ins, plus the custom-indicator path.` },
         { k: 'reference', t: 'Drawing tools', d: `${DRAWING_TOOL_COUNT} anchored tools, hit-testing, save/load round-trips.` },
-        { k: 'meta', t: 'Changelog', d: 'Every release, no surprises — strict semver from 0.1.0.' },
+        { k: 'meta', t: 'Changelog', d: 'Version history and API changes.' },
       ],
     },
     support: {
-      label: 'support — keep the candles printing',
+      label: 'support',
       h2: 'Commercial & community support',
-      lede: 'openkline is MIT and stays MIT. Need a faster lane? Commercial support gets you priority.',
+      lede: 'Report bugs and propose changes on GitHub. For integration work, contact the maintainer to discuss scope and availability.',
       order: {
         k: 'commercial support',
         h: 'Integration review & priority features',
-        p: 'Exchange adapters, custom indicators, alerts ahead of schedule — send a spec, get an estimate. Paid work lands upstream under MIT, so everyone gets it.',
+        p: 'Describe the adapter, indicator, or integration you need. Contact the maintainer to discuss scope and availability.',
         btn: 'Request integration review',
       },
       suggest: {
         k: 'community',
         h: 'Ideas & bug reports',
-        p: 'Open an issue with a repro or a use case. Proposals that survive review get a milestone — check the M1 design doc for the bar.',
+        p: 'Open an issue with reproduction steps or describe the workflow your feature would support.',
         btn: 'Open an issue ↗',
       },
       donate: {
@@ -432,7 +432,7 @@ export default {
   examples: {
     label: 'examples',
     h2: 'Examples',
-    lede: 'Every example runs the real openkline engine — live canvas, not screenshots. Pick a topic, read the code, copy and ship.',
+    lede: 'Explore working chart examples with source code for data feeds, indicators, drawings, and framework integration.',
     backToGallery: 'All examples',
     docsLink: 'Docs',
     sourceLink: 'Source on GitHub',
@@ -526,7 +526,7 @@ export default {
     s03H2: 'Latest run',
     s04Label: '04 — methodology',
     s04H2: 'Methodology',
-    s04Lede: 'How we measure — no shortcuts, no fake numbers.',
+    s04Lede: 'Measurement setup, environment details, and recorded metrics.',
     methWarmup: 'Warm-up pass before every measurement to eliminate JIT variance.',
     methIsolation: 'Each operation runs in isolation — no shared state between measurements.',
     methPercentiles: 'Latency recorded as p50, p95, p99, mean, min, max (milliseconds).',
@@ -549,17 +549,17 @@ export default {
     colOperation: 'Operation',
     colMemory: 'Memory',
     ctaH2: 'See the engine in action',
-    ctaLede: 'Numbers tell part of the story. The playground lets you feel the performance yourself.',
+    ctaLede: 'Test panning, zooming, and indicator changes in the playground.',
     ctaPlayground: 'Open playground',
     ctaDocs: 'Documentation',
   },
   support: {
     label: 'support',
     h1: 'Support',
-    lede: 'openkline is MIT and stays MIT. Whether you need commercial priority or community help — here is how to reach us.',
+    lede: 'Report a bug on GitHub or contact the maintainer about integration work.',
     commercial: {
       h2: 'Commercial support',
-      lede: 'Priority bug fixes, exchange adapters, custom indicators and architecture reviews. Paid work lands upstream under MIT — everyone benefits.',
+      lede: 'Discuss exchange adapters, custom indicators, bug fixes, and architecture reviews with the maintainer.',
       features: [
         'Exchange adapter development',
         'Custom indicator implementation',
@@ -570,7 +570,7 @@ export default {
     },
     community: {
       h2: 'Community',
-      lede: 'Open an issue with a repro or a use case. Proposals that survive review get a milestone.',
+      lede: 'Open an issue with reproduction steps or a description of your use case.',
       github: 'Open an issue on GitHub',
       telegram: 'Quick questions in Telegram',
     },

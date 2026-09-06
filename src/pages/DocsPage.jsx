@@ -173,7 +173,7 @@ export function DocsPage() {
         <main className="dx-main">
           <Sec id="overview">
             <p className="dx-lede">
-              openkline (<code>@rekurt/openkline-core</code>) is a TradingView-grade OHLCV charting engine:
+              openkline (<code>@rekurt/openkline-core</code>) is a TypeScript OHLCV charting engine:
               open source, MIT, framework-agnostic. One pure-TypeScript core with thin React and Vue wrappers
               at full API parity. Every demo on this page is the engine running live.
             </p>

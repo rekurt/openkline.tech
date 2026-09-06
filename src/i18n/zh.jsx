@@ -21,39 +21,39 @@ export default {
     github: 'GitHub',
     playground: 'Playground',
     api: 'API 参考',
-    right: '源码即契约',
+    right: 'TypeScript 图表 · MIT',
   },
   product: {
     badges: { agnostic: '框架无关', realtime: '实时' },
-    h1: <>不是<em>你的</em>引擎，就不是<em>你的</em>图表。</>,
+    h1: <>为交易应用提供 <em>OHLCV 图表</em>。</>,
     lede: (
       <>
-        那就拥有它：<code>@rekurt/openkline</code> —— TradingView 级的 OHLCV 图表引擎。开源、MIT、无厂商锁定。
-        K线、{INDICATOR_COUNT} 指标、锚定绘图工具与实时传输开箱即用。一个 TypeScript 核心；<code>react</code> 与{' '}
+        <code>@rekurt/openkline-core</code> 在你的应用中渲染行情数据，采用 MIT 许可证。
+        接入自己的数据源，添加 K 线、{INDICATOR_COUNT} 个指标和绘图工具。一个 TypeScript 核心；<code>react</code> 与{' '}
         <code>vue</code> 封装，API 完全对等。
       </>
     ),
-    ctaPlayground: '试用 live demo',
+    ctaPlayground: '打开演示',
     ctaDocs: '文档',
     stats: [
       { k: '单元测试' },
       { k: 'CI 中 lint 警告' },
       { k: '核心体积（gzip）' },
       { k: '内置指标' },
-      { k: '许可费用，永久' },
+      { k: 'MIT 许可费用' },
     ],
     live: {
       label: '实时 — 上手引擎',
       h2: '就在这里试试',
-      lede: '本站每张图都是真正运行的 openkline canvas 引擎。切换指标、拖动十字光标 —— 无需安装，无需 iframe，不是截图。',
+      lede: '在浏览器中试用 Canvas 引擎：切换指标、平移缩放，并查看 K 线数值。',
       presetPlain: 'K线 + 成交量',
       presetBb: '布林带',
       presetVwap: '锚定 VWAP',
     },
     s01: {
       label: '01 — 引擎',
-      h2: '电池全配',
-      lede: '做交易 UI 的团队总在「快但简陋」与「全但收费」之间二选一。openkline 用一个包补齐全部四个缺口。',
+      h2: 'K 线、指标与绘图工具',
+      lede: '直接使用 TypeScript 核心，或接入 React、Vue 封装。历史 K 线和实时更新由你选择的数据源提供。',
     },
     features: [
       {
@@ -71,8 +71,8 @@ export default {
         p: (
           <>
             基于 <code>Float64Array</code> 缓冲区的 Canvas 渲染，O(1) <code>append</code>/<code>updateLast</code>，
-            三层画布让十字光标重绘几乎零成本，RAF 合并行情、抖动退避重连、过期响应防护。
-            这不是报表图，而是为实时盘口打造的引擎。
+            三层画布分别处理图表与十字光标重绘，RAF 合并行情、抖动退避重连、过期响应防护。
+            将这些组件连接到自己的 K 线数据流。
           </>
         ),
       },
@@ -86,7 +86,7 @@ export default {
         ),
       },
       {
-        h: '竞品忽略的体验',
+        h: '键盘操作与布局保存',
         p: (
           <>
             键盘优先导航、尊重 <code>prefers-reduced-motion</code>、显式的自动跟随状态机，
@@ -98,57 +98,57 @@ export default {
     kbd: { pan: '平移', zoom: '缩放', jump: '跳转', fit: '适配' },
     s02: {
       label: '02 — 写给开发者',
-      h2: '五行代码到第一根K线',
+      h2: '创建第一张 K 线图',
       lede: '指标是配置对象而非类实例 —— 核心负责调和。完整的技术导览与示例在开发者页。',
       btn: '开发者页 →',
     },
     s03: {
-      label: '03 — 四难全的缺口',
-      h2: '四项全拿',
-      lede: '实时性能 + 完整指标 + 绘图工具 + 框架自由。任何替代品都至少让你放弃一项。',
+      label: '03 — 接入方式',
+      h2: '选择接入方式',
+      lede: '核心负责渲染和交互，框架封装负责组件生命周期；行情数据由你的应用提供。',
     },
     table: {
-      cols: ['openkline', 'Lightweight Charts', 'Highcharts Stock', 'ECharts / Chart.js'],
+      cols: ["TypeScript 核心","React","Vue","你的应用"],
       rows: [
-        { label: '内置指标', cells: [{ cls: 'yes', text: String(INDICATOR_COUNT) }, { cls: 'no', text: '自己实现' }, { cls: 'yes', text: '有' }, { cls: 'part', text: '通用' }] },
-        { label: '绘图工具', cells: [{ cls: 'yes', text: `${DRAWING_TOOL_COUNT} 种，锚定` }, { cls: 'no', text: '无' }, { cls: 'yes', text: '有' }, { cls: 'no', text: '无' }] },
-        { label: '实时传输', cells: [{ cls: 'yes', text: '内置' }, { cls: 'no', text: '自行接入' }, { cls: 'part', text: '部分' }, { cls: 'no', text: '自行接入' }] },
-        { label: '键盘 + 无障碍', cells: [{ cls: 'yes', text: '一等支持' }, { cls: 'no', text: '无' }, { cls: 'part', text: '部分' }, { cls: 'part', text: '部分' }] },
-        { label: '许可证', cells: [{ cls: 'yes', text: 'MIT' }, { cls: 'yes', text: 'Apache-2.0' }, { cls: 'no', text: '商业' }, { cls: 'yes', text: 'MIT' }] },
-        { label: '框架锁定', cells: [{ cls: 'yes', text: '无' }, { cls: 'yes', text: '无' }, { cls: 'part', text: '厂商 API' }, { cls: 'yes', text: '无' }] },
+        { label: "指标", cells: [{ cls: 'yes', text: "内置" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "选择配置" }] },
+        { label: "绘图工具", cells: [{ cls: 'yes', text: "绑定 K 线坐标" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "保存绘图" }] },
+        { label: "行情数据", cells: [{ cls: 'yes', text: "传输接口" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "连接数据供应商" }] },
+        { label: "图表导航", cells: [{ cls: 'yes', text: "键盘与指针" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "核心 API" }, { cls: 'yes', text: "配置操作" }] },
+        { label: "许可证", cells: [{ cls: 'yes', text: "MIT" }, { cls: 'yes', text: "MIT" }, { cls: 'yes', text: "MIT" }, { cls: 'yes', text: "查看许可条款" }] },
+        { label: "集成", cells: [{ cls: 'yes', text: "直接调用 API" }, { cls: 'yes', text: "React 绑定" }, { cls: 'yes', text: "Vue 绑定" }, { cls: 'yes', text: "挂载与销毁" }] },
       ],
     },
     problem: {
       label: '问题',
-      h2: '每种图表方案都让你牺牲某样东西',
-      lede: '构建交易 UI 的团队总撞上同样四面墙。选任何现有方案——至少丢掉一样重要的东西。',
+      h2: '规划图表集成',
+      lede: '先确定四项需求：数据访问、前端框架、分析工具和图表状态保存。',
       cards: [
-        { icon: '🔒', h: 'iframe 租金', p: '托管控件按嵌入数收费。数据离开你的基础设施，UX 由别人的路线图决定，账单随你的成功同步增长。' },
-        { icon: '🔗', h: '厂商锁定', p: '私有 API 意味着当你超出厂商能力时需要全部重写。迁移花费的是季度，而非冲刺。' },
-        { icon: '🪨', h: '裸体开源', p: '免费图表库给你一块画布和一个祈祷。没有指标、没有绘图、没有实时——全都自己造。' },
-        { icon: '📊', h: '通用图表库', p: 'ECharts 和 Chart.js 做仪表盘很棒。但 OHLCV K线、锚定绘图和逐笔更新不是它们的活。' },
+        { icon: '🔒', h: '行情数据', p: '接入历史 K 线和实时更新。应用负责数据访问及供应商凭证管理。' },
+        { icon: '🔗', h: '框架绑定', p: '直接使用 TypeScript 核心，或通过 React、Vue 组件挂载同一个引擎。' },
+        { icon: '🪨', h: '分析工具', p: '通过图表 API 配置指标，以及与 K 线坐标绑定的绘图对象。' },
+        { icon: '📊', h: '布局保存', p: '保存图表设置和绘图对象，在用户再次打开时恢复。' },
       ],
-      cta: '对比替代方案',
+      cta: '对比接入方式',
     },
     builtFor: {
       label: '适合谁',
-      h2: '谁用 openkline 出货',
-      lede: '不是「适合所有人」。而是图表质量决定产品竞争力的团队。',
+      h2: 'openkline 的使用场景',
+      lede: '适用于需要可编程 OHLCV 图表的交易界面、行情分析面板和产品原型。',
       segments: [
         { h: '交易平台', pain: '需要实时K线、指标和绘图——不想按席位付许可费。', features: '实时传输、指标、绘图工具、状态序列化。', cta: '查看 live demo', ctaId: 'playground' },
-        { h: '金融科技产品团队', pain: '需要通过法务审查的 MIT 图表，不产生厂商依赖。', features: 'MIT 许可、零遥测、完整源码访问、框架封装。', cta: '阅读文档', ctaRoute: 'docs' },
+        { h: '金融科技产品团队', pain: '需要查看、修改图表源码，并将其随产品一起分发。', features: 'MIT 许可、零遥测、完整源码访问、框架封装。', cta: '阅读文档', ctaRoute: 'docs' },
         { h: '量化与分析仪表盘', pain: '需要键盘优先导航、URL 可序列化状态和副图指标。', features: '键盘导航、saveLayoutState、多窗格 RSI/MACD/随机指标、主题 API。', cta: '开发者页', ctaRoute: 'developers' },
-        { h: '独立开发者与初创团队', pain: '需要全功能图表，但没有企业预算，也等不了数月的定制开发。', features: '五行代码到第一根K线，零许可费，React + Vue + vanilla。', cta: '快速开始', ctaRoute: 'docs' },
+        { h: '独立开发者与初创团队', pain: '需要在现有 React、Vue 或 TypeScript 应用中试用 K 线和指标。', features: '创建第一张 K 线图，零许可费，React + Vue + vanilla。', cta: '快速开始', ctaRoute: 'docs' },
       ],
     },
     pillars: {
       label: '为什么选 openkline',
-      h2: '每个说法都有机制背书',
-      lede: '不是形容词，而是你能在源码里读到的数据结构、复杂度界限与状态机。',
+      h2: '渲染、数据与状态',
+      lede: '引擎将 K 线存储、渲染、数据传输和用户交互分为独立组件。',
       items: [
         {
-          claim: '实时无妥协',
-          proof: <>在 <code>Float64Array</code> 缓冲区上 O(1) <code>append</code>/<code>updateLast</code>，RAF 合并行情，3 层画布让十字光标重绘零成本。</>,
+          claim: '增量更新 K 线',
+          proof: <>在 <code>Float64Array</code> 缓冲区上 O(1) <code>append</code>/<code>updateLast</code>，RAF 合并行情，3 层画布分别处理图表与十字光标重绘。</>,
           demo: '试试上方 live demo',
           demoId: 'playground',
           docs: '/docs#live-data',
@@ -179,8 +179,8 @@ export default {
           docs: '/docs#quickstart',
         },
         {
-          claim: '整张图装进一个 URL',
-          proof: <><code>saveLayoutState</code> 把一切序列化为紧凑对象。<code>loadState</code> 校验不可信输入并执行 schema 迁移。</>,
+          claim: '保存和恢复图表布局',
+          proof: <><code>saveLayoutState</code> 序列化图表设置和绘图对象。<code>loadState</code> 校验不可信输入并执行 schema 迁移。</>,
           demo: null,
           docs: '/docs#state',
         },
@@ -188,13 +188,13 @@ export default {
     },
     useWhen: {
       label: '何时选什么',
-      h2: '诚实指南',
-      lede: 'openkline 不适合所有图表。以下是合适与不合适的场景。',
+      h2: '集成需求',
+      lede: '根据应用需求，检查图表类型、数据连接和交互工具是否适用。',
       use: {
         h: '使用 openkline 当',
         items: [
           '需要 OHLCV K线配合指标与绘图',
-          '实时逐笔更新很重要（盘口、实盘交易）',
+          '需要追加 K 线和更新最新 K 线',
           '想要 MIT 许可，零按席位收费',
           '数据管道留在自己的基础设施——不用托管控件',
           '需要 React、Vue 或 vanilla——同一引擎，你来选',
@@ -204,18 +204,18 @@ export default {
       other: {
         h: '使用其他方案当',
         items: [
-          '需要饼图、柱状图或通用仪表盘——试试 ECharts 或 Chart.js',
-          '想要零配置的托管控件——TradingView 控件可能上线更快',
-          '需要 100+ 开箱即用的指标——Highcharts Stock 目录更大',
+          '主要需求是饼图、柱状图或通用分析面板',
+          '需要自带行情数据源的托管控件',
+          '需要当前指标目录以外的指标',
           '在做静态报表，而非实时交易 UI',
         ],
       },
-      footnote: '对比基于 openkline 最新发布时的公开文档。第三方产品的功能和定价可能变化。',
+      footnote: '请查看所用版本的 API 参考和集成示例。',
     },
     commercialSupport: {
       label: '支持',
-      h2: '需要快速通道？',
-      lede: 'openkline 是 MIT，并将一直是 MIT。商业支持享有优先。',
+      h2: '集成支持',
+      lede: '联系维护者，讨论数据适配器、自定义指标或集成评审。',
       cta: '申请集成评审',
       features: [
         '交易所适配器开发',
@@ -228,20 +228,20 @@ export default {
       label: '常见问题',
       h2: '常见问题解答',
       items: [
-        { q: 'openkline 可以用于生产环境吗？', a: '核心 API 稳定且经过测试。统计条中的测试数量是 CI 的实时数据。项目遵循严格 semver；破坏性变更仅在主版本中出现。' },
-        { q: 'openkline 与 TradingView 有何区别？', a: 'TradingView 是功能丰富的托管平台。openkline 是自托管的开源引擎。你获得对渲染、数据和 UX 的完全控制——但需要自己托管。没有内置数据源或社交功能。' },
+        { q: 'openkline 可以用于生产环境吗？', a: '请使用目标数据量、设备和错误处理流程评估所选版本。API 文档、测试和更新日志描述了当前实现。' },
+        { q: 'openkline 与 TradingView 有何区别？', a: 'openkline 是在应用内部运行的图表库。你提供行情数据、部署环境和产品界面。源码采用 MIT 许可证。' },
         { q: '可以接入自己的数据源吗？', a: '可以。实现 DataTransport 接口（四个方法）即上线。轮询、WebSocket、REST——引擎不关心K线从哪来。' },
         { q: '移动端支持如何？', a: '触摸手势（单指平移、双指捏合）开箱即用。画布自适应且支持 hi-DPI。复杂绘图工具在小屏上可能不太方便——这是 UX 限制，不是 bug。' },
-        { q: '有告警和回放模式等计划功能吗？', a: '有——请查看路线图。告警、回放模式、对比模式和工作区已列入计划。尚未发布，我们不会将其展示为已有功能。' },
-        { q: '有遥测或追踪吗？', a: '没有。零遥测、零回传、零托管运行时。你的行情数据留在你的应用里。' },
+        { q: '有告警和回放模式等计划功能吗？', a: '请查看所用版本的路线图和 API 参考。引擎包已提供的功能可能与本网站展示的功能不同。' },
+        { q: '有遥测或追踪吗？', a: '引擎不发送遥测数据。行情数据源和网络请求由你的应用决定。' },
         { q: '可以商用吗？', a: '可以。MIT 许可——在任何项目中使用，商业或非商业，除许可文件外无归属要求。' },
         { q: '如何获取支持？', a: '社区支持通过 GitHub issues。商业支持（优先功能、集成评审、自定义指标）可用——联系维护者。' },
       ],
     },
     finalCta: {
-      h2: '掌控你的图表运行时',
-      lede: '源码可控、MIT 许可、无 iframe 租金。五行代码到第一根K线。',
-      btnDemo: '试用 live demo',
+      h2: '用自己的数据试用 openkline',
+      lede: '先体验演示，再按照 TypeScript、React 或 Vue 集成指南接入。',
+      btnDemo: '打开演示',
       btnDocs: '文档',
       btnGithub: 'GitHub',
     },
@@ -255,13 +255,13 @@ export default {
     },
     s02: {
       label: '02 — 开发者为何选 openkline',
-      h2: '每个说法都有机制背书',
-      lede: '不是形容词，而是你能在源码里读到的数据结构、复杂度界限与状态机。',
+      h2: '渲染、数据与状态',
+      lede: '引擎将 K 线存储、渲染、数据传输和用户交互分为独立组件。',
     },
     adv: [
       {
         k: '实时路径',
-        h: '每个 tick O(1)，不折腾 GC',
+        h: 'K 线的增量存储',
         p: (
           <>
             K线存放在 <code>Float64Array</code> 环形缓冲区中。<code>append</code> 与{' '}
@@ -269,7 +269,7 @@ export default {
             <code>CandleMerger</code> 按 RAF 合并行情，三层画布意味着移动十字光标永不重绘K线。
           </>
         ),
-        metrics: [<><b>O(1)</b> append / updateLast</>, <><b>3</b> 层画布</>, <><b>~0 成本</b> 静态帧</>],
+        metrics: [<><b>O(1)</b> append / updateLast</>, <><b>3</b> 层画布</>, <><b>按状态变更</b>重绘</>],
       },
       {
         k: '声明式 API',
@@ -297,7 +297,7 @@ export default {
       },
       {
         k: '状态',
-        h: '整张图装进一个 URL',
+        h: '保存和恢复图表布局',
         p: (
           <>
             <code>saveLayoutState()</code> 把交易对、周期、图表类型、主题、指标与绘图序列化为紧凑对象。
@@ -308,13 +308,13 @@ export default {
         metrics: [<><b>1</b> 个查询参数</>, <><b>可迁移</b> schema</>, <><b>已校验</b>的输入</>],
       },
     ],
-    s03: { label: '03 — 架构', h2: '三个子系统，没有魔法' },
+    s03: { label: '03 — 架构', h2: '渲染、数据与交互' },
     arch: [
       {
         h: '渲染',
         items: [
           <>Hi-DPI 画布，三层分离：图表 / UI / 交互</>,
-          <>脏标记 + RAF —— 静态图每帧 ~0 成本</>,
+          <>脏标记与 RAF 在图表状态变化时安排重绘</>,
           <>亚像素 <code>fitAll</code>，逐列合并</>,
           <>多窗格：副图指标自动分配高度与独立 Y 轴</>,
           <>K线、折线、面积、OHLC 柱，一等 Heikin-Ashi</>,
@@ -351,8 +351,8 @@ export default {
     },
     s05: {
       label: '05 — 键盘优先',
-      h2: '双手不离键盘',
-      lede: '不碰鼠标也能完全控制图表 —— 这是支柱，不是事后补丁。',
+      h2: '键盘导航',
+      lede: '使用快捷键平移、缩放、调整可见范围和选择绘图工具。',
     },
     keymap: [
       '左右平移',
@@ -366,7 +366,7 @@ export default {
     ],
     s06: {
       label: '06 — 主题',
-      h2: '十个令牌，任何品牌',
+      h2: '配置颜色和数值格式',
       p: (
         <>
           内置 <code>dark</code>、<code>light</code> 或 <code>auto</code> —— 或传入完整{' '}
@@ -378,9 +378,9 @@ export default {
   },
   community: {
     docs: {
-      label: 'docs — 阅读源码的说明书',
+      label: '文档',
       h2: '文档',
-      lede: '常见路径有指南，其余一切有 TypeDoc。Playground 是不装任何东西就能把玩引擎的最快方式。',
+      lede: '先阅读集成指南，再通过 TypeDoc 查阅 API 细节。可在演示中检查图表交互。',
       cards: [
         { k: '指南', t: '快速开始', d: '安装、第一张图、五行接入实时数据 —— vanilla、React 或 Vue。' },
         { k: '指南', t: 'SSR 集成', d: 'Next.js 与 Nuxt 配方 —— 仅客户端挂载、水合陷阱。' },
@@ -390,23 +390,23 @@ export default {
         { k: '参考', t: 'API 参考', d: '完整 TypeDoc —— 核心的每个类、选项与事件。' },
         { k: '参考', t: '指标', d: `全部 ${INDICATOR_COUNT} 内置指标的配置形态，以及自定义指标之路。` },
         { k: '参考', t: '绘图工具', d: `${DRAWING_TOOL_COUNT} 种锚定工具、命中测试、保存/加载往返。` },
-        { k: '杂项', t: '更新日志', d: '每个版本零惊喜 —— 自 0.1.0 起严格 semver。' },
+        { k: '杂项', t: '更新日志', d: '版本记录与 API 变更。' },
       ],
     },
     support: {
-      label: 'support — 让K线继续打印',
+      label: '支持',
       h2: '商业与社区支持',
-      lede: 'openkline 是 MIT，并将一直是 MIT。需要快速通道？商业支持享有优先。',
+      lede: '联系维护者，讨论数据适配器、自定义指标或集成评审。',
       order: {
         k: '商业支持',
         h: '集成评审与优先功能',
-        p: '交易所适配器、自定义指标、提前交付的告警 —— 发来规格说明，拿到报价。付费工作以 MIT 进上游，所有人受益。',
+        p: '描述所需的适配器、指标或集成，与维护者讨论工作范围及可安排的时间。',
         btn: '申请集成评审',
       },
       suggest: {
         k: '社区',
         h: '想法与缺陷报告',
-        p: '带复现或场景开 issue。通过评审的提案会获得里程碑 —— 标准见 M1 设计文档。',
+        p: '创建 issue，提供问题复现步骤，或描述新功能要支持的使用场景。',
         btn: '打开 issue ↗',
       },
       donate: {
@@ -428,7 +428,7 @@ export default {
   examples: {
     label: '示例',
     h2: '示例',
-    lede: '每个示例都运行真正的 openkline 引擎 —— 实时 canvas，不是截图。选择主题、阅读代码、复制并发布。',
+    lede: '查看带源码的图表示例：数据源、指标、绘图和框架集成。',
     backToGallery: '所有示例',
     docsLink: '文档',
     sourceLink: 'GitHub 源码',
@@ -552,10 +552,10 @@ export default {
   support: {
     label: '支持',
     h1: '支持',
-    lede: 'openkline 是 MIT，并将一直是 MIT。无论您需要商业优先还是社区帮助——以下是联系方式。',
+    lede: '在 GitHub 报告问题，或联系维护者讨论集成工作。',
     commercial: {
       h2: '商业支持',
-      lede: '优先修复缺陷、交易所适配器、自定义指标和架构评审。付费工作以 MIT 进上游——所有人受益。',
+      lede: '与维护者讨论交易所适配器、自定义指标、缺陷修复或架构评审。',
       features: [
         '交易所适配器开发',
         '自定义指标实现',
@@ -566,7 +566,7 @@ export default {
     },
     community: {
       h2: '社区',
-      lede: '带复现或场景开 issue。通过评审的提案会获得里程碑。',
+      lede: '创建 issue，提供问题复现步骤或描述使用场景。',
       github: '在 GitHub 上打开 issue',
       telegram: '在 Telegram 中快速提问',
     },
