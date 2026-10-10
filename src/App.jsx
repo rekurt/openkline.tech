@@ -123,7 +123,7 @@ function RouteContent({ route }) {
 export default function App({ initialRoute, staticContent } = {}) {
   const { t, lang } = useI18n();
   const current = useRoute();
-  const route = initialRoute || current;
+  const route = typeof window === 'undefined' ? initialRoute || current : current;
   const { metrics } = useMetrics();
   const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
@@ -219,7 +219,7 @@ export default function App({ initialRoute, staticContent } = {}) {
   const closeMenu = () => setMenuOpen(false);
   const navLink = (to, label) => <Link to={to} className={route === to ? 'on' : ''}>{label}</Link>;
 
-  const content = staticContent || <RouteContent route={route} />;
+  const content = staticContent && route === initialRoute ? staticContent : <RouteContent route={route} />;
 
   return (
     <div className="tl">
