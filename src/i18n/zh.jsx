@@ -15,7 +15,7 @@ export default {
     themeTitle: '切换主题',
     menuOpen: '打开菜单',
     menuClose: '关闭菜单',
-    menuTag: '菜单 — 选个方向',
+    menuTag: '导航',
   },
   footer: {
     github: 'GitHub',

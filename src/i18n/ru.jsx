@@ -15,7 +15,7 @@ export default {
     themeTitle: 'Переключить тему',
     menuOpen: 'Открыть меню',
     menuClose: 'Закрыть меню',
-    menuTag: 'меню — куда дальше',
+    menuTag: 'Навигация',
   },
   footer: {
     github: 'GitHub',

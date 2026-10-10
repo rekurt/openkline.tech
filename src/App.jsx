@@ -180,8 +180,23 @@ export default function App() {
   // Open menu: Escape closes it, the page behind it stops scrolling.
   useEffect(() => {
     if (!menuOpen) return undefined;
+    const previousFocus = document.activeElement;
+    const menu = document.getElementById('tl-menu');
+    menu.querySelector('button')?.focus();
     const onKey = (e) => {
       if (e.key === 'Escape') setMenuOpen(false);
+      if (e.key === 'Tab') {
+        const controls = [...menu.querySelectorAll('a[href], button:not([disabled])')];
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
     };
     window.addEventListener('keydown', onKey);
     const prevOverflow = document.body.style.overflow;
@@ -189,12 +204,13 @@ export default function App() {
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
+      previousFocus?.focus();
     };
   }, [menuOpen]);
 
   // Growing past the mobile breakpoint dismisses the menu.
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 901px)');
+    const mq = window.matchMedia('(min-width: 1101px)');
     const onChange = (e) => {
       if (e.matches) setMenuOpen(false);
     };
@@ -286,39 +302,43 @@ export default function App() {
         </footer>
       </div>
 
-      {/* full-screen mobile menu — shared by every route */}
-      <div id="tl-menu" className={`tl-menu${menuOpen ? ' open' : ''}`} role="dialog" aria-modal="true" aria-label={t.nav.menuOpen}>
-        <div className="shell tl-menu-bar">
-          <span className="brand">
-            <img src="/logo-mark.svg" width="28" height="28" alt="" />
-            openkline
-          </span>
-          <button type="button" className="tl-burger is-x" aria-label={t.nav.menuClose} onClick={closeMenu}>
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-        <div className="shell tl-menu-list">
-          <div className="seclabel">{t.nav.menuTag}</div>
-          <Link to="playground" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">01</span>Playground<span className="arr">→</span>
-          </Link>
-          <Link to="docs" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">02</span>{t.nav.docs}<span className="arr">→</span>
-          </Link>
-          <Link to="reference" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">03</span>{t.nav.reference}<span className="arr">→</span>
-          </Link>
-          <Link to="support" className="tl-menu-item" onNavigate={closeMenu}>
-            <span className="num">04</span>{t.nav.support}<span className="arr">→</span>
-          </Link>
-          <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
-            <span className="num">05</span>GitHub<span className="arr">↗</span>
-          </a>
-        </div>
-        <div className="shell tl-menu-foot">
-          <LangSwitch />
-          {themeButton}
-          <span className="meta">MIT · v{version}</span>
+      {/* Compact mobile/tablet navigation — shared by every route. */}
+      <div id="tl-menu" className={`tl-menu${menuOpen ? ' open' : ''}`} role="dialog" aria-modal="true" aria-label={t.nav.menuOpen}
+        aria-hidden={!menuOpen} inert={menuOpen ? undefined : ''}
+        onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>
+        <div className="tl-menu-panel">
+          <div className="shell tl-menu-bar">
+            <span className="brand">
+              <img src="/logo-mark.svg" width="28" height="28" alt="" />
+              openkline
+            </span>
+            <button type="button" className="tl-burger is-x" aria-label={t.nav.menuClose} onClick={closeMenu}>
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+          <div className="shell tl-menu-list">
+            <div className="seclabel">{t.nav.menuTag}</div>
+            <Link to="playground" className="tl-menu-item" aria-current={route === 'playground' ? 'page' : undefined} onNavigate={closeMenu}>
+              <span className="num">01</span>Playground<span className="arr">→</span>
+            </Link>
+            <Link to="docs" className="tl-menu-item" aria-current={route === 'docs' ? 'page' : undefined} onNavigate={closeMenu}>
+              <span className="num">02</span>{t.nav.docs}<span className="arr">→</span>
+            </Link>
+            <Link to="reference" className="tl-menu-item" aria-current={route === 'reference' ? 'page' : undefined} onNavigate={closeMenu}>
+              <span className="num">03</span>{t.nav.reference}<span className="arr">→</span>
+            </Link>
+            <Link to="support" className="tl-menu-item" aria-current={route === 'support' ? 'page' : undefined} onNavigate={closeMenu}>
+              <span className="num">04</span>{t.nav.support}<span className="arr">→</span>
+            </Link>
+            <a className="tl-menu-item" href={REPO} target="_blank" rel="noreferrer" onClick={closeMenu}>
+              <span className="num">05</span>GitHub<span className="arr">↗</span>
+            </a>
+          </div>
+          <div className="shell tl-menu-foot">
+            <LangSwitch />
+            {themeButton}
+            <span className="meta">MIT · v{version}</span>
+          </div>
         </div>
       </div>
     </div>

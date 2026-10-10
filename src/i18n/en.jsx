@@ -15,7 +15,7 @@ export default {
     themeTitle: 'Toggle theme',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
-    menuTag: 'menu — pick a direction',
+    menuTag: 'Navigation',
   },
   footer: {
     github: 'GitHub',

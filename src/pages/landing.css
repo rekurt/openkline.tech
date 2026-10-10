@@ -43,36 +43,46 @@
 .tl-burger[aria-expanded='true'] span:nth-child(2), .tl-burger.is-x span:nth-child(2) { opacity: 0; }
 .tl-burger[aria-expanded='true'] span:nth-child(3), .tl-burger.is-x span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-/* ── full-screen mobile menu — same foundations as the hero: grid paper,
-   hairlines, mono numerals, one ember accent ── */
-.tl-menu { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column;
-  background-color: var(--bg-canvas);
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 48px 48px;
+/* Compact navigation panel above a quiet backdrop. */
+.tl-menu { position: fixed; inset: 0; z-index: 60; display: grid; align-items: start; justify-items: end;
+  padding: 24px; background: rgba(8, 11, 18, 0.48); backdrop-filter: blur(3px);
   visibility: hidden; opacity: 0;
   transition: opacity var(--dur-med) var(--ease-out), visibility 0s linear var(--dur-med); }
 .tl-menu.open { visibility: visible; opacity: 1; transition: opacity var(--dur-med) var(--ease-out), visibility 0s; }
-.tl-menu-bar { display: flex; align-items: center; justify-content: space-between; height: 64px; flex: none; border-bottom: var(--hairline); width: 100%; }
-.tl-menu-list { display: flex; flex-direction: column; flex: 1; width: 100%; padding-top: 26px; overflow-y: auto; }
-.tl-menu-list .seclabel { margin-bottom: 8px; }
-.tl-menu-item { display: flex; align-items: baseline; gap: 16px; padding: 19px 2px; background: none; border: 0; border-bottom: var(--hairline); text-align: left; text-decoration: none; cursor: pointer;
-  font-family: var(--font-display); font-size: 27px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1);
-  opacity: 0; transform: translateY(14px);
-  transition: color var(--dur-fast) var(--ease-out), opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out); }
-.tl-menu-item .num { font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: 0.1em; color: var(--ember); }
-.tl-menu-item .arr { margin-left: auto; font-family: var(--font-mono); font-size: 16px; font-weight: 400; color: var(--text-muted); transition: transform var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
-.tl-menu-item:hover, .tl-menu-item:active { color: var(--ember); }
-.tl-menu-item:hover .arr { color: var(--ember); transform: translateX(3px); }
-.tl-menu.open .tl-menu-item { opacity: 1; transform: none; }
-.tl-menu.open a.tl-menu-item:nth-of-type(1) { transition-delay: 50ms; }
-.tl-menu.open a.tl-menu-item:nth-of-type(2) { transition-delay: 95ms; }
-.tl-menu.open a.tl-menu-item:nth-of-type(3) { transition-delay: 140ms; }
-.tl-menu.open a.tl-menu-item:nth-of-type(4) { transition-delay: 185ms; }
-.tl-menu-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: none; border-top: var(--hairline); padding-top: 16px; padding-bottom: max(22px, env(safe-area-inset-bottom)); font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
-.tl-menu-foot .meta { margin-left: auto; }
+.tl-menu-panel { display: flex; flex-direction: column; width: min(380px, 100%); max-height: calc(100dvh - 48px);
+  overflow: auto; border: var(--hairline); border-radius: 12px; background: var(--bg-canvas);
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.32); transform: translateY(-8px);
+  transition: transform var(--dur-med) var(--ease-out); }
+.tl-menu.open .tl-menu-panel { transform: none; }
+.tl .tl-menu .shell { max-width: none; width: 100%; padding-inline: 20px; }
+.tl-menu-bar { display: flex; align-items: center; justify-content: space-between; min-height: 68px; flex: none; border-bottom: var(--hairline); }
+.tl-menu-bar .brand { font-size: 18px; }
+.tl-menu-bar .brand img { width: 24px; height: 24px; }
+.tl-menu-bar .tl-burger { display: inline-flex; width: 36px; height: 36px; border-color: transparent; }
+.tl-menu-bar .tl-burger:hover { background: var(--surface-raised); }
+.tl-menu-bar .tl-burger:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+.tl .tl-menu .tl-menu-list { display: flex; flex-direction: column; padding-block: 18px; }
+.tl .tl-menu-list .seclabel { margin: 0 10px 10px; color: var(--text-muted); font-size: 10px; letter-spacing: 0.1em; }
+.tl-menu-list .seclabel::after { display: none; }
+.tl-menu-item { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 10px;
+  background: none; border: 0; border-radius: 6px; text-align: left; text-decoration: none; cursor: pointer;
+  font-family: var(--font-ui); font-size: 16px; font-weight: 500; color: var(--text-1);
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out); }
+.tl-menu-item .num { display: none; }
+.tl-menu-item .arr { margin-left: auto; font-size: 16px; color: var(--text-muted); }
+.tl-menu-item:hover, .tl-menu-item:active { color: var(--ember); background: var(--surface-panel); }
+.tl-menu-item:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; }
+.tl-menu-item[aria-current='page'] { color: var(--ember); background: var(--ember-dim); }
+.tl-menu-list > a:last-child { margin-top: 8px; border-top: var(--hairline); border-radius: 0; }
+.tl .tl-menu .tl-menu-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: none; border-top: var(--hairline);
+  padding-block: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.tl-menu-foot .meta { flex-basis: 100%; margin-top: 2px; font-size: 10px; }
 @media (prefers-reduced-motion: reduce) {
-  .tl-menu, .tl-menu-item, .tl-menu.open .tl-menu-item { transition: none; }
-  .tl-menu-item { opacity: 1; transform: none; }
+  .tl-menu, .tl-menu-panel, .tl-menu-item { transition: none; }
+}
+@media (max-width: 560px) {
+  .tl-menu { padding: 12px; }
+  .tl-menu-panel { max-height: calc(100dvh - 24px); }
 }
 @media (min-width: 1101px) { .tl-menu { display: none; } }
 @media (max-width: 1100px) {
@@ -319,7 +329,7 @@
   .tl .brand { font-size: 17px; gap: 8px; }
   .tl .brand img { width: 24px; height: 24px; }
   .tl-pagetabs button { padding: 8px 10px; font-size: 11px; }
-  .tl-menu-item { font-size: 22px; padding: 17px 2px; }
+  .tl-menu-item { font-size: 16px; padding: 12px 10px; }
 }
 
 /* ── very narrow phones: the logo mark alone is the brand ── */
