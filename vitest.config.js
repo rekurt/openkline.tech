@@ -12,6 +12,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [
+      { find: /^\.\/LegendRenderer$/, replacement: resolve(process.cwd(), 'src/engine/LegendRenderer.js') },
       { find: '@rekurt/openkline-core/indicators', replacement: resolve(CORE, 'indicators/index.ts') },
       { find: '@rekurt/openkline-core', replacement: resolve(CORE, 'index.ts') },
     ],

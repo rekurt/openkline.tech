@@ -126,6 +126,8 @@ function spaSeoShells() {
 // browser-only, so this bundles cleanly.
 const CORE = resolve(process.cwd(), 'vendor/openkline/packages/core/src');
 const engineAlias = [
+  // ChartEngine's relative import uses the site's responsive legend adapter.
+  { find: /^\.\/LegendRenderer$/, replacement: resolve(process.cwd(), 'src/engine/LegendRenderer.js') },
   { find: '@rekurt/openkline-core/indicators', replacement: resolve(CORE, 'indicators/index.ts') },
   { find: '@rekurt/openkline-core', replacement: resolve(CORE, 'index.ts') },
 ];

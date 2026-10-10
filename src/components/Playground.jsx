@@ -158,6 +158,7 @@ export function Playground() {
             indicators={appliedIndicators}
             count={220}
             height={360}
+            style={{ flex: 1, minHeight: 360 }}
           />
         </div>
         <div className="pg-code">
