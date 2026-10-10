@@ -1,122 +1,65 @@
-import { defineConfig } from 'vite';
+import { defineConfig, createServer } from 'vite';
+import { seoMeta, seoAlternates, seoSitemap } from './src/content/seo.js';
+import { EXAMPLES } from './src/content/examples.js';
+import { ROUTE_DEFS } from './src/content/routes.js';
 import react from '@vitejs/plugin-react';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const ORIGIN = 'https://openkline.tech';
-const LOCALE_PREFIXES = ['ru', 'sn', 'zh'];
-
-// Per-route SEO: title / description / canonical / og:url + og:title.
-const ROUTES = {
-  developers: {
-    title: 'Developers — openkline',
-    desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.',
-    ogTitle: 'openkline for developers',
-  },
-  docs: {
-    title: 'Documentation — openkline',
-    desc: 'openkline documentation: guides, live chart examples and an API quick reference for the OHLCV charting engine.',
-    ogTitle: 'openkline documentation',
-  },
-  reference: {
-    title: 'API reference — openkline',
-    desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.',
-    ogTitle: 'openkline API reference',
-  },
-  examples: {
-    title: 'Examples — openkline',
-    desc: 'Live examples for the openkline OHLCV charting engine: realtime data, indicators, drawing tools, state serialization, theming, React, Vue and SSR.',
-    ogTitle: 'openkline examples',
-  },
-  playground: {
-    title: 'Playground — openkline',
-    desc: 'Interactive playground for the openkline charting engine. Pick a symbol, toggle indicators, switch themes and copy the generated config.',
-    ogTitle: 'openkline playground',
-  },
-  benchmarks: {
-    title: 'Benchmarks — openkline',
-    desc: 'Performance benchmarks for the openkline OHLCV charting engine: setData, append, pan, zoom, indicator recompute and more.',
-    ogTitle: 'openkline benchmarks',
-  },
-  roadmap: {
-    title: 'Roadmap — openkline',
-    desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.',
-    ogTitle: 'openkline roadmap',
-  },
-  support: {
-    title: 'Support — openkline',
-    desc: 'Get help with openkline: community support via GitHub Discussions, commercial support and consulting for teams.',
-    ogTitle: 'openkline support',
-  },
-};
-
-function buildHreflangTags(routePath) {
-  const tags = [];
-  tags.push(`<link rel="alternate" hreflang="en" href="${ORIGIN}${routePath}" />`);
-  for (const loc of LOCALE_PREFIXES) {
-    const locPath = routePath === '/' ? `/${loc}` : `/${loc}${routePath}`;
-    tags.push(`<link rel="alternate" hreflang="${loc}" href="${ORIGIN}${locPath}" />`);
-  }
-  tags.push(`<link rel="alternate" hreflang="x-default" href="${ORIGIN}${routePath}" />`);
-  return tags.join('\n    ');
+function escapeAttribute(value) {
+  return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 }
 
-function setMeta(html, fullPath, cfg, routePath) {
-  const url = `${ORIGIN}${fullPath}`;
-  const hreflang = buildHreflangTags(routePath);
-  return html
-    .replace(/<title>[\s\S]*?<\/title>/, `<title>${cfg.title}</title>`)
-    .replace(/(<meta name="description" content=")[^"]*(")/, `$1${cfg.desc}$2`)
-    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`)
-    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${cfg.ogTitle}$2`)
-    .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${cfg.desc}$2`)
-    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${cfg.ogTitle}$2`)
-    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${cfg.desc}$2`)
-    .replace('</head>', `    ${hreflang}\n  </head>`);
+function setMeta(html, route, locale, content, example) {
+  const m = seoMeta(route, locale, example);
+  const replace = (text, key, value) => text.replace(new RegExp(`(<meta (?:name|property)="${key}" content=")[^"]*(")`), `$1${escapeAttribute(value)}$2`);
+  let result = html.replace(/<html lang="[^"]*"/, `<html lang="${locale === 'zh' ? 'zh-CN' : locale}" data-theme="dark"`)
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttribute(m.title)}</title>`)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${m.canonical}$2`)
+    .replace(/\s*<link rel="alternate" hreflang="[^"]*" href="[^"]*" \/>/g, '')
+    .replace('<div id="root"></div>', `<div id="root">${content}</div>`);
+  for (const [key,value] of Object.entries({description:m.desc,robots:m.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large',
+    'og:title':m.title,'og:description':m.desc,'og:url':m.canonical,'og:locale':m.ogLocale,'twitter:title':m.title,'twitter:description':m.desc})) result = replace(result,key,value);
+  const alternates = seoAlternates(route, example?.id).map(a => `<link rel="alternate" hreflang="${a.lang}" href="${a.url}" />`).join('\n');
+  const schema = { '@context':'https://schema.org', '@type':'WebPage', '@id':m.canonical+'#webpage', url:m.canonical,
+    name:m.title, description:m.desc, inLanguage:m.language, isPartOf:{'@id':'https://openkline.tech/#website'}};
+  return result.replace('</head>', `${alternates}\n<script type="application/ld+json" data-page-schema>${JSON.stringify(schema).replaceAll('<','\\u003c')}</script>\n</head>`);
 }
 
-// GitHub Pages serves 404.html for unknown paths (SPA fallback) and a folder's
-// index.html for /folder. We emit:
-//  - dist/404.html                      → SPA fallback for deep links / hashes
-//  - dist/<route>/index.html            → per-route static shell with correct SEO meta
-//  - dist/<locale>/<route>/index.html   → locale-prefixed shells (ru, sn, zh)
 function spaSeoShells() {
-  return {
-    name: 'spa-seo-shells',
-    closeBundle() {
-      const dist = resolve(process.cwd(), 'dist');
-      let index;
-      try {
-        index = readFileSync(resolve(dist, 'index.html'), 'utf8');
-      } catch {
-        return; // non-build command — nothing to do
-      }
-      writeFileSync(resolve(dist, '404.html'), index);
-
-      // Unprefixed route shells (en locale)
-      for (const [route, cfg] of Object.entries(ROUTES)) {
-        const dir = resolve(dist, route);
-        mkdirSync(dir, { recursive: true });
-        writeFileSync(resolve(dir, 'index.html'), setMeta(index, `/${route}`, cfg, `/${route}`));
-      }
-
-      // Locale-prefixed shells
-      for (const locale of LOCALE_PREFIXES) {
-        // Locale root (e.g. /ru → product page)
-        const locDir = resolve(dist, locale);
-        mkdirSync(locDir, { recursive: true });
-        const productCfg = { title: 'openkline — open-source OHLCV charting engine', desc: 'OHLCV charting engine. MIT, framework-agnostic.', ogTitle: 'openkline — Not your engine, not your charts.' };
-        writeFileSync(resolve(locDir, 'index.html'), setMeta(index, `/${locale}`, productCfg, '/'));
-
-        for (const [route, cfg] of Object.entries(ROUTES)) {
-          const dir = resolve(dist, locale, route);
-          mkdirSync(dir, { recursive: true });
-          writeFileSync(resolve(dir, 'index.html'), setMeta(index, `/${locale}/${route}`, cfg, `/${route}`));
-        }
-      }
-    },
-  };
+ return {
+  name: 'spa-seo-shells', apply: 'build',
+  async closeBundle() {
+   const dist = resolve(process.cwd(), 'dist');
+   let index = readFileSync(resolve(dist, 'index.html'), 'utf8');
+   // Prerendered lazy routes need their CSS before the client imports their JS.
+   const styles = readdirSync(resolve(dist,'assets')).filter(name => name.endsWith('.css') && !index.includes('/assets/'+name));
+   index = index.replace('</head>', styles.map(name => `<link rel="stylesheet" href="/assets/${name}" />`).join('\n') + '</head>');
+   const server = await createServer({server:{middlewareMode:true},appType:'custom'});
+   try {
+    const { render, exampleMeta } = await server.ssrLoadModule('/src/entry-server.jsx');
+    for (const locale of ['en','ru','zh','sn']) {
+     for (const route of ROUTE_DEFS) {
+      const path = (locale === 'en' ? '' : `/${locale}`) + (route.path === '/' ? '' : route.path);
+      const dir = resolve(dist, '.' + path);
+      mkdirSync(dir,{recursive:true});
+      writeFileSync(resolve(dir,'index.html'),setMeta(index,route.id,locale,render(route.id,locale)));
+     }
+    }
+    for (const locale of ['en','ru','zh','sn']) {
+     for (const example of EXAMPLES) {
+      const path = (locale === 'en' ? '' : `/${locale}`) + `/examples/${example.id}`;
+      const dir = resolve(dist, '.' + path);
+      mkdirSync(dir,{recursive:true});
+      writeFileSync(resolve(dir,'index.html'),setMeta(index,'examples',locale,render('examples',locale,example.id),exampleMeta(locale,example.id)));
+     }
+    }
+    // Unknown URLs retain SPA routing but must not become indexable home-page duplicates.
+    writeFileSync(resolve(dist,'404.html'),index.replace(/(<meta name="robots" content=")[^"]*(")/, '$1noindex, follow$2'));
+    writeFileSync(resolve(dist,'sitemap.xml'),seoSitemap());
+   } finally { await server.close(); }
+  }
+ };
 }
 
 // The real engine ships only as TypeScript source in the vendored submodule

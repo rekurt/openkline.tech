@@ -153,7 +153,7 @@ export function DevPage() {
     <div>
       <section style={{ borderTop: 0 }} data-num="01">
         <div className="seclabel">{d.s01.label}</div>
-        <h2>{d.s01.h2}</h2>
+        <h1 className="page-title">{d.s01.h2}</h1>
         <p className="sectionLede">{d.s01.lede}</p>
         <div className="tl-codegrid">
           <div className="tl-qs">

@@ -52,8 +52,8 @@ function initialLang() {
 
 const I18nContext = createContext({ lang: 'en', setLang: () => {}, t: en });
 
-export function I18nProvider({ children }) {
-  const [lang, setLang] = useState(initialLang);
+export function I18nProvider({ children, initialLocale }) {
+  const [lang, setLang] = useState(() => initialLocale || initialLang());
 
   useEffect(() => {
     document.documentElement.setAttribute('lang', lang);

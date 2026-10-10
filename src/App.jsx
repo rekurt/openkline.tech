@@ -5,12 +5,13 @@ import { Badge } from './components/Badge.jsx';
 import { ProductPage } from './pages/ProductPage.jsx';
 import { DevPage } from './pages/DevPage.jsx';
 import { LandingCommunity } from './pages/LandingCommunity.jsx';
-import { useI18n, LANGS, LOCALE_PREFIXES, localePath } from './i18n/index.jsx';
+import { useI18n, LANGS, parseLocale } from './i18n/index.jsx';
 import { useMetrics } from './lib/useMetrics.jsx';
 import { useRoute, navigate, Link, navigateToLocale } from './router.jsx';
 import { useLiveRates } from './lib/useLiveRates.js';
 import { PROJECT } from './content/project.js';
-import { INDICATOR_COUNT } from './content/features.js';
+import { seoMeta, seoAlternates } from './content/seo.js';
+import { ROUTE_DEFS } from './content/routes.js';
 
 // Heavy routes (Prism, long content, the engine) load on demand — they stay off
 // the landing bundle. Every page renders INSIDE the shared shell below, so the
@@ -30,58 +31,31 @@ const REPO = PROJECT.urls.github;
 // .shell wrapper the other pages use.
 const FULL_WIDTH_ROUTES = new Set(['docs', 'reference']);
 
-// Per-route <title> + meta description (the social/SEO source is the static
-// per-route HTML shells from vite.config; this keeps the live SPA correct too).
-const META = {
-  product: { title: 'openkline — open-source OHLCV charting engine', desc: `OHLCV charting engine. MIT, framework-agnostic — candles, ${INDICATOR_COUNT} indicators, drawing tools and realtime out of the box.` },
-  developers: { title: 'Developers — openkline', desc: 'Quick start in vanilla, React and Vue, architecture, indicators, drawing tools, theming and keyboard shortcuts for the openkline charting engine.' },
-  docs: { title: 'Documentation — openkline', desc: 'openkline documentation: guides, live examples and an API quick reference for the OHLCV charting engine.' },
-  reference: { title: 'API reference — openkline', desc: 'Every method, option and type in @rekurt/openkline-core, plus the indicator and drawing-tool catalogs.' },
-  examples: { title: 'Examples — openkline', desc: `Live examples for the openkline OHLCV charting engine: realtime data, ${INDICATOR_COUNT} indicators, drawing tools, state serialization, theming, React, Vue and SSR.` },
-  playground: { title: 'Playground — openkline', desc: 'Interactive playground for the openkline charting engine. Pick a symbol, toggle indicators, switch themes and copy the generated config.' },
-  benchmarks: { title: 'Benchmarks — openkline', desc: 'Performance benchmarks for the openkline OHLCV charting engine: setData, append, pan, zoom, indicator recompute and more.' },
-  roadmap: { title: 'Roadmap — openkline', desc: 'Feature roadmap for the openkline OHLCV charting engine: available, experimental, planned and sponsored features.' },
-  support: { title: 'Support — openkline', desc: 'Commercial support, community help, security contact and sponsorship for the openkline OHLCV charting engine.' },
-};
-
-const ORIGIN = 'https://openkline.tech';
-
-function applyMeta(route, locale) {
-  const m = META[route] || META.product;
-  document.title = m.title;
-  let desc = document.querySelector('meta[name="description"]');
-  if (!desc) {
-    desc = document.createElement('meta');
-    desc.setAttribute('name', 'description');
-    document.head.appendChild(desc);
-  }
-  desc.setAttribute('content', m.desc);
-
-  const routePath = route === 'product' ? '/' : `/${route}`;
-  const canonUrl = `${ORIGIN}${localePath(locale, routePath)}`;
-  let canon = document.querySelector('link[rel="canonical"]');
-  if (canon) canon.setAttribute('href', canonUrl);
-
-  let ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', canonUrl);
-
-  // Manage hreflang links
-  document.querySelectorAll('link[data-hreflang]').forEach((el) => el.remove());
-  const allLocales = ['en', ...LOCALE_PREFIXES];
-  for (const loc of allLocales) {
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'alternate');
-    link.setAttribute('hreflang', loc);
-    link.setAttribute('href', `${ORIGIN}${localePath(loc, routePath)}`);
-    link.setAttribute('data-hreflang', 'true');
-    document.head.appendChild(link);
-  }
-  const xdef = document.createElement('link');
-  xdef.setAttribute('rel', 'alternate');
-  xdef.setAttribute('hreflang', 'x-default');
-  xdef.setAttribute('href', `${ORIGIN}${routePath}`);
-  xdef.setAttribute('data-hreflang', 'true');
-  document.head.appendChild(xdef);
+function applyMeta(route, locale, examples) {
+ const { rest } = parseLocale(window.location.pathname);
+ const exampleId = rest.match(/^\/examples\/([a-z-]+)\/?$/)?.[1];
+ const example = examples?.find(item => item.id === exampleId);
+ const m = seoMeta(route, locale, example);
+ document.title = m.title;
+ const set = (selector, value, attr = 'content') => document.querySelector(selector)?.setAttribute(attr, value);
+ set('meta[name="description"]', m.desc);
+ set('link[rel="canonical"]', m.canonical, 'href');
+ set('meta[property="og:url"]', m.canonical);
+ for (const name of ['og:title','twitter:title']) set(`meta[${name.startsWith('og:') ? 'property' : 'name'}="${name}"]`, m.title);
+ for (const name of ['og:description','twitter:description']) set(`meta[${name.startsWith('og:') ? 'property' : 'name'}="${name}"]`, m.desc);
+ set('meta[property="og:locale"]', m.ogLocale);
+ let pageSchema = document.querySelector('script[data-page-schema]');
+ if (!pageSchema) { pageSchema = document.createElement('script'); pageSchema.type = 'application/ld+json'; pageSchema.setAttribute('data-page-schema',''); document.head.appendChild(pageSchema); }
+ pageSchema.textContent = JSON.stringify({'@context':'https://schema.org','@type':'WebPage','@id':m.canonical+'#webpage',url:m.canonical,name:m.title,description:m.desc,inLanguage:m.language,isPartOf:{'@id':'https://openkline.tech/#website'}});
+ const clean = rest.replace(/\/+$/, '') || '/';
+ const known = ROUTE_DEFS.some(r => r.path === clean || r.aliases?.includes(clean)) || Boolean(example);
+ set('meta[name="robots"]', m.noindex || !known ? 'noindex, follow' : 'index, follow, max-image-preview:large');
+ document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
+ for (const a of seoAlternates(route, example?.id)) {
+  const link = document.createElement('link');
+  link.rel = 'alternate'; link.hreflang = a.lang; link.href = a.url;
+  document.head.appendChild(link);
+ }
 }
 
 function initialTheme() {
@@ -146,9 +120,10 @@ function RouteContent({ route }) {
   }
 }
 
-export default function App() {
+export default function App({ initialRoute, staticContent } = {}) {
   const { t, lang } = useI18n();
-  const route = useRoute();
+  const current = useRoute();
+  const route = initialRoute || current;
   const { metrics } = useMetrics();
   const version = metrics.version;
   const [theme, setTheme] = useState(initialTheme);
@@ -159,14 +134,17 @@ export default function App() {
 
   // Keep the document title / description / canonical / hreflang correct as routes or locale change.
   useEffect(() => {
-    applyMeta(route, lang);
+    const updateMeta = () => applyMeta(route, lang, t.examples.items);
+    updateMeta();
+    window.addEventListener('popstate', updateMeta);
     const familyLink = document.querySelector('.project-family-nav a:last-child');
     if (familyLink) {
       familyLink.textContent = ({ en: 'All projects ↗', ru: 'Все проекты ↗', zh: '全部项目 ↗', sn: 'Zvirongwa zvese ↗' })[lang] || 'All projects ↗';
       const prefix = lang === 'ru' ? 'ru/' : lang === 'zh' ? 'zh-cn/' : '';
       familyLink.setAttribute('href', `https://rekurt.github.io/openkline/${prefix}projects/`);
     }
-  }, [route, lang]);
+    return () => window.removeEventListener("popstate", updateMeta);
+  }, [route, lang, t]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -241,7 +219,7 @@ export default function App() {
   const closeMenu = () => setMenuOpen(false);
   const navLink = (to, label) => <Link to={to} className={route === to ? 'on' : ''}>{label}</Link>;
 
-  const content = <RouteContent route={route} />;
+  const content = staticContent || <RouteContent route={route} />;
 
   return (
     <div className="tl">

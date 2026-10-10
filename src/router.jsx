@@ -6,7 +6,7 @@
 // Non-prefixed paths default to the en locale.
 import { useEffect, useState } from 'react';
 import { PATH_TO_ROUTE, ROUTE_TO_PATH } from './content/routes.js';
-import { parseLocale, localePath } from './i18n/index.jsx';
+import { parseLocale, localePath, useI18n } from './i18n/index.jsx';
 
 const ROUTES = PATH_TO_ROUTE;
 export const PATH_OF = ROUTE_TO_PATH;
@@ -71,7 +71,7 @@ export function useRoute() {
 
 /** Anchor that routes internally via pushState, falling back to a real href. */
 export function Link({ to, hash, className, children, onNavigate, ...rest }) {
-  const locale = currentLocale();
+  const { lang: locale } = useI18n();
   const routePath = (PATH_OF[to] || '/');
   const href = localePath(locale, routePath) + (hash ? `#${hash}` : '');
   return (

@@ -115,11 +115,12 @@ function SearchPalette({ onClose }) {
 
 function Sec({ id, num, title, children }) {
   const meta = FLAT.find((s) => s.id === id);
+  const Heading = id === "overview" ? "h1" : "h2";
   return (
     <section className="dx-sec" id={'sec-' + id}>
       <div className="dx-sec-head">
         <span className="num">{num || (meta && meta.num)}</span>
-        <h2>{title || (meta && meta.title)}</h2>
+        <Heading>{title || (meta && meta.title)}</Heading>
       </div>
       {children}
     </section>
@@ -167,7 +168,7 @@ export function DocsPage() {
   }, []);
 
   return (
-    <div className="dx">
+    <div className="dx" lang="en">
       <div className="shell dx-shell">
         <SideNav active={active} onSearch={() => setSearchOpen(true)} />
         <main className="dx-main">

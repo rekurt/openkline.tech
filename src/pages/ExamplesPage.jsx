@@ -81,7 +81,7 @@ function ExampleDetail({ example, texts }) {
       </div>
 
       <div className="seclabel">{ex.label}</div>
-      <h2>{texts.title}</h2>
+      <h1 className="page-title">{texts.title}</h1>
       <p className="sectionLede">{texts.desc}</p>
 
       <div className="tl-example-tags" style={{ marginBottom: 24 }}>
@@ -122,10 +122,10 @@ function ExampleDetail({ example, texts }) {
 }
 
 /** /examples — gallery listing all examples, or a detail view for /examples/:id. */
-export function ExamplesPage() {
+export function ExamplesPage({ initialExampleId } = {}) {
   const { t } = useI18n();
   const ex = t.examples;
-  const [detailId, setDetailId] = useState(exampleIdFromPath);
+  const [detailId, setDetailId] = useState(() => initialExampleId || exampleIdFromPath());
 
   useEffect(() => {
     const onPop = () => setDetailId(exampleIdFromPath());
@@ -149,7 +149,7 @@ export function ExamplesPage() {
     <div>
       <section style={{ paddingTop: 32 }}>
         <div className="seclabel">{ex.label}</div>
-        <h2>{ex.h2}</h2>
+        <h1 className="page-title">{ex.h2}</h1>
         <p className="sectionLede">{ex.lede}</p>
         <div className="tl-features">
           {EXAMPLES.map((example) => {

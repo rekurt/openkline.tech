@@ -160,7 +160,7 @@ export function PlaygroundPage() {
     <div>
       <section style={{ paddingTop: 32 }}>
         <div className="seclabel">{pg.label}</div>
-        <h2>{pg.h2}</h2>
+        <h1 className="page-title">{pg.h2}</h1>
         <p className="sectionLede">{pg.lede}</p>
 
         <div className="tl-pg-controls">

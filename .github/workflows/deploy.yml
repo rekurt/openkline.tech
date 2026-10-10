@@ -26,11 +26,13 @@ jobs:
           node-version: 22
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
+      - run: pnpm test
       - run: pnpm run build
         env:
           # Build-time analytics ID (public). Cookieless Umami only — no Sentry,
           # no Yandex. Local builds fall back to the committed .env default.
           VITE_UMAMI_WEBSITE_ID: ${{ vars.UMAMI_WEBSITE_ID }}
+      - run: pnpm run check:seo
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

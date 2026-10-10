@@ -107,7 +107,7 @@
 .tl section[data-num]::before { content: attr(data-num); position: absolute; top: 44px; right: 0; font-family: var(--font-mono); font-size: 76px; font-weight: 700; line-height: 1; letter-spacing: -0.04em; color: var(--surface-raised); pointer-events: none; user-select: none; }
 .tl .seclabel { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); margin-bottom: 14px; }
 .tl .seclabel::after { content: ''; flex: 0 0 64px; height: 1px; background: var(--ember-deep); opacity: 0.6; }
-.tl h2 { margin: 0 0 10px; font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.01em; }
+.tl h2, .tl .page-title { margin: 0 0 10px; font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.01em; }
 .tl .sectionLede { margin: 0 0 36px; font-size: var(--text-md); line-height: var(--leading-relaxed); color: var(--text-muted); max-width: 64ch; text-wrap: pretty; }
 
 /* ── hero ── */
@@ -318,7 +318,7 @@
   .tl .shell { padding: 0 16px; }
   .tl-stats { grid-template-columns: 1fr; }
   .tl-hero h1 { font-size: var(--text-2xl); }
-  .tl h2 { font-size: var(--text-xl); }
+  .tl h2, .tl .page-title { font-size: var(--text-xl); }
   .tl section { padding: 40px 0; }
   .tl section[data-num]::before { display: none; }
   .tl-hero .lede { font-size: var(--text-md); }
