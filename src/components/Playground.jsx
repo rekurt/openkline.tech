@@ -45,7 +45,7 @@ function literal(cfg) {
   return `{ ${parts.join(', ')} }`;
 }
 
-// Build a runnable snippet that mirrors the applied config — copy-paste it and
+// Build a runnable snippet that mirrors the current config — copy-paste it and
 // it drives the real @rekurt/openkline-core.
 function buildSnippet(a) {
   const cfgs = presetsToConfigs(a.indicators);
@@ -69,26 +69,22 @@ const state = chart.saveLayoutState();`;
 }
 
 export function Playground() {
-  const initial = useMemo(() => decodeShared() || DEFAULT, []);
-  const [draft, setDraft] = useState(initial);
-  const [applied, setApplied] = useState(initial);
+  const [config, setConfig] = useState(() => decodeShared() || DEFAULT);
   const [copied, setCopied] = useState(false);
 
-  const dirty = JSON.stringify(draft) !== JSON.stringify(applied);
-  const snippet = useMemo(() => buildSnippet(applied), [applied]);
-  const appliedIndicators = useMemo(() => presetsToConfigs(applied.indicators), [applied.indicators]);
+  const snippet = useMemo(() => buildSnippet(config), [config]);
+  const indicators = useMemo(() => presetsToConfigs(config.indicators), [config.indicators]);
 
-  const set = (patch) => setDraft((d) => ({ ...d, ...patch }));
+  const set = (patch) => setConfig((d) => ({ ...d, ...patch }));
   const toggleInd = (key) =>
-    setDraft((d) => ({
+    setConfig((d) => ({
       ...d,
       indicators: d.indicators.includes(key) ? d.indicators.filter((k) => k !== key) : [...d.indicators, key],
     }));
 
-  const apply = () => setApplied(draft);
-  const reset = () => { setDraft(DEFAULT); setApplied(DEFAULT); };
+  const reset = () => setConfig(DEFAULT);
   const share = async () => {
-    const url = `${window.location.origin}${window.location.pathname}?pg=${btoa(JSON.stringify(applied))}`;
+    const url = `${window.location.origin}${window.location.pathname}?pg=${btoa(JSON.stringify(config))}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -103,19 +99,19 @@ export function Playground() {
       <div className="pg-controls">
         <label className="pg-field">
           <span>Symbol</span>
-          <select value={draft.symbol} onChange={(e) => set({ symbol: e.target.value })}>
+          <select value={config.symbol} onChange={(e) => set({ symbol: e.target.value })}>
             {SYMBOLS.map((s) => <option key={s.id} value={s.label}>{s.label}</option>)}
           </select>
         </label>
         <label className="pg-field">
           <span>Timeframe</span>
-          <select value={draft.resolution} onChange={(e) => set({ resolution: e.target.value })}>
+          <select value={config.resolution} onChange={(e) => set({ resolution: e.target.value })}>
             {RESOLUTIONS.map((r) => <option key={r.id} value={r.id}>{r.id}</option>)}
           </select>
         </label>
         <label className="pg-field">
           <span>Chart type</span>
-          <select value={draft.chartType} onChange={(e) => set({ chartType: e.target.value })}>
+          <select value={config.chartType} onChange={(e) => set({ chartType: e.target.value })}>
             {CHART_TYPES.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
           </select>
         </label>
@@ -126,8 +122,8 @@ export function Playground() {
               <button
                 key={it.key}
                 type="button"
-                className={'pg-chip' + (draft.indicators.includes(it.key) ? ' on' : '')}
-                aria-pressed={draft.indicators.includes(it.key)}
+                className={'pg-chip' + (config.indicators.includes(it.key) ? ' on' : '')}
+                aria-pressed={config.indicators.includes(it.key)}
                 onClick={() => toggleInd(it.key)}
               >
                 <span className="dot" style={{ background: it.color }}></span>{it.label}
@@ -136,9 +132,6 @@ export function Playground() {
           </div>
         </div>
         <div className="pg-actions">
-          <button type="button" className="ok-btn ok-btn--ember pg-update" onClick={apply} disabled={!dirty}>
-            {dirty ? 'Update ▸' : 'Up to date'}
-          </button>
           <button type="button" className="ok-btn pg-share" onClick={share}>{copied ? 'Link copied ✓' : 'Copy link'}</button>
           <a className="ok-btn pg-star" href={PROJECT.urls.github} target="_blank" rel="noreferrer">★ Star on GitHub</a>
           <button type="button" className="pg-reset" onClick={reset}>Reset</button>
@@ -148,14 +141,13 @@ export function Playground() {
       <div className="pg-stage">
         <div className="pg-chart">
           <div className="pg-chart-head">
-            <span className="sym">{applied.symbol} · {applied.resolution}</span>
-            {dirty ? <span className="pg-pending">pending — press Update</span> : null}
+            <span className="sym">{config.symbol} · {config.resolution}</span>
           </div>
           <OkChart
-            symbol={applied.symbol}
-            resolution={applied.resolution}
-            chartType={applied.chartType}
-            indicators={appliedIndicators}
+            symbol={config.symbol}
+            resolution={config.resolution}
+            chartType={config.chartType}
+            indicators={indicators}
             count={220}
             height={360}
             style={{ flex: 1, minHeight: 360 }}
